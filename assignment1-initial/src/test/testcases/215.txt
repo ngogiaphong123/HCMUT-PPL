@@ -1,0 +1,6 @@
+main: function void() {
+            do {
+                a : integer = readInteger();
+                printInteger(a);
+            } while (i < 10);
+        }

@@ -1,0 +1,5 @@
+main: function void() {
+            /* asdasdw wadas // */ */
+            a : integer = 2;
+            b : array[2,3] of string = {"abc", "def", "ghi", "jkl", "mno", "pqr"};
+        }

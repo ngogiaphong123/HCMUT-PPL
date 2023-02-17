@@ -1,0 +1,4 @@
+main: function void() {
+            /* asdasdw wadas // */
+            a : integer = 2;
+        }
