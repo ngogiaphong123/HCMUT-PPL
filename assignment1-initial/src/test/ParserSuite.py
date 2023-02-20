@@ -4,13 +4,13 @@ from TestUtils import TestParser
 
 class ParserSuite(unittest.TestCase):
     # case 201 : test simple program
-    def test_simple_program(self):
+    def testSimpleProgram(self):
         input = """main: function void() {}"""
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 201))
 
     # case 202 : test comment
-    def test_cppStyleComment_program(self):
+    def testCppStyleCommentProgram(self):
         input = """main: function void() {
             // asdasdw wadas
             a : integer = 2;
@@ -82,7 +82,7 @@ class ParserSuite(unittest.TestCase):
     # case 210 : test assign integer array statement
     def testAssignIntegerArrayStatement(self):
         input = """main: function void() {
-            a : array[2,3] of integer = {1, 2, 3, 4, 5, 6};
+            a : array[6] of integer = {1, 2, 3, 4, 5, 6};
         }"""
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 210))
@@ -90,7 +90,7 @@ class ParserSuite(unittest.TestCase):
     # case 211 : test assign float array statement
     def testAssignFloatArrayStatement(self):
         input = """main: function void() {
-            a : array[2,3] of float = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+            a : array[2,3] of float = {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}};
         }"""
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 211))
@@ -235,3 +235,19 @@ class ParserSuite(unittest.TestCase):
         }"""
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 225))
+
+    # case 226 : test call statement with multiple parameter and multiple type
+    def testCallStatementWithMultipleParameterAndMultipleType(self):
+        input = """main: function void() {
+            a(1, 2.0, "abc");
+        }"""
+        expect = "successful"
+        self.assertTrue(TestParser.test(input, expect, 226))
+
+    # case 227 : test a, b, c, d: integer = 3, 4, 6;
+    def testAssignMultipleVariable(self):
+        input = """a, b, c, d: integer = 3, 4, 5, 6, 7;"""
+        expect = "successful"
+        self.assertTrue(TestParser.test(input, expect, 227))
+
+    # case 228

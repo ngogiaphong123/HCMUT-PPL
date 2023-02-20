@@ -19,7 +19,23 @@ varDeclaration : noAssignVarDeclaration | assignVarDeclaration;
 
 noAssignVarDeclaration : idList COLON type_specifier SEMI;
 
-assignVarDeclaration : idList COLON type_specifier ASSIGN expressions SEMI ;
+assignVarDeclaration : idList COLON type_specifier ASSIGN expressions SEMI {
+token_source = localctx.start.getTokenSource()
+input_stream = token_source.inputStream
+original_text = input_stream.getText(localctx.start.start,999999999)
+text = original_text[0:original_text.find(';')+1]
+idList = localctx.idList().getText().split(',')
+expressions = localctx.expressions().getText().split(',')
+if (len(idList) > 1) and (len(expressions) > 1) and (len(idList) != len(expressions)):
+    if len(idList) > len(expressions):
+        raise ValueError(f"Error on line {localctx.start.line} col {localctx.start.column + len(text) - 1}: ;")
+    if len(idList) < len(expressions):
+        diff = len(expressions) - len(idList)
+        temp = text
+        for i in range(diff):
+            temp = temp[0:temp.rfind(',')]
+        raise ValueError(f"Error on line {localctx.start.line} col {localctx.start.column + len(temp)}: ;")
+};
 
 idList : IDENTIFIER COMMA idList | IDENTIFIER;
 
@@ -216,19 +232,22 @@ BOOLEANLIT : TRUE | FALSE;
 // IDENTIFIERS
 IDENTIFIER : [a-z_][a-zA-Z0-9_]* ;
 // LITERALS
-INTLIT : [1-9][0-9]* ('_' [0-9]+)* | '0' {
+INTLIT : '0' | [1-9][0-9]* ('_' [0-9]+)* {
     self.text = self.text.replace("_", "")
 };
 fragment INTPART : '0' | [1-9][0-9]* ('_' [0-9]+)* ;
 fragment DECIMALPART : '.' [0-9]+;
 fragment EXPONENTPART : [eE] [+-]? [0-9]+;
-FLOATLIT : INTPART DECIMALPART | INTPART DECIMALPART? EXPONENTPART {
+FLOATLIT : INTPART DECIMALPART {
+    self.text = self.text.replace("_", "")
+} | INTPART DECIMALPART? EXPONENTPART {
     self.text = self.text.replace("_", "")
 };
 
-
 fragment ESC : '\\' ( 'b' | 'f' | 'r' | 'n' | 't' | '\'' | '\\' | '"' );
-STRINGLIT : '"' ( ~ ('"' | '\\') | ESC )* '"';
+STRINGLIT : '"' ( ~ ('"' | '\\') | ESC )* '"' {
+    self.text = self.text[1:-1]
+};
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
