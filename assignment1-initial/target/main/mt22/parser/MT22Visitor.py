@@ -39,6 +39,11 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MT22Parser#recursiveAssignVarDeclaration.
+    def visitRecursiveAssignVarDeclaration(self, ctx:MT22Parser.RecursiveAssignVarDeclarationContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MT22Parser#idList.
     def visitIdList(self, ctx:MT22Parser.IdListContext):
         return self.visitChildren(ctx)

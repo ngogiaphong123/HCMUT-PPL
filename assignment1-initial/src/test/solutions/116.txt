@@ -1,0 +1,5 @@
+A
+string
+with
+new
+lines,<EOF>

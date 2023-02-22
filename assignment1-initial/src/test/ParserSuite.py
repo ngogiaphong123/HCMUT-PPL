@@ -246,8 +246,18 @@ class ParserSuite(unittest.TestCase):
 
     # case 227 : test a, b, c, d: integer = 3, 4, 6;
     def testAssignMultipleVariable(self):
-        input = """a, b, c, d: integer = 3, 4, 5, 6, 7;"""
+        input = """a, b, c : array[2] of integer = {1,2},{3,4},{5,7},{8,0};"""
         expect = "successful"
         self.assertTrue(TestParser.test(input, expect, 227))
 
-    # case 228
+    # case 228 : test missing expression
+    def testMissingExpr1(self):
+        input = """a, b, c, d: integer = 3, 4, 6;"""
+        expect = "Error on line 1 col 29: ;"
+        self.assertTrue(TestParser.test(input, expect, 228))
+
+    # case 229 : test empty program
+    def testEmptyProgram(self):
+        input = """"""
+        expect = "successful"
+        self.assertTrue(TestParser.test(input, expect, 229))
