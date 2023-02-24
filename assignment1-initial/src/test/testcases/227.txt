@@ -1,1 +1,12 @@
-a, b, c : array[2] of integer = {1,2},{3,4},{5,7},{8,0};
+
+            multiply: function integer (x: integer, y: integer) {
+                return x * y;
+            }
+            square: function integer (inherit out x: integer) {
+                return x * x;
+            }
+            main: function void () inherit multiply {
+                a = super(1212+2,31);
+                b = square(a);
+            }
+        

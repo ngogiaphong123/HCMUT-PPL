@@ -1,0 +1,2 @@
+
+        printf("The sum of the Fibonacci numbers from the 3rd to the 10th is %d.\n", fib_sum);

@@ -1,1 +1,10 @@
- "Hello, world!" 
+a: integer = 1;
+            main: function void(){
+                while( a==0 ){
+                    x = f(2);
+                    if(x==3){
+                        break;
+                    }
+                }
+            }
+        

@@ -1,3 +1,12 @@
-main: function void() {
-            a(1, 2.0, "abc");
-        }
+
+            multiply: function integer (x: integer, y: integer) {
+                return x * y;
+            }
+            square: function integer (inherit out x: integer) {
+                return x * x;
+            }
+            main: function void () inherit multiply {
+                a = super(1212+2,31);
+                b = square(a);
+            }
+        

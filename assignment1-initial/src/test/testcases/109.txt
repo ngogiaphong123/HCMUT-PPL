@@ -1,1 +1,1 @@
-WRITELN
+a: boolean = x + 1;

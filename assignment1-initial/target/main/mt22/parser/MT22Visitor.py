@@ -139,11 +139,6 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#commentStatement.
-    def visitCommentStatement(self, ctx:MT22Parser.CommentStatementContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by MT22Parser#assignmentStatement.
     def visitAssignmentStatement(self, ctx:MT22Parser.AssignmentStatementContext):
         return self.visitChildren(ctx)

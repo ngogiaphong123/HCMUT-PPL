@@ -1,1 +1,1 @@
- "This string contains a backslash: \" 
+arr: array [2, 3] of integer;

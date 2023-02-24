@@ -1,0 +1,7 @@
+se: int;
+        ce: float;
+        b: boolean;
+        d: array[i] of boolean;
+        foo: function integer () {
+            printString();
+        }

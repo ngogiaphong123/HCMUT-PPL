@@ -1,7 +1,17 @@
-main: function void() {
-            for (i = 0, i < 10, i + 1) {
-                a : integer = readInteger();
-                printInteger(a);
-                continue;
+
+            binarySearch: function integer (arr: array [10] of integer, target: integer) {
+                low = 0;
+                high = 9;
+                while (low <= high) {
+                    mid = (low + high) / 2;
+                    if (arr[mid] == target) {
+                        return mid;
+                    } else if (arr[mid] < target) {
+                        low = mid + 1;
+                    } else {
+                        high = mid - 1;
+                    }
+                }
+                return -1;
             }
-        }
+        

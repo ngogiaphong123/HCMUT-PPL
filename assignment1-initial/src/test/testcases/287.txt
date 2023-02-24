@@ -1,0 +1,22 @@
+
+         intersect : function array[2] of integer (nums1 : array[4] of integer, nums2 : array[2] of integer) {
+             n1 = length(nums1);
+             n2 = length(nums2);
+             result : array [2] of integer= {};
+             for (i = 0, i < n1, i + 1) {
+                 for (j = 0, j < n2, j + 1) {
+                     if (nums1[i] == nums2[j]) {
+                         result = append(result, nums1[i]);
+                         nums2[j] = -1;
+                         break;
+                     }
+                 }
+             }
+             return result;
+         }
+         main: function void () {
+             nums1 = {1, 2, 2, 1};
+             nums2 = {2, 2};
+             printInt(intersect(nums1, nums2));
+         }
+         

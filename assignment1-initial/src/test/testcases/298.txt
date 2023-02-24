@@ -1,0 +1,30 @@
+
+         reverseWords : function string (s : string) {
+             n : integer = length(s);
+             result : integer = "";
+             i : integer = 0;
+             while (i < n) {
+                 while ((i < n) && (s[i] == " ")) {
+                     i = i + 1;
+                 }
+                 if (i >= n) {
+                     break;
+                 }
+                 start = i;
+                 while ((i < n) && (s[i] != " ")) {
+                     i = i + 1;
+                 }
+                 sub = substring(s, start, i - start);
+                 if (result == "") {
+                     result = sub;
+                 } else {
+                     result = sub + " " + result;
+                 }
+             }
+             return result;
+         }
+         main: function void () {
+             s = "the sky is blue";
+             printString(reverseWords(s));
+         }
+         

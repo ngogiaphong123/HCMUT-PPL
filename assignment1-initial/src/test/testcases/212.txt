@@ -1,3 +1,7 @@
-main: function void() {
-            a : array[2,3] of boolean = {true, false, true, false, true, false};
-        }
+
+            main: function void () {
+                if (a == b) {
+                    printString("a == b");
+                }
+            }
+        

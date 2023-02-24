@@ -1,1 +1,1 @@
-WRITELN,<EOF>
+successful

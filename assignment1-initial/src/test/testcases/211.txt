@@ -1,3 +1,10 @@
-main: function void() {
-            a : array[2,3] of float = {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}};
-        }
+
+            main: function void () {
+                if (a == b) {
+                    printString("a == b");
+                }
+                else {
+                    printString("a != b");
+                }
+            }
+        

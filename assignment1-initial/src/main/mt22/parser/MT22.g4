@@ -42,9 +42,9 @@ arrayCell : IDENTIFIER LBRACKET expressions RBRACKET;
 
 funcDeclaration : functionPrototype functionBody;
 
-functionPrototype : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN (INHERIT IDENTIFIER RBRACKET)?;
+functionPrototype : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN (INHERIT IDENTIFIER)?;
 
-returnType : atomicType | voidType | arrayType;
+returnType : atomicType | voidType | arrayType | autoType;
 
 parameters : parameterList |;
 
@@ -61,9 +61,7 @@ statements : statementList |;
 
 statementList : statement statementList |;
 
-statement : varDeclaration | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement | commentStatement;
-
-commentStatement : CSTYLE | LINECOMMENT;
+statement : varDeclaration | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
 
 assignmentStatement : leftHandSide ASSIGN expression SEMI;
 
@@ -75,7 +73,7 @@ forStatement : FOR LPAREN (IDENTIFIER ASSIGN expression) (COMMA expression) (COM
 
 whileStatement : WHILE LPAREN expression RPAREN statement;
 
-doWhileStatement : DO blockStatement WHILE LPAREN expression RPAREN SEMI;
+doWhileStatement : DO statement WHILE LPAREN expression RPAREN SEMI;
 
 breakStatement : BREAK SEMI;
 
@@ -101,22 +99,19 @@ expression3 : expression3 (ADD | SUB) expression4 | expression4;
 
 expression4 : expression4 (MUL | DIV | MOD) expression5 | expression5;
 
-// Logical Not Unary Prefix Right Associative
 expression5 : CLAIM expression5 | expression6;
 
 expression6 : SUB expression6 | expression7;
 
-//Index operator, Postfix, unary, left associative
-
 expression7 : IDENTIFIER LBRACKET expression8 RBRACKET | expression8;
 
-expression8 : INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER | subexpression | callExpression | indexedArray | arrayCell;
+expression8 : ARRAYLIT | INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER | subexpression | callExpression | indexedArray | arrayCell ;
 
 indexedArray : LBRACE expressions RBRACE;
 
 subexpression : LPAREN expression RPAREN;
 
-callExpression : specialFunctionCall | (IDENTIFIER LPAREN expressions RPAREN)| ;
+callExpression : specialFunctionCall | (IDENTIFIER LPAREN expressions RPAREN) ;
 
 // special features IO
 specialFunctionCall: readIntegerCall
@@ -146,10 +141,13 @@ readStringCall: READSTRING LPAREN RPAREN;
 
 printStringCall: PRINTSTRING LPAREN expression RPAREN;
 
-superCall: SUPER LPAREN RPAREN;
+superCall: SUPER LPAREN expressions RPAREN;
 
 preventDefaultCall: PREVENTDEFAULT LPAREN RPAREN;
 
+ARRAYLIT : LBRACE ELEMENTS RBRACE;
+fragment ELEMENTS : ELEMENT (COMMA ELEMENTS)? ;
+fragment ELEMENT : INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER;
 // Keywords
 AUTO : 'auto' ;
 BREAK : 'break' ;
@@ -181,7 +179,7 @@ LBRACKET : '[' ;
 RBRACKET : ']' ;
 SEMI : ';' ;
 COMMA : ',' ;
-DOT : '.' ;
+fragment DOT : '.' ;
 COLON : ':' ;
 ASSIGN : '=' ;
 // OPERATORS
@@ -212,8 +210,8 @@ PRINTSTRING : 'printString' ;
 SUPER : 'super' ;
 PREVENTDEFAULT : 'preventDefault' ;
 // COMMENTS
-CSTYLE : '/*' .*? '*/'; // .*? is a non-greedy match
-LINECOMMENT : '//' ~[\r\n]*; // ~[] is a negated character set
+CSTYLE : '/*' .*? '*/' -> skip; // .*? is a non-greedy match
+LINECOMMENT : '//' ~[\r\n]* -> skip; // ~[] is a negated character set
 BOOLEANLIT : TRUE | FALSE;
 // IDENTIFIERS
 IDENTIFIER : [a-zA-Z_][a-zA-Z0-9_]* ;
@@ -222,22 +220,27 @@ INTLIT : '0' | [1-9][0-9]* ('_' [0-9]+)* {
 self.text = self.text.replace("_", "")
 };
 fragment INTPART : '0' | [1-9][0-9]* ('_' [0-9]+)* ;
-fragment DECIMALPART : '.' [0-9]+;
+fragment DECIMALPART : DOT [0-9]+;
 fragment EXPONENTPART : [eE] [+-]? [0-9]+;
 FLOATLIT : INTPART DECIMALPART {
 self.text = self.text.replace("_", "")
 } | INTPART DECIMALPART? EXPONENTPART {
 self.text = self.text.replace("_", "")
 };
-
 fragment ESC : '\\' ( 'b' | 'f' | 'r' | 'n' | 't' | '\'' | '\\' | '"' );
-STRINGLIT : '"' ( ~ ('"' | '\\') | ESC )* '"' {
+STRINGLIT : '"' (ESC | ~('\\' |'"'))* '"' {
 self.text = self.text[1:-1]
 };
-UNCLOSE_STRING : '"' ~('\\'|'"')*  {
+UNCLOSE_STRING : '"' (ESC | ~('\\' |'"'))* {
 raise UncloseString(self.text[1:])
 };
+ILLEGAL_ESCAPE : '"' (ESC | ~('\\' | '"'))* '\\' ~[btnfr'"\\] {
+raise IllegalEscape(self.text[1:])
+};
+
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 ERROR_CHAR: . {raise ErrorToken(self.text)};
-ILLEGAL_ESCAPE: .;
+
+
+

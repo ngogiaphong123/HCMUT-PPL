@@ -1,0 +1,8 @@
+printf("int: %d
+", int[0]);
+        printf("int2: %d
+", int2);
+        printf("bool: %s
+", bool ? "true" : "false");
+        printf("string: %s
+", string);
