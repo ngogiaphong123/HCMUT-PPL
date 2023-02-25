@@ -1960,3 +1960,4 @@ class ParserSuite(unittest.TestCase):
          """
         expected = "successful"
         self.assertTrue(TestParser.test(input_str, expected, 300))
+

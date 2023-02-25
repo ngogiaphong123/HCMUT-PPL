@@ -224,7 +224,11 @@ fragment DECIMALPART : DOT [0-9]+;
 fragment EXPONENTPART : [eE] [+-]? [0-9]+;
 FLOATLIT : INTPART DECIMALPART {
 self.text = self.text.replace("_", "")
-} | INTPART DECIMALPART? EXPONENTPART {
+} | INTPART EXPONENTPART {
+self.text = self.text.replace("_", "")
+} | DECIMALPART EXPONENTPART {
+self.text = self.text.replace("_", "")
+} | INTPART DECIMALPART EXPONENTPART {
 self.text = self.text.replace("_", "")
 };
 DOT : '.' ;

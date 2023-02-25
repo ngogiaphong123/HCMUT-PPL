@@ -400,9 +400,9 @@ class LexerSuite(unittest.TestCase):
 
     def testLexer66(self):
         input_str = """
-        -123
+        .2e123
         """
-        expect = "-,123,<EOF>"
+        expect = ".2e123,<EOF>"
         self.assertTrue(TestLexer.test(input_str, expect, 166))
 
     def testLexer67(self):
