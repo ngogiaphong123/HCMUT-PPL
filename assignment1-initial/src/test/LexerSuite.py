@@ -144,7 +144,7 @@ class LexerSuite(unittest.TestCase):
 
     def testLexer26(self):
         input_str = """1231254123."""
-        expect = """1231254123,.,<EOF>"""
+        expect = """1231254123.,<EOF>"""
         self.assertTrue(TestLexer.test(input_str, expect, 126))
 
     def testLexer27(self):
@@ -386,8 +386,9 @@ class LexerSuite(unittest.TestCase):
             // This is a comment
             /* This is a comment */
             /* */ // This is a comment
+            2_3.e123
         """
-        expect = "<EOF>"
+        expect = "23.e123,<EOF>"
         self.assertTrue(TestLexer.test(input_str, expect, 164))
 
     def testLexer65(self):
@@ -426,9 +427,9 @@ class LexerSuite(unittest.TestCase):
 
     def testLexer70(self):
         input_str = """
-        123.123
+        123__123
         """
-        expect = "123.123,<EOF>"
+        expect = "123,__123,<EOF>"
         self.assertTrue(TestLexer.test(input_str, expect, 170))
 
     def testLexer71(self):

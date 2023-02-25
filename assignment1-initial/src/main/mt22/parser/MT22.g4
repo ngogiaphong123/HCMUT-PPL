@@ -220,7 +220,7 @@ INTLIT : '0' | [1-9][0-9]* ('_' [0-9]+)* {
 self.text = self.text.replace("_", "")
 };
 fragment INTPART : '0' | [1-9][0-9]* ('_' [0-9]+)* ;
-fragment DECIMALPART : DOT [0-9]+;
+fragment DECIMALPART : DOT [0-9]*;
 fragment EXPONENTPART : [eE] [+-]? [0-9]+;
 FLOATLIT : INTPART DECIMALPART {
 self.text = self.text.replace("_", "")
