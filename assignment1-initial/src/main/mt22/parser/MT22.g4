@@ -179,7 +179,7 @@ LBRACKET : '[' ;
 RBRACKET : ']' ;
 SEMI : ';' ;
 COMMA : ',' ;
-fragment DOT : '.' ;
+
 COLON : ':' ;
 ASSIGN : '=' ;
 // OPERATORS
@@ -227,6 +227,7 @@ self.text = self.text.replace("_", "")
 } | INTPART DECIMALPART? EXPONENTPART {
 self.text = self.text.replace("_", "")
 };
+DOT : '.' ;
 fragment ESC : '\\' [btnrf\\'"];
 STRINGLIT : '"' (ESC | ~('\\'| '\n' | '"'))* '"' {
 self.text = self.text[1:-1]

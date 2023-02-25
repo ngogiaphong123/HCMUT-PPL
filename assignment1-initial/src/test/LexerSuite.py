@@ -139,12 +139,12 @@ class LexerSuite(unittest.TestCase):
 
     def testLexer25(self):
         input_str = """.1231254123"""
-        expect = """Error Token ."""
+        expect = """.,1231254123,<EOF>"""
         self.assertTrue(TestLexer.test(input_str, expect, 125))
 
     def testLexer26(self):
         input_str = """1231254123."""
-        expect = """1231254123,Error Token ."""
+        expect = """1231254123,.,<EOF>"""
         self.assertTrue(TestLexer.test(input_str, expect, 126))
 
     def testLexer27(self):
@@ -421,7 +421,7 @@ class LexerSuite(unittest.TestCase):
 
     def testLexer69(self):
         input_str = """."""
-        expect = """Error Token ."""
+        expect = """.,<EOF>"""
         self.assertTrue(TestLexer.test(input_str, expect, 169))
 
     def testLexer70(self):
@@ -435,7 +435,7 @@ class LexerSuite(unittest.TestCase):
         input_str = """
         123.123.123
         """
-        expect = "123.123,Error Token ."
+        expect = "123.123,.,123,<EOF>"
         self.assertTrue(TestLexer.test(input_str, expect, 171))
 
     def testLexer72(self):
@@ -720,7 +720,7 @@ class LexerSuite(unittest.TestCase):
                  return 1 + max(maxDepth(root.left), maxDepth(root.right));
              }
         """
-        expect = "if,(,root,==,null,),{,return,0,;,},else,{,return,1,+,max,(,maxDepth,(,root,Error Token ."
+        expect = "if,(,root,==,null,),{,return,0,;,},else,{,return,1,+,max,(,maxDepth,(,root,.,left,),,,maxDepth,(,root,.,right,),),;,},<EOF>"
         self.assertTrue(TestLexer.test(input_str, expect, 199))
 
     def testLexer100(self):

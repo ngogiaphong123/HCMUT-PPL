@@ -11,7 +11,7 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3D")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3E")
         buf.write("\u01fb\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
@@ -195,7 +195,7 @@ def serializedATN():
         buf.write("\5`\61\2\u01a0\u01a1\7\34\2\2\u01a1\u01a4\3\2\2\2\u01a2")
         buf.write("\u01a4\5`\61\2\u01a3\u019d\3\2\2\2\u01a3\u01a2\3\2\2\2")
         buf.write("\u01a4_\3\2\2\2\u01a5\u01b0\7\3\2\2\u01a6\u01b0\7>\2\2")
-        buf.write("\u01a7\u01b0\7?\2\2\u01a8\u01b0\7@\2\2\u01a9\u01b0\7<")
+        buf.write("\u01a7\u01b0\7?\2\2\u01a8\u01b0\7A\2\2\u01a9\u01b0\7<")
         buf.write("\2\2\u01aa\u01b0\7=\2\2\u01ab\u01b0\5d\63\2\u01ac\u01b0")
         buf.write("\5f\64\2\u01ad\u01b0\5b\62\2\u01ae\u01b0\5\36\20\2\u01af")
         buf.write("\u01a5\3\2\2\2\u01af\u01a6\3\2\2\2\u01af\u01a7\3\2\2\2")
@@ -257,7 +257,9 @@ class MT22Parser ( Parser ):
                      "'%'", "'!'", "'&&'", "'||'", "'=='", "'!='", "'<'", 
                      "'<='", "'>'", "'>='", "'::'", "'readInteger'", "'printInteger'", 
                      "'readFloat'", "'writeFloat'", "'readBoolean'", "'printBoolean'", 
-                     "'readString'", "'printString'", "'super'", "'preventDefault'" ]
+                     "'readString'", "'printString'", "'super'", "'preventDefault'", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "'.'" ]
 
     symbolicNames = [ "<INVALID>", "ARRAYLIT", "AUTO", "BREAK", "BOOLEAN", 
                       "DO", "ELSE", "FLOAT", "FOR", "FUNCTION", "IF", "INTEGER", 
@@ -270,8 +272,8 @@ class MT22Parser ( Parser ):
                       "WRITEFLOAT", "READBOOLEAN", "PRINTBOOLEAN", "READSTRING", 
                       "PRINTSTRING", "SUPER", "PREVENTDEFAULT", "CSTYLE", 
                       "LINECOMMENT", "BOOLEANLIT", "IDENTIFIER", "INTLIT", 
-                      "FLOATLIT", "STRINGLIT", "UNCLOSE_STRING", "ILLEGAL_ESCAPE", 
-                      "WS", "ERROR_CHAR" ]
+                      "FLOATLIT", "DOT", "STRINGLIT", "UNCLOSE_STRING", 
+                      "ILLEGAL_ESCAPE", "WS", "ERROR_CHAR" ]
 
     RULE_program = 0
     RULE_declarationList = 1
@@ -416,11 +418,12 @@ class MT22Parser ( Parser ):
     IDENTIFIER=59
     INTLIT=60
     FLOATLIT=61
-    STRINGLIT=62
-    UNCLOSE_STRING=63
-    ILLEGAL_ESCAPE=64
-    WS=65
-    ERROR_CHAR=66
+    DOT=62
+    STRINGLIT=63
+    UNCLOSE_STRING=64
+    ILLEGAL_ESCAPE=65
+    WS=66
+    ERROR_CHAR=67
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
