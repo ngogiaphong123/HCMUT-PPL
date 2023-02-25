@@ -1,1 +1,8 @@
-if integer return
+
+            for (i = 0, i < n, i + 1) {
+                 index = abs(nums[i]) - 1;
+                 if (nums[index] > 0) {
+                     nums[index] = -nums[index];
+                 }
+             }
+        

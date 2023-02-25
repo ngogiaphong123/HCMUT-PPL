@@ -1,1 +1,1 @@
-Co gi do ky la \b \t,<EOF>
+while,(,(,i,<,n,),&&,(,s,[,i,],==, ,),),<EOF>

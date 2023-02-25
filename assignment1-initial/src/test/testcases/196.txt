@@ -1,1 +1,11 @@
-"/* This is a /* nested */ comment */
+
+                if (s[i] == "(") {
+                     push(s[i]);
+                 } else if (s[i] == ")") {
+                     if (top() == "(") {
+                         pop();
+                     } else {
+                         return false;
+                     }
+                 }
+        

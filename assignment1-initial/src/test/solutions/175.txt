@@ -1,4 +1,1 @@
-printf,(,int: %d
-,,,int,[,0,],),;,printf,(,int2: %d
-,,,int2,),;,printf,(,bool: %s
-,,,bool,Error Token ?
+dream,:,string,=,Neu duoc lam lai t se lam 1 hoa si;,<EOF>

@@ -1,1 +1,4 @@
-a && b || c || acccssdd && aaaeess
+
+            if ((rootLeft != null) && (rootLeftLeft == null) && (rootLeftRight == null)) {
+                 return rootLeftVal + sumOfLeftLeaves(rootRight);
+        

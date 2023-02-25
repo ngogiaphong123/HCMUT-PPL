@@ -1,4 +1,1 @@
-a: integer;
-                   a, b: boolean = 1, 2;
-                   c: string;
-        
+delta: integer = 3;

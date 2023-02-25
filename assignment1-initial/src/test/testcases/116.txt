@@ -1,5 +1,1 @@
-a: boolean = foo(1);
-                   a: function integer(){
-                        return 5;
-                   } 
-                    
+a = 1e-1;

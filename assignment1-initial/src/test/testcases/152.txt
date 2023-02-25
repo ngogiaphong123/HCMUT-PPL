@@ -1,1 +1,5 @@
- "Nam nay toi 21 tuoi roi do \c" 
+
+            // This is a comment
+            /* This is a comment */
+            /* */ // This is a comment
+        

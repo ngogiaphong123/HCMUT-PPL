@@ -1,1 +1,1 @@
-successful
+delta,:,integer,=,3,;,<EOF>

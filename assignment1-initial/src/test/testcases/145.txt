@@ -1,1 +1,1 @@
- "Co gi do ky la \b \t" 
+while ((i < n) && (s[i] == " "))

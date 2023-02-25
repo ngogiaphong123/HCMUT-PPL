@@ -1,2 +1,5 @@
- "Chuoi khong dong
-" 
+
+        /* This is a comment */
+        // This is a comment
+        s : string = "This is a string";
+        

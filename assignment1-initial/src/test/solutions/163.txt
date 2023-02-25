@@ -1,1 +1,1 @@
-chinhLam2k2,:,function,array,[,4,,,2,,,6,],of,void,(,cd,:,auto,,,temp,:,string,),{,;,;,;,;,},<EOF>
+str,=,Hello World!,;,sub,=,World,;,printInt,(,find,(,str,,,sub,),),;,<EOF>

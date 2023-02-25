@@ -1,7 +1,5 @@
-se: int;
-        ce: float;
-        b: boolean;
-        d: array[i] of boolean;
-        foo: function integer () {
-            printString();
-        }
+
+            // This is a comment
+            /* This is a comment */
+            /* */ // This is a comment
+        

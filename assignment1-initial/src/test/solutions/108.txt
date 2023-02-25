@@ -1,1 +1,1 @@
-successful
+mixed escape\" sequences: 	 ,<EOF>

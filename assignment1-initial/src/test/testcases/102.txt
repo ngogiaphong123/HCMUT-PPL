@@ -1,1 +1,5 @@
-a: integer = 1;
+ "A
+string
+with
+new
+lines" 

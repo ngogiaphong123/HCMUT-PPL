@@ -35,7 +35,7 @@ autoType : AUTO;
 
 dimensions : INTLIT COMMA dimensions | INTLIT;
 
-type_specifier : voidType | autoType | atomicType | arrayType;
+type_specifier : autoType | atomicType | arrayType;
 
 arrayCell : IDENTIFIER LBRACKET expressions RBRACKET;
 // 5.2 Function Declaration
@@ -227,15 +227,22 @@ self.text = self.text.replace("_", "")
 } | INTPART DECIMALPART? EXPONENTPART {
 self.text = self.text.replace("_", "")
 };
-fragment ESC : '\\' ( 'b' | 'f' | 'r' | 'n' | 't' | '\'' | '\\' | '"' );
-STRINGLIT : '"' (ESC | ~('\\' |'"'))* '"' {
+fragment ESC : '\\' [btnrf\\'"];
+STRINGLIT : '"' (ESC | ~('\\'| '\n' | '"'))* '"' {
 self.text = self.text[1:-1]
 };
-UNCLOSE_STRING : '"' (ESC | ~('\\' |'"'))* {
-raise UncloseString(self.text[1:])
+UNCLOSE_STRING:
+'"' (~('\\'| '\n' | '"') | ESC )* (EOF | '\n') {
+temp=str(self.text)
+newLineChar ='\n'
+if temp[-1] in newLineChar:
+	raise UncloseString(temp[1:-1])
+else:
+	raise UncloseString(temp[1:])
 };
-ILLEGAL_ESCAPE : '"' (ESC | ~('\\' | '"'))* '\\' ~[btnfr'"\\] {
-raise IllegalEscape(self.text[1:])
+ILLEGAL_ESCAPE:
+'"' (~('\\'| '\n' | '"') | ESC )* '\\' ~[bntrf\\'"] {
+	raise IllegalEscape(str(self.text[1:]))
 };
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines

@@ -1,1 +1,1 @@
-x,==,y,!=,z,>,w,>=,v,<,u,<=,t,<EOF>
+if,(,(,rootLeft,!=,null,),&&,(,rootLeftLeft,==,null,),&&,(,rootLeftRight,==,null,),),{,return,rootLeftVal,+,sumOfLeftLeaves,(,rootRight,),;,},else,{,return,sumOfLeftLeaves,(,rootLeft,),+,sumOfLeftLeaves,(,rootRight,),;,},<EOF>

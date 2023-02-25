@@ -1,1 +1,1 @@
-This is Chinh's bag,<EOF>
+threeSum,:,function,array,[,2,],of,integer,(,nums,:,array,[,6,],of,integer,),{,},<EOF>

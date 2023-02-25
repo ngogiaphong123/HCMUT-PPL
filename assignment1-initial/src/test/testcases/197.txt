@@ -1,1 +1,10 @@
-a(ssddd) _ass1234546ee "*&(*@^@)()*/-122@*@" 
+
+                     main: function void () {
+             s = "((()))";
+             if (isValid(s)) {
+                 printString("s is valid.");
+             } else {
+                 printString("s is not valid.");
+             }
+         }
+        

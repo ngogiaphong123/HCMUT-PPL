@@ -1,2 +1,1 @@
-Chuoi khong dong
-,<EOF>
+s,:,string,=,This is a string,;,<EOF>

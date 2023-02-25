@@ -1,1 +1,1 @@
- "hinh nhu chuoi nay chua dong \\ abc'"hello" 
+{0.0,12.23,123.1234}

@@ -1,1 +1,7 @@
-x == y != z > w >= v < u <= t
+
+            if ((rootLeft != null) && (rootLeftLeft == null) && (rootLeftRight == null)) {
+                 return rootLeftVal + sumOfLeftLeaves(rootRight);
+             } else {
+                 return sumOfLeftLeaves(rootLeft) + sumOfLeftLeaves(rootRight);
+             }
+        
