@@ -1,4 +1,5 @@
-/* Ngo Gia Phong - 204121 */
+/* 2014121 */
+/* Ngo Gia Phong */
 grammar MT22;
 
 @lexer::header {
