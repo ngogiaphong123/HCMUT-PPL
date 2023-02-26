@@ -181,7 +181,8 @@ LBRACKET : '[' ;
 RBRACKET : ']' ;
 SEMI : ';' ;
 COMMA : ',' ;
-
+QUOTE : ['] ;
+DQUOTE : ["];
 COLON : ':' ;
 ASSIGN : '=' ;
 // OPERATORS
@@ -255,6 +256,3 @@ ILLEGAL_ESCAPE:
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 ERROR_CHAR: . {raise ErrorToken(self.text)};
-
-
-
