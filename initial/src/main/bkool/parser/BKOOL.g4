@@ -8,34 +8,34 @@ options{
 	language=Python3;
 }
 
-//
+////
 //program :  EOF ;
 //IDENTIFIER : [a-z][a-z0-9]*;
-////fragment DECIMAL_POINT_FLOAT : [0-9]+ '.' [0-9]+ ;
-////fragment SCIENTIFIC_NOTATION : [0-9]+ ('.')? [0-9]* ( 'e' | 'E' ) ('-') ? [0-9]+ ;
-////REAL : (DECIMAL_POINT_FLOAT | SCIENTIFIC_NOTATION);
-////fragment INTPART : [0-9]+;
-////fragment FRACPART : '.' [0-9]+;
-////fragment EXPONENT : ('e' | 'E') ('+' | '-')? [0-9]+;
-////REAL : INTPART FRACPART | INTPART FRACPART? EXPONENT;
-////fragment SINGLE_QUOTE : ['];
-////STRINGLIT : SINGLE_QUOTE (~['] | SINGLE_QUOTE SINGLE_QUOTE)* SINGLE_QUOTE;
+//////fragment DECIMAL_POINT_FLOAT : [0-9]+ '.' [0-9]+ ;
+//////fragment SCIENTIFIC_NOTATION : [0-9]+ ('.')? [0-9]* ( 'e' | 'E' ) ('-') ? [0-9]+ ;
+//////REAL : (DECIMAL_POINT_FLOAT | SCIENTIFIC_NOTATION);
+//////fragment INTPART : [0-9]+;
+//////fragment FRACPART : '.' [0-9]+;
+//////fragment EXPONENT : ('e' | 'E') ('+' | '-')? [0-9]+;
+//// REAL : INTPART FRACPART | INTPART FRACPART? EXPONENT;
+fragment SINGLE_QUOTE : ['];
+STRINGLIT : SINGLE_QUOTE (~['] | SINGLE_QUOTE SINGLE_QUOTE)* SINGLE_QUOTE;
 //INTLIT : '0' | [1-9][0-9]* ('_' [0-9]+)* {
 //    self.text = self.text.replace("_", "")
 //};
-////fragment OCTECT : [0-9] | [1-9][0-9] | [1][0-9][0-9] | [2][0-4][0-9] | [2][5][0-5];
-////IPV4 : OCTECT '.' OCTECT '.' OCTECT '.' OCTECT;
-//fragment SHEXA_START : [1-9];
-//fragment CHAR : [a-zA-Z];
-//fragment DIGIT : [0-9];
-//fragment SHEXA_LAST : [02468aAcCeE];
-//SHEXA : SHEXA_START (CHAR | DIGIT)* SHEXA_LAST;
-//fragment FRISTPART : [a-z]+;
-//fragment SECONDPART : [a-z]+;
-//fragment OPTIONPART : [a-z0-9_.]?[a-z0-9_.]?[a-z0-9_.]?[a-z0-9_.]?[a-z0-9_];
-//fragment Point : [.] ;
-//BKNetID : FRISTPART Point SECONDPART OPTIONPART;
-
+//////fragment OCTECT : [0-9] | [1-9][0-9] | [1][0-9][0-9] | [2][0-4][0-9] | [2][5][0-5];
+//////IPV4 : OCTECT '.' OCTECT '.' OCTECT '.' OCTECT;
+////fragment SHEXA_START : [1-9];
+////fragment CHAR : [a-zA-Z];
+////fragment DIGIT : [0-9];
+////fragment SHEXA_LAST : [02468aAcCeE];
+////SHEXA : SHEXA_START (CHAR | DIGIT)* SHEXA_LAST;
+////fragment FRISTPART : [a-z]+;
+////fragment SECONDPART : [a-z]+;
+////fragment OPTIONPART : [a-z0-9_.]?[a-z0-9_.]?[a-z0-9_.]?[a-z0-9_.]?[a-z0-9_];
+////fragment Point : [.] ;
+////BKNetID : FRISTPART Point SECONDPART OPTIONPART;
+//
 //WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 //
 //ERROR_CHAR: . {raise ErrorToken(self.text)};

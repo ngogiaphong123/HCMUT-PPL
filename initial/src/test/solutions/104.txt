@@ -1,1 +1,1 @@
-123a12,3,<EOF>
+123,Error Token a
