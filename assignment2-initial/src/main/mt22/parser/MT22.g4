@@ -46,7 +46,8 @@ arrayCell : IDENTIFIER LBRACKET expressions RBRACKET;
 
 funcDeclaration : functionPrototype functionBody;
 
-functionPrototype : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN (INHERIT IDENTIFIER)?;
+functionPrototype : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN |
+                    IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN INHERIT IDENTIFIER;
 
 returnType : atomicType | voidType | arrayType | autoType;
 
@@ -54,7 +55,10 @@ parameters : parameterList |;
 
 parameterList : parameter COMMA parameterList | parameter;
 
-parameter : (INHERIT)? (OUT)? IDENTIFIER COLON type_specifier;
+parameter : IDENTIFIER COLON type_specifier
+            | INHERIT IDENTIFIER COLON type_specifier
+            | OUT IDENTIFIER COLON type_specifier
+            | INHERIT OUT IDENTIFIER COLON type_specifier;
 
 // 7 Statements
 blockStatement : LBRACE statements RBRACE;
@@ -71,9 +75,9 @@ assignmentStatement : leftHandSide ASSIGN expression SEMI;
 
 leftHandSide : IDENTIFIER | arrayCell;
 
-ifStatement : IF LPAREN expression RPAREN statement (ELSE statement)?;
+ifStatement : IF LPAREN expression RPAREN statement | IF LPAREN expression RPAREN statement ELSE statement;
 
-forStatement : FOR LPAREN (IDENTIFIER ASSIGN expression) (COMMA expression) (COMMA expression) RPAREN statement;
+forStatement : FOR LPAREN IDENTIFIER ASSIGN expression COMMA expression COMMA expression RPAREN statement;
 
 whileStatement : WHILE LPAREN expression RPAREN statement;
 
@@ -85,7 +89,7 @@ continueStatement : CONTINUE SEMI;
 
 returnStatement : RETURN expressions SEMI;
 
-callStatement : (specialFunctionCall | call) SEMI;
+callStatement : specialFunctionCall SEMI | call SEMI;
 
 call : IDENTIFIER LPAREN expressions RPAREN;
 
@@ -95,27 +99,32 @@ expressionList : expression COMMA expressionList | expression;
 
 expression : expression1 CONCAT expression1 | expression1;
 
-expression1 : expression2 (EQ | NEQ | LT | GT | LTE | GTE ) expression2 | expression2;
+expression1 : expression2 COMPARE expression2 | expression2;
 
-expression2 : expression2 (AND | OR) expression3 | expression3;
+expression2 : expression2 ANDOR expression3 | expression3;
 
 expression3 : expression3 (ADD | SUB) expression4 | expression4;
 
-expression4 : expression4 (MUL | DIV | MOD) expression5 | expression5;
+expression4 : expression4 MULDIVMOD expression5 | expression5;
 
 expression5 : CLAIM expression5 | expression6;
 
 expression6 : SUB expression6 | expression7;
 
-expression7 : IDENTIFIER LBRACKET expression8 RBRACKET | expression8;
+expression7 : IDENTIFIER LBRACKET expressionList RBRACKET | expression8;
 
-expression8 : ARRAYLIT | INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER | subexpression | callExpression | indexedArray | arrayCell ;
+expression8 : INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER | subexpression | callExpression | indexedArray;
+COMPARE : EQ | NEQ | LT | GT | LTE | GTE;
+
+ANDOR : AND | OR;
+
+MULDIVMOD : MUL | DIV | MOD;
 
 indexedArray : LBRACE expressions RBRACE;
 
 subexpression : LPAREN expression RPAREN;
 
-callExpression : specialFunctionCall | (IDENTIFIER LPAREN expressions RPAREN) ;
+callExpression : specialFunctionCall | IDENTIFIER LPAREN expressions RPAREN;
 
 // special features IO
 specialFunctionCall: readIntegerCall
@@ -149,9 +158,6 @@ superCall: SUPER LPAREN expressions RPAREN;
 
 preventDefaultCall: PREVENTDEFAULT LPAREN RPAREN;
 
-ARRAYLIT : LBRACE ELEMENTS RBRACE;
-fragment ELEMENTS : ELEMENT (COMMA ELEMENTS)? ;
-fragment ELEMENT : INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER;
 // Keywords
 AUTO : 'auto' ;
 BREAK : 'break' ;
@@ -190,18 +196,18 @@ ASSIGN : '=' ;
 // OPERATORS
 ADD : '+' ;
 SUB : '-' ;
-MUL : '*' ;
-DIV : '/' ;
-MOD : '%' ;
+fragment MUL : '*' ;
+fragment DIV : '/' ;
+fragment MOD : '%' ;
 CLAIM : '!' ;
-AND : '&&' ;
-OR : '||' ;
-EQ : '==' ;
-NEQ : '!=' ;
-LT : '<' ;
-LTE : '<=' ;
-GT : '>' ;
-GTE : '>=' ;
+fragment AND : '&&' ;
+fragment OR : '||' ;
+fragment EQ : '==' ;
+fragment NEQ : '!=' ;
+fragment LT : '<' ;
+fragment LTE : '<=' ;
+fragment GT : '>' ;
+fragment GTE : '>=' ;
 CONCAT : '::' ;
 // SPECIAL FUNCTION NAME
 READINTEGER : 'readInteger' ;
