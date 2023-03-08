@@ -17,7 +17,7 @@ declarationList: declaration declarationList | declaration;
 declaration : varDeclaration | funcDeclaration;
 
 // 5.1 Variables Declaration
-varDeclaration : initVarDeclaration | fullVarDeclaration;
+varDeclaration : initVarDeclaration | baseVarDeclaration |  fullVarDeclaration;
 
 initVarDeclaration : idList COLON typeSpecifier SEMI;
 
@@ -25,7 +25,9 @@ fullVarDeclaration : helper SEMI;
 
 baseVarDeclaration : IDENTIFIER COLON typeSpecifier ASSIGN expression;
 
-helper : IDENTIFIER COMMA helper COMMA expression | baseVarDeclaration;
+helper : IDENTIFIER COMMA helper COMMA expression | baseCase;
+
+baseCase : IDENTIFIER COLON typeSpecifier ASSIGN expression;
 
 idList : IDENTIFIER COMMA idList | IDENTIFIER;
 
@@ -41,13 +43,11 @@ dimensions : INTLIT COMMA dimensions | INTLIT;
 
 typeSpecifier : autoType | atomicType | arrayType;
 
-arrayCell : IDENTIFIER LBRACKET expressions RBRACKET;
+arrayCell : IDENTIFIER LBRACKET expressionList RBRACKET;
 // 5.2 Function Declaration
 
-funcDeclaration : functionPrototype functionBody;
-
-functionPrototype : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN |
-                    IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN INHERIT IDENTIFIER;
+funcDeclaration : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN functionBody |
+                  IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN INHERIT IDENTIFIER functionBody;
 
 returnType : atomicType | voidType | arrayType | autoType;
 
@@ -125,8 +125,36 @@ arrayLit : LBRACE expressions RBRACE;
 
 subExpression : LPAREN expression RPAREN;
 
-callExpression : specialFunctionCall | IDENTIFIER LPAREN expressions RPAREN;
+callExpression : specialFunctionExpression | IDENTIFIER LPAREN expressions RPAREN;
+specialFunctionExpression : readIntegerExpression
+            | printIntegerExpression
+            | readFloatExpression
+            | writeFloatExpression
+            | readBooleanExpression
+            | printBooleanExpression
+            | readStringExpression
+            | printStringExpression
+            | superExpression
+            | preventDefaultExpression;
+readIntegerExpression: READINTEGER LPAREN RPAREN;
 
+printIntegerExpression: PRINTINTEGER LPAREN expression RPAREN;
+
+readFloatExpression: READFLOAT LPAREN RPAREN;
+
+writeFloatExpression: WRITEFLOAT LPAREN expression RPAREN;
+
+readBooleanExpression: READBOOLEAN LPAREN RPAREN;
+
+printBooleanExpression: PRINTBOOLEAN LPAREN expression RPAREN;
+
+readStringExpression: READSTRING LPAREN RPAREN;
+
+printStringExpression: PRINTSTRING LPAREN expression RPAREN;
+
+superExpression: SUPER LPAREN expressions RPAREN;
+
+preventDefaultExpression: PREVENTDEFAULT LPAREN RPAREN;
 // special features IO
 specialFunctionCall: readIntegerCall
             | printIntegerCall

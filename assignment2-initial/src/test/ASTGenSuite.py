@@ -7,7 +7,7 @@ from src.main.mt22.utils.AST import *
 
 class ASTGenSuite(unittest.TestCase):
     def test_short_vardecl(self):
-        input = """x: integer;"""
+        input = """x: integer = 2;"""
         expect = str(Program([VarDecl("x", IntegerType())]))
         self.assertTrue(TestAST.test(input, expect, 300))
 
@@ -50,4 +50,14 @@ class ASTGenSuite(unittest.TestCase):
 	FuncDecl(main, VoidType, [], None, BlockStmt([]))
 ])"""
         self.assertTrue(TestAST.test(input, expect, 304))
+
+    def test_more_complex_program1(self):
+        """More complex program"""
+        input = """main: function void () {
+                    a = 1 + printInteger(4);
+                }"""
+        expect = """Program([
+        	FuncDecl(main, VoidType, [], None, BlockStmt([]))
+        ])"""
+        self.assertTrue(TestAST.test(input, expect, 305))
 

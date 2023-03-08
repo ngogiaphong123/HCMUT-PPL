@@ -49,6 +49,11 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MT22Parser#baseCase.
+    def visitBaseCase(self, ctx:MT22Parser.BaseCaseContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MT22Parser#idList.
     def visitIdList(self, ctx:MT22Parser.IdListContext):
         return self.visitChildren(ctx)
@@ -91,11 +96,6 @@ class MT22Visitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MT22Parser#funcDeclaration.
     def visitFuncDeclaration(self, ctx:MT22Parser.FuncDeclarationContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by MT22Parser#functionPrototype.
-    def visitFunctionPrototype(self, ctx:MT22Parser.FunctionPrototypeContext):
         return self.visitChildren(ctx)
 
 
@@ -266,6 +266,61 @@ class MT22Visitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MT22Parser#callExpression.
     def visitCallExpression(self, ctx:MT22Parser.CallExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#specialFunctionExpression.
+    def visitSpecialFunctionExpression(self, ctx:MT22Parser.SpecialFunctionExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readIntegerExpression.
+    def visitReadIntegerExpression(self, ctx:MT22Parser.ReadIntegerExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#printIntegerExpression.
+    def visitPrintIntegerExpression(self, ctx:MT22Parser.PrintIntegerExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readFloatExpression.
+    def visitReadFloatExpression(self, ctx:MT22Parser.ReadFloatExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#writeFloatExpression.
+    def visitWriteFloatExpression(self, ctx:MT22Parser.WriteFloatExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readBooleanExpression.
+    def visitReadBooleanExpression(self, ctx:MT22Parser.ReadBooleanExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#printBooleanExpression.
+    def visitPrintBooleanExpression(self, ctx:MT22Parser.PrintBooleanExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#readStringExpression.
+    def visitReadStringExpression(self, ctx:MT22Parser.ReadStringExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#printStringExpression.
+    def visitPrintStringExpression(self, ctx:MT22Parser.PrintStringExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#superExpression.
+    def visitSuperExpression(self, ctx:MT22Parser.SuperExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#preventDefaultExpression.
+    def visitPreventDefaultExpression(self, ctx:MT22Parser.PreventDefaultExpressionContext):
         return self.visitChildren(ctx)
 
 
