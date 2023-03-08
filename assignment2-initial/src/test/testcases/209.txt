@@ -1,5 +1,0 @@
-
-            print_hello: function void () {
-                printString("Hello world!");
-            }
-        

@@ -1,7 +1,0 @@
-
-            main: function void () {
-                if (a == b) {
-                    printString("a == b");
-                }
-            }
-        

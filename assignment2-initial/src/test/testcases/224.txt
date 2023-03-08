@@ -1,3 +1,0 @@
-program: function void() {
-            a = "a" :: "b";
-        }

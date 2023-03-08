@@ -17,13 +17,11 @@ declarationList: declaration declarationList | declaration;
 declaration : varDeclaration | funcDeclaration;
 
 // 5.1 Variables Declaration
-varDeclaration : initVarDeclaration | baseVarDeclaration |  fullVarDeclaration;
+varDeclaration : initVarDeclaration |  fullVarDeclaration;
 
 initVarDeclaration : idList COLON typeSpecifier SEMI;
 
 fullVarDeclaration : helper SEMI;
-
-baseVarDeclaration : IDENTIFIER COLON typeSpecifier ASSIGN expression;
 
 helper : IDENTIFIER COMMA helper COMMA expression | baseCase;
 
@@ -69,7 +67,9 @@ statements : statementList |;
 
 statementList : statement statementList |;
 
-statement : varDeclaration | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
+statement : varDeclarationStatement | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
+
+varDeclarationStatement : varDeclaration;
 
 assignmentStatement : leftHandSide ASSIGN expression SEMI;
 

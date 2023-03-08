@@ -1,3 +1,9 @@
-main: function void () {
-                    a = 1 + printInteger(4);
-                }
+x: integer = 65;
+         inc: function void(out n: integer, delta: integer) {
+             n = n + delta;
+         }
+         main: function void() {
+             a, b: integer = 1, 2;
+             inc(x, delta);
+             printInteger(x);
+         }

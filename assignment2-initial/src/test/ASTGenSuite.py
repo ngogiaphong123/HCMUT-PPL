@@ -6,12 +6,14 @@ from src.main.mt22.utils.AST import *
 
 
 class ASTGenSuite(unittest.TestCase):
-    def test_short_vardecl(self):
-        input = """x: integer = 2;"""
-        expect = str(Program([VarDecl("x", IntegerType())]))
+    def test_ast_1(self):
+        input = """delta: integer = fact(3);"""
+        expect = """Program([
+	VarDecl(delta, IntegerType, FuncCall(fact, [IntegerLit(3)]))
+])"""
         self.assertTrue(TestAST.test(input, expect, 300))
 
-    def test_full_vardecl(self):
+    def test_ast_2(self):
         input = """x, y, z: integer = 1, 2, 3;"""
         expect = """Program([
 	VarDecl(x, IntegerType, IntegerLit(1))
@@ -20,7 +22,7 @@ class ASTGenSuite(unittest.TestCase):
 ])"""
         self.assertTrue(TestAST.test(input, expect, 301))
 
-    def test_vardecls(self):
+    def test_ast_3(self):
         input = """x, y, z: integer = 1, 2, 3;
         a, b: float;"""
         expect = """Program([
@@ -32,7 +34,7 @@ class ASTGenSuite(unittest.TestCase):
 ])"""
         self.assertTrue(TestAST.test(input, expect, 302))
 
-    def test_simple_program(self):
+    def test_ast_4(self):
         """Simple program"""
         input = """main: function void () {
         }"""
@@ -41,23 +43,30 @@ class ASTGenSuite(unittest.TestCase):
 ])"""
         self.assertTrue(TestAST.test(input, expect, 303))
 
-    def test_more_complex_program(self):
+    def test_ast_5(self):
         """More complex program"""
         input = """main: function void () {
             printInteger(4);
         }"""
         expect = """Program([
-	FuncDecl(main, VoidType, [], None, BlockStmt([]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([CallStmt(printInteger, IntegerLit(4))]))
 ])"""
         self.assertTrue(TestAST.test(input, expect, 304))
 
-    def test_more_complex_program1(self):
+    def test_ast_6(self):
         """More complex program"""
-        input = """main: function void () {
-                    a = 1 + printInteger(4);
-                }"""
+        input = """x: integer = 65;
+         inc: function void(out n: integer, delta: integer) {
+             n = n + delta;
+         }
+         main: function void() {
+             a, b: integer = 1, 2;
+             inc(x, delta);
+             printInteger(x);
+         }"""
         expect = """Program([
-        	FuncDecl(main, VoidType, [], None, BlockStmt([]))
-        ])"""
+	VarDecl(x, IntegerType, IntegerLit(65))
+	FuncDecl(inc, VoidType, [OutParam(n, IntegerType), Param(delta, IntegerType)], None, BlockStmt([AssignStmt(Id(n), BinExpr(+, Id(n), Id(delta)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType, IntegerLit(1)), VarDecl(b, IntegerType, IntegerLit(2))]), CallStmt(inc, Id(x), Id(delta)), CallStmt(printInteger, Id(x))]))
+])"""
         self.assertTrue(TestAST.test(input, expect, 305))
-

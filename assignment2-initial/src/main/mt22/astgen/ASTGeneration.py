@@ -2,6 +2,7 @@ from MT22Visitor import MT22Visitor
 from MT22Parser import MT22Parser
 from AST import *
 
+from src.main.mt22.utils.AST import *
 
 
 class ASTGeneration(MT22Visitor):
@@ -24,7 +25,7 @@ class ASTGeneration(MT22Visitor):
         elif ctx.funcDeclaration():
             return [self.visit(ctx.funcDeclaration())]
 
-    # varDeclaration: initVarDeclaration | baseVarDeclaration | fullVarDeclaration;
+    # varDeclaration: initVarDeclaration | fullVarDeclaration;
     def visitVarDeclaration(self, ctx: MT22Parser.VarDeclarationContext):
         if ctx.initVarDeclaration():
             return self.visit(ctx.initVarDeclaration())
@@ -37,16 +38,12 @@ class ASTGeneration(MT22Visitor):
         type = self.visit(ctx.typeSpecifier())
         return [VarDecl(x, type) for x in idList]
 
-    # baseVarDeclaration : IDENTIFIER COLON typeSpecifier ASSIGN expression;
-    def visitBaseVarDeclaration(self, ctx: MT22Parser.BaseVarDeclarationContext):
-        name = ctx.IDENTIFIER().getText()
-        typ = self.visit(ctx.typeSpecifier())
-        expr = self.visit(ctx.expression())
-        return [VarDecl(name, typ, expr)]
-
     # fullVarDeclaration : helper SEMI;
     def visitFullVarDeclaration(self, ctx: MT22Parser.FullVarDeclarationContext):
         helper = self.visit(ctx.helper())
+        if len(helper) == 1:
+            print("hello")
+            return [VarDecl(helper[0]["name"], self.visit(helper[0]["type"]), self.visit(helper[0]["expr"]))]
         result = []
         typ = self.visit(helper[0]["type"])
         for i in range(len(helper)):
@@ -199,10 +196,13 @@ class ASTGeneration(MT22Visitor):
         else:
             return []
 
-    # statement : varDeclaration | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement
+    # statement : varDeclarationStatement | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement
     # | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
     def visitStatement(self, ctx: MT22Parser.StatementContext):
         return self.visit(ctx.getChild(0))
+
+    def visitVarDeclarationStatement(self, ctx: MT22Parser.VarDeclarationStatementContext):
+        return BlockStmt(self.visit(ctx.varDeclaration()))
 
     # assignmentStatement : leftHandSide ASSIGN expression SEMI;
     def visitAssignmentStatement(self, ctx: MT22Parser.AssignmentStatementContext):

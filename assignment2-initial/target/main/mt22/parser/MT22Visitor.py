@@ -39,11 +39,6 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#baseVarDeclaration.
-    def visitBaseVarDeclaration(self, ctx:MT22Parser.BaseVarDeclarationContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by MT22Parser#helper.
     def visitHelper(self, ctx:MT22Parser.HelperContext):
         return self.visitChildren(ctx)
@@ -141,6 +136,11 @@ class MT22Visitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MT22Parser#statement.
     def visitStatement(self, ctx:MT22Parser.StatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MT22Parser#varDeclarationStatement.
+    def visitVarDeclarationStatement(self, ctx:MT22Parser.VarDeclarationStatementContext):
         return self.visitChildren(ctx)
 
 

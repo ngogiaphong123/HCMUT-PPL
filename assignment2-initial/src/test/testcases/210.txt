@@ -1,5 +1,0 @@
-
-            readInt: function void () {
-                a : integer = 2 + readInteger();
-            }
-        

@@ -1,1 +1,1 @@
-x: integer = 2;
+delta: integer = fact(3);
