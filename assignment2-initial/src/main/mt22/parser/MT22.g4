@@ -19,11 +19,11 @@ declaration : varDeclaration | funcDeclaration;
 // 5.1 Variables Declaration
 varDeclaration : initVarDeclaration | fullVarDeclaration;
 
-initVarDeclaration : idList COLON type_specifier SEMI;
+initVarDeclaration : idList COLON typeSpecifier SEMI;
 
 fullVarDeclaration : helper SEMI;
 
-baseVarDeclaration : IDENTIFIER COLON type_specifier ASSIGN expression;
+baseVarDeclaration : IDENTIFIER COLON typeSpecifier ASSIGN expression;
 
 helper : IDENTIFIER COMMA helper COMMA expression | baseVarDeclaration;
 
@@ -39,7 +39,7 @@ autoType : AUTO;
 
 dimensions : INTLIT COMMA dimensions | INTLIT;
 
-type_specifier : autoType | atomicType | arrayType;
+typeSpecifier : autoType | atomicType | arrayType;
 
 arrayCell : IDENTIFIER LBRACKET expressions RBRACKET;
 // 5.2 Function Declaration
@@ -55,10 +55,10 @@ parameters : parameterList |;
 
 parameterList : parameter COMMA parameterList | parameter;
 
-parameter : IDENTIFIER COLON type_specifier
-            | INHERIT IDENTIFIER COLON type_specifier
-            | OUT IDENTIFIER COLON type_specifier
-            | INHERIT OUT IDENTIFIER COLON type_specifier;
+parameter : IDENTIFIER COLON typeSpecifier
+            | INHERIT IDENTIFIER COLON typeSpecifier
+            | OUT IDENTIFIER COLON typeSpecifier
+            | INHERIT OUT IDENTIFIER COLON typeSpecifier;
 
 // 7 Statements
 blockStatement : LBRACE statements RBRACE;
@@ -113,16 +113,17 @@ expression6 : SUB expression6 | expression7;
 
 expression7 : IDENTIFIER LBRACKET expressionList RBRACKET | expression8;
 
-expression8 : INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER | subexpression | callExpression | indexedArray;
+expression8 : INTLIT | FLOATLIT | STRINGLIT | BOOLEANLIT | IDENTIFIER | subExpression | callExpression | arrayLit;
+
 COMPARE : EQ | NEQ | LT | GT | LTE | GTE;
 
 ANDOR : AND | OR;
 
 MULDIVMOD : MUL | DIV | MOD;
 
-indexedArray : LBRACE expressions RBRACE;
+arrayLit : LBRACE expressions RBRACE;
 
-subexpression : LPAREN expression RPAREN;
+subExpression : LPAREN expression RPAREN;
 
 callExpression : specialFunctionCall | IDENTIFIER LPAREN expressions RPAREN;
 

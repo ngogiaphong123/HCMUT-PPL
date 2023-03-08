@@ -79,8 +79,8 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#type_specifier.
-    def visitType_specifier(self, ctx:MT22Parser.Type_specifierContext):
+    # Visit a parse tree produced by MT22Parser#typeSpecifier.
+    def visitTypeSpecifier(self, ctx:MT22Parser.TypeSpecifierContext):
         return self.visitChildren(ctx)
 
 
@@ -254,13 +254,13 @@ class MT22Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#indexedArray.
-    def visitIndexedArray(self, ctx:MT22Parser.IndexedArrayContext):
+    # Visit a parse tree produced by MT22Parser#arrayLit.
+    def visitArrayLit(self, ctx:MT22Parser.ArrayLitContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MT22Parser#subexpression.
-    def visitSubexpression(self, ctx:MT22Parser.SubexpressionContext):
+    # Visit a parse tree produced by MT22Parser#subExpression.
+    def visitSubExpression(self, ctx:MT22Parser.SubExpressionContext):
         return self.visitChildren(ctx)
 
 
