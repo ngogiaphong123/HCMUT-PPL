@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(deleteDuplicateEmails, ArrayType([5], IntegerType), [Param(emails, ArrayType([5], StringType))], None, BlockStmt([BlockStmt([VarDecl(result, ArrayType([5], IntegerType))]), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(emails)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(emails, [Id(i)]), StringLit()), BlockStmt([AssignStmt(Id(result), BinExpr(+, Id(result), ArrayCell(emails, [Id(i)])))]))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(emails, ArrayType([5], StringType), ArrayLit([StringLit(cat), StringLit(cats), StringLit(catsdogcats), StringLit(dog), StringLit(dogcatsdog), StringLit(hippopotamuses), StringLit(rat), StringLit(ratcatdogcat)]))]), CallStmt(print, FuncCall(deleteDuplicateEmails, [Id(emails)]))]))
+])

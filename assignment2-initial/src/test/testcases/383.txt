@@ -1,21 +1,17 @@
 
-         majorityElement : function integer (nums : array[7] of integer) {
-             n = length(nums);
-             count = 0;
-             for (i = 0, i < n, i + 1) {
-                 if (count == 0) {
-                     candidate = nums[i];
-                 }
-                 if (nums[i] == candidate) {
-                     count = count + 1;
+         flatten : function array[10] of integer (arr : array[10] of integer) {
+             result : array[10] of integer;
+             for (i = 0, i < length(arr), i + 1) {
+                 if (typeof(arr[i]) == "array") {
+                     result = result + flatten(arr[i]);
                  } else {
-                     count = count - 1;
+                     result = result + arr[i];
                  }
              }
-             return candidate;
+             return result;
          }
          main: function void () {
-             nums = {2, 2, 1, 1, 1, 2, 2};
-             printInt(majorityElement(nums));
+             arr : array [10] of integer = {1, 2, {3, 4}, 5, 6};
+             print(flatten(arr));
          }
          

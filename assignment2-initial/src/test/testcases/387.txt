@@ -1,22 +1,16 @@
 
-         intersect : function array[2] of integer (nums1 : array[4] of integer, nums2 : array[2] of integer) {
-             n1 = length(nums1);
-             n2 = length(nums2);
-             result : array [2] of integer= {};
-             for (i = 0, i < n1, i + 1) {
-                 for (j = 0, j < n2, j + 1) {
-                     if (nums1[i] == nums2[j]) {
-                         result = append(result, nums1[i]);
-                         nums2[j] = -1;
-                         break;
-                     }
+         notBoringMovies : function array[5] of integer (id : array[5] of integer, duration : array[5] of integer) {
+             result : array[5] of integer;
+             for (i = 0, i < length(id), i + 1) {
+                 if (duration[i] % 2 == 1) {
+                     result = result + id[i];
                  }
              }
              return result;
          }
          main: function void () {
-             nums1 = {1, 2, 2, 1};
-             nums2 = {2, 2};
-             printInt(intersect(nums1, nums2));
+             id : array [5] of integer = {1, 2, 3, 4, 5};
+             duration : array [5] of integer = {120, 90, 90, 120, 120};
+             print(notBoringMovies(id, duration));
          }
          

@@ -1,21 +1,16 @@
 
-         findDuplicate : function integer (nums : array[5] of integer) {
-             n = length(nums);
-             slow = nums[0];
-             fast = nums[nums[0]];
-             while (slow != fast) {
-                 slow = nums[slow];
-                 fast = nums[nums[fast]];
+         findAllConcatenatedWordsInADict : function array[5] of integer (words : array[5] of string) {
+             result : array[5] of integer;
+             for (i = 0, i < length(words), i + 1) {
+                 if (words[i] != "") {
+                     result = result + words[i];
+                     break;
+                 }
              }
-             fast = 0;
-             while (slow != fast) {
-                 slow = nums[slow];
-                 fast = nums[fast];
-             }
-             return slow;
+             return result;
          }
          main: function void () {
-             nums = {1, 3, 4, 2, 2};
-             printInt(findDuplicate(nums));
+             words : array [5] of string = {"cat", "cats", "catsdogcats", "dog", "dogcatsdog", "hippopotamuses", "rat", "ratcatdogcat"};
+             print(findAllConcatenatedWordsInADict(words));
          }
          

@@ -1,22 +1,15 @@
 
-         isAnaGram : function boolean (s1 : string, s2 : string) {
-             if (length(s1) != length(s2)) {
-                 return false;
-             }
-             for (i = 0, i < length(s1), i + 1) {
-                 if (s1[i] != s2[length(s2) - i - 1]) {
-                     return false;
+         searchInsert : function integer (nums : array[5] of integer, target : integer) {
+             for (i = 0, i < length(nums), i + 1) {
+                 if (nums[i] >= target) {
+                     return i;
                  }
              }
-             return true;
+             return length(nums);
          }
          main: function void () {
-             s1 = "racecar";
-             s2 = "racecar";
-             if (isAnaGram(s1, s2)) {
-                 printString("s1 and s2 are anagrams.");
-             } else {
-                 printString("s1 and s2 are not anagrams.");
-             }
+             nums = {1, 3, 5, 6};
+             target = 5;
+             printInt(searchInsert(nums, target));
          }
          

@@ -1,15 +1,21 @@
 
-         capitalize : function string (str : string) {
-             str[0] = toUpper(str[0]);
-             for (i = 1, i < length(str), i + 1) {
-                 if (str[i - 1] == " ") {
-                     str[i] = toUpper(str[i]);
-                 }
+         findDuplicate : function integer (nums : array[5] of integer) {
+             n = length(nums);
+             slow = nums[0];
+             fast = nums[nums[0]];
+             while (slow != fast) {
+                 slow = nums[slow];
+                 fast = nums[nums[fast]];
              }
-             return str;
+             fast = 0;
+             while (slow != fast) {
+                 slow = nums[slow];
+                 fast = nums[fast];
+             }
+             return slow;
          }
          main: function void () {
-             str = "hello world!";
-             printStr(capitalize(str));
+             nums = {1, 3, 4, 2, 2};
+             printInt(findDuplicate(nums));
          }
          

@@ -1,17 +1,18 @@
 
-         change : function integer (amount : integer, coins : array[4] of integer) {
-             dp : array[5] of integer;
-             dp[0] = 1;
-             for (i = 0, i < length(coins), i + 1) {
-                 for (j = coins[i], j <= amount, j + 1) {
-                     dp[j] = dp[j] + dp[j - coins[i]];
+         twoSum : function array[2] of integer (nums : array[4] of integer, target : integer) {
+             n = length(nums);
+             for (i = 0, i < n, i + 1) {
+                 for (j = i + 1, j < n, j + 1) {
+                     if (nums[i] + nums[j] == target) {
+                         return {i, j};
+                     }
                  }
              }
-             return dp[amount];
+             return {-1, -1};
          }
          main: function void () {
-             amount = 5;
-             coins = {1, 2, 5};
-             printInt(change(amount, coins));
+             nums = {2, 7, 11, 15};
+             target = 9;
+             printInt(twoSum(nums, target));
          }
          

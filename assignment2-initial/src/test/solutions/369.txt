@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(rotate, VoidType, [Param(nums, ArrayType([7], IntegerType)), Param(k, IntegerType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(nums)])), AssignStmt(Id(k), BinExpr(%, Id(k), Id(n))), IfStmt(BinExpr(==, Id(k), IntegerLit(0)), BlockStmt([ReturnStmt()])), CallStmt(reverse, Id(nums), IntegerLit(0), BinExpr(-, Id(n), IntegerLit(1))), CallStmt(reverse, Id(nums), IntegerLit(0), BinExpr(-, Id(k), IntegerLit(1))), CallStmt(reverse, Id(nums), Id(k), BinExpr(-, Id(n), IntegerLit(1)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(nums), ArrayLit([IntegerLit(1), IntegerLit(2), IntegerLit(3), IntegerLit(4), IntegerLit(5), IntegerLit(6), IntegerLit(7)])), AssignStmt(Id(k), IntegerLit(3)), CallStmt(rotate, Id(nums), Id(k)), CallStmt(printInt, Id(nums))]))
+])

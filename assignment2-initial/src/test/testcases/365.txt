@@ -1,17 +1,19 @@
 
-         reverseList : function integer (head : integer) {
-             prev = null;
-             curr = head;
-             while (curr != null) {
-                 nextTemp = currNext;
-                 currNext = prev;
-                 prev = curr;
-                 curr = nextTemp;
+         climateChange : function void (arr : array[4] of integer) {
+             n = length(arr);
+             for (i = 0, i < n - 1, i + 1) {
+                 for (j = 0, j < n - i - 1, j + 1) {
+                     if (arr[j] > arr[j + 1]) {
+                         temp = arr[j];
+                         arr[j] = arr[j + 1];
+                         arr[j + 1] = temp;
+                     }
+                 }
              }
-             return prev;
          }
          main: function void () {
-             head = 1;
-             printInt(reverseList(head));
+             arr = {64, 34, 25, 12, 22, 11, 90};
+             climateChange(arr);
+             printInt(arr);
          }
          

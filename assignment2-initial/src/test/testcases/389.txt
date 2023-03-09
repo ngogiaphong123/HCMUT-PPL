@@ -1,18 +1,16 @@
 
-         findDuplicates : function array[2] of integer (nums : array[8] of integer) {
-             n = length(nums);
-             result : array [2] of integer= {};
-             for (i = 0, i < n, i + 1) {
-                 index = abs(nums[i]) - 1;
-                 if (nums[index] < 0) {
-                     result = append(result, abs(nums[i]));
+         findTeamSize : function array[5] of integer (scores : array[5] of integer, ages : array[5] of integer) {
+             result : array[5] of integer;
+             for (i = 0, i < length(scores), i + 1) {
+                 if ((scores[i] > 5) && (ages[i] < 10)) {
+                     result = result + 1;
                  }
-                 nums[index] = -nums[index];
              }
              return result;
          }
          main: function void () {
-             nums = {4, 3, 2, 7, 8, 2, 3, 1};
-             printInt(findDuplicates(nums));
+             scores : array [5] of integer = {3, 5, 10, 3, 5};
+             ages : array [5] of integer = {5, 8, 9, 10, 5};
+             print(findTeamSize(scores, ages));
          }
          

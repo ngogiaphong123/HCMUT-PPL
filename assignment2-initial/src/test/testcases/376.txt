@@ -1,20 +1,18 @@
 
-         find : function integer (str : string, sub : string) {
-             for (i = length(str) - 1, i >= 0, i - 1) {
-                 for (j = 0, j < length(sub), j + 1) {
-                     if (str[i + j] != sub[j]) {
-                         break;
-                     }
+         findDuplicates : function array[2] of integer (nums : array[8] of integer) {
+             n = length(nums);
+             result : array [2] of integer= {};
+             for (i = 0, i < n, i + 1) {
+                 index = abs(nums[i]) - 1;
+                 if (nums[index] < 0) {
+                     result = append(result, abs(nums[i]));
                  }
-                 if (j == length(sub)) {
-                     return i;
-                 }
+                 nums[index] = -nums[index];
              }
-             return -1;
+             return result;
          }
          main: function void () {
-             str = "Hello World!";
-             sub = "World";
-             printInt(find(str, sub));
+             nums = {4, 3, 2, 7, 8, 2, 3, 1};
+             printInt(findDuplicates(nums));
          }
          

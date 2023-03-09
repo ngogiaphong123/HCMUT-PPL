@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(missingNumber, IntegerType, [Param(nums, ArrayType([4], IntegerType))], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(nums)])), AssignStmt(Id(sum), IntegerLit(0)), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(sum), BinExpr(+, Id(sum), ArrayCell(nums, [Id(i)])))])), ReturnStmt(BinExpr(-, BinExpr(/, BinExpr(*, Id(n), BinExpr(+, Id(n), IntegerLit(1))), IntegerLit(2)), Id(sum)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(nums), ArrayLit([IntegerLit(3), IntegerLit(0), IntegerLit(1)])), CallStmt(printInt, FuncCall(missingNumber, [Id(nums)]))]))
+])

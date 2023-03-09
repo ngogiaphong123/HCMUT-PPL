@@ -1,17 +1,15 @@
 
-         containsDuplicate : function boolean (nums : array[5] of integer) {
-             n = length(nums);
-             for (i = 0, i < n, i + 1) {
-                 for (j = i + 1, j < n, j + 1) {
-                     if (nums[i] == nums[j]) {
-                         return true;
-                     }
+         transpose : function array[4,4] of integer (A : array[4,4] of integer) {
+             result : array[4,4] of integer;
+             for (i = 0, i < length(A), i + 1) {
+                 for (j = 0, j < length(A[i]), j + 1) {
+                     result[j,i] = A[i,j];
                  }
              }
-             return false;
+             return result;
          }
          main: function void () {
-             nums = {1, 2, 3, 1};
-             printBool(containsDuplicate(nums));
+             A : array [4,4] of integer = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+             print(transpose(A));
          }
          

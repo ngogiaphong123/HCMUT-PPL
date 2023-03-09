@@ -1,18 +1,14 @@
 
-         twoSum : function array[2] of integer (nums : array[4] of integer, target : integer) {
-             n = length(nums);
-             for (i = 0, i < n, i + 1) {
-                 for (j = i + 1, j < n, j + 1) {
-                     if (nums[i] + nums[j] == target) {
-                         return {i, j};
-                     }
-                 }
+         combine : function array[5] of integer (table1 : array[5] of integer, table2 : array[5] of integer) {
+             result : array[5] of integer;
+             for (i = 0, i < length(table1), i + 1) {
+                 result[i] = table1[i] + table2[i];
              }
-             return {-1, -1};
+             return result;
          }
          main: function void () {
-             nums = {2, 7, 11, 15};
-             target = 9;
-             printInt(twoSum(nums, target));
+             table1 : array [5] of integer = {{1, 2}, {3, 4}, {5, 6}};
+             table2 : array [5] of integer = {{7, 8}, {9, 10}, {11, 12}};
+             print(combine(table1, table2));
          }
          

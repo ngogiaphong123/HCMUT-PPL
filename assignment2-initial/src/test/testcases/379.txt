@@ -1,21 +1,30 @@
 
-         firstNonRepeating : function string (str : string) {
-             for (i = 0, i < length(str), i + 1) {
-                 found = false;
-                 for (j = 0, j < length(str), j + 1) {
-                     if ((i != j) && (str[i] == str[j])) {
-                         found = true;
-                         break;
-                     }
+         reverseWords : function string (s : string) {
+             n : integer = length(s);
+             result : integer = "";
+             i : integer = 0;
+             while (i < n) {
+                 while ((i < n) && (s[i] == " ")) {
+                     i = i + 1;
                  }
-                 if (!found) {
-                     return str[i];
+                 if (i >= n) {
+                     break;
+                 }
+                 start = i;
+                 while ((i < n) && (s[i] != " ")) {
+                     i = i + 1;
+                 }
+                 sub = substring(s, start, i - start);
+                 if (result == "") {
+                     result = sub;
+                 } else {
+                     result = sub + " " + result;
                  }
              }
-             return "";
+             return result;
          }
          main: function void () {
-             str = "Hello World!";
-             printStr(firstNonRepeating(str));
+             s = "the sky is blue";
+             printString(reverseWords(s));
          }
          

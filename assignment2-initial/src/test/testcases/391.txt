@@ -1,20 +1,15 @@
 
-         isSubsequence : function boolean (s : string, t : string) {
-             n = length(s);
-             m = length(t);
-             i = 0;
-             j = 0;
-             while ((i < n) && (j < m)) {
-                 if (s[i] == t[j]) {
-                     i = i + 1;
+         averageTimes : function array[5] of integer (times : array[5] of integer) {
+             result : array[5] of integer;
+             for (i = 0, i < length(times), i + 1) {
+                 if (times[i] > 0) {
+                     result = result + times[i];
                  }
-                 j = j + 1;
              }
-             return i == n;
+             return result / length(times);
          }
          main: function void () {
-             s = "abc";
-             t = "ahbgdc";
-             printBool(isSubsequence(s, t));
+             times : array [5] of integer = {1, 2, 3, 4, 5};
+             print(averageTimes(times));
          }
          

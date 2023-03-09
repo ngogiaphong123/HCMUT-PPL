@@ -1,14 +1,17 @@
 
-         missingNumber : function integer (nums : array[4] of integer) {
-             n = length(nums);
-             sum = 0;
-             for (i = 0, i < n, i + 1) {
-                 sum = sum + nums[i];
+         bigCountries : function array[5] of integer (name : array[5] of string, population : array[5] of integer, area : array[5] of integer) {
+             result : array[5] of integer;
+             for (i = 0, i < length(name), i + 1) {
+                 if ((population[i] > 25000000) || (area[i] > 3000000)) {
+                     result = result + name[i];
+                 }
              }
-             return (n * (n + 1)) / 2 - sum;
+             return result;
          }
          main: function void () {
-             nums = {3, 0, 1};
-             printInt(missingNumber(nums));
+             name : array [5] of string = {"China", "India", "USA", "Indonesia", "Pakistan"};
+             population : array [5] of integer = {1403500365, 1339180127, 324459463, 263991379, 205095217};
+             area : array [5] of integer = {9706961, 3287590, 9372610, 1904569, 881912};
+             print(bigCountries(name, population, area));
          }
          

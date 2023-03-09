@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(transpose, ArrayType([4, 4], IntegerType), [Param(A, ArrayType([4, 4], IntegerType))], None, BlockStmt([BlockStmt([VarDecl(result, ArrayType([4, 4], IntegerType))]), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(A)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([ForStmt(AssignStmt(Id(j), IntegerLit(0)), BinExpr(<, Id(j), FuncCall(length, [ArrayCell(A, [Id(i)])])), BinExpr(+, Id(j), IntegerLit(1)), BlockStmt([AssignStmt(ArrayCell(result, [Id(j), Id(i)]), ArrayCell(A, [Id(i), Id(j)]))]))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(A, ArrayType([4, 4], IntegerType), ArrayLit([ArrayLit([IntegerLit(1), IntegerLit(2), IntegerLit(3)]), ArrayLit([IntegerLit(4), IntegerLit(5), IntegerLit(6)]), ArrayLit([IntegerLit(7), IntegerLit(8), IntegerLit(9)])]))]), CallStmt(print, FuncCall(transpose, [Id(A)]))]))
+])

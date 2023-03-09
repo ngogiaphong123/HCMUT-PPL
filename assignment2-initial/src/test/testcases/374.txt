@@ -1,24 +1,22 @@
 
-         numDecodings : function integer (s : string) {
-             if (s == "") {
-                 return 0;
-             }
-             n = length(s);
-             dp : array[6] of integer;
-             dp[0] = 1;
-             dp[1] = 1;
-             for (i = 2, i <= n, i + 1) {
-                 if (s[i - 1] != "0") {
-                     dp[i] = dp[i - 1];
-                 }
-                 if ((s[i - 2] == "1") || ((s[i - 2] == "2") && (s[i - 1] < "7"))) {
-                     dp[i] = dp[i] + dp[i - 2];
+         intersect : function array[2] of integer (nums1 : array[4] of integer, nums2 : array[2] of integer) {
+             n1 = length(nums1);
+             n2 = length(nums2);
+             result : array [2] of integer= {};
+             for (i = 0, i < n1, i + 1) {
+                 for (j = 0, j < n2, j + 1) {
+                     if (nums1[i] == nums2[j]) {
+                         result = append(result, nums1[i]);
+                         nums2[j] = -1;
+                         break;
+                     }
                  }
              }
-             return dp[n];
+             return result;
          }
          main: function void () {
-             s = "226";
-             printInt(numDecodings(s));
+             nums1 = {1, 2, 2, 1};
+             nums2 = {2, 2};
+             printInt(intersect(nums1, nums2));
          }
          

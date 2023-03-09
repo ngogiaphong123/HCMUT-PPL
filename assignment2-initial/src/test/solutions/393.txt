@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(findAllConcatenatedWordsInADict, ArrayType([5], IntegerType), [Param(words, ArrayType([5], StringType))], None, BlockStmt([BlockStmt([VarDecl(result, ArrayType([5], IntegerType))]), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(words)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(words, [Id(i)]), StringLit()), BlockStmt([AssignStmt(Id(result), BinExpr(+, Id(result), ArrayCell(words, [Id(i)]))), BreakStmt()]))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(words, ArrayType([5], StringType), ArrayLit([StringLit(cat), StringLit(cats), StringLit(catsdogcats), StringLit(dog), StringLit(dogcatsdog), StringLit(hippopotamuses), StringLit(rat), StringLit(ratcatdogcat)]))]), CallStmt(print, FuncCall(findAllConcatenatedWordsInADict, [Id(words)]))]))
+])
