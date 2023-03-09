@@ -1,18 +1,16 @@
-
-         isPalindrome : function boolean (s : string) {
-             for (i = 0, i < length(s) / 2, i + 1) {
-                 if (s[i] != s[length(s) - i - 1]) {
-                     return false;
-                 }
-             }
-             return true;
-         }
-         main: function void () {
-             s = "racecar";
-             if (isPalindrome(s)) {
-                 printString("s is a palindrome.");
-             } else {
-                 printString("s is not a palindrome.");
-             }
-         }
-         
+program: function void() {
+            a: integer = 1;
+            b: integer = 2;
+            c: integer = 3;
+            d: integer = 4;
+            e: integer = 5;
+            arr: array [5] of integer = {a, b, c, d, e};
+            for (i = 0, i < 5, 1) {
+                if (arr[i] % 2 == 0) {
+                    print("even");
+                }
+                else {
+                    print("odd");
+                }
+            }
+        }

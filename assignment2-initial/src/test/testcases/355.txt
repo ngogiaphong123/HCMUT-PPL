@@ -1,14 +1,8 @@
 
-         reverse : function integer (n : integer) {
-             result = 0;
-             while (n > 0) {
-                 result = result * 10 + n % 10;
-                 n = n / 10;
-             }
-             return result;
-         }
-         main: function void () {
-             n = 12345;
-             printInt(reverse(n));
-         }
-         
+            program: function void () {
+                a: integer = 10;
+                b: float = 3.14e-7;
+                c: boolean = true;
+                d , e : array[2] of integer = {1, 2}, {3, 4};
+            }
+        

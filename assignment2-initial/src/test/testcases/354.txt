@@ -1,13 +1,6 @@
 
-         reverse : function string (s : string) {
-             result = "";
-             for (i = length(s) - 1, i >= 0, i - 1) {
-                 result = result + s[i];
-             }
-             return result;
-         }
-         main: function void () {
-             s = "Hello world!";
-             printString(reverse(s));
-         }
-         
+            main: function array[1] of boolean (cd: auto, temp: string) {
+            a=c[d[e[s["string"]]]];
+            b=b[1,2,3];
+            return b;
+        }
