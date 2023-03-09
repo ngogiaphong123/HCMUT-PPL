@@ -1,5 +1,9 @@
 
-            for (i = 0, i < 10, i + 1) {
-                printString("hello");
+            main : function void() {
+                if ((b >= 2.0) && (b <= 3.0)) {
+                    printf("b is between 2.0 and 3.0, inclusive.\n");
+                } else {
+                    printf("b is not between 2.0 and 3.0, inclusive.\n");
+                }
             }
         

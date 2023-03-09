@@ -1,6 +1,5 @@
 
-        main: function void () {
-            if (x > 0) {
-                printString("x is positive!");
-        }
+            readInt: function void () {
+                a : integer = 2 + readInteger();
+            }
         

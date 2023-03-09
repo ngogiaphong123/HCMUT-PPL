@@ -1,6 +1,12 @@
 
-        main: function void () {
-            s = "The path to the file is C:\\folder1\\file.txt";
-            printString(s);
+        program: function void () {
+            a: integer = 1;
+            b: integer = 2;
+            while (a <= 10) {
+                b = b * 2;
+                printInteger(b);
+                a = a + 1;
+            }
+            return;
         }
         

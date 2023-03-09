@@ -946,3 +946,200 @@ class ASTGenSuite(unittest.TestCase):
 	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(Hello World)), CallStmt(printInt, FuncCall(lengthOfLastWord, [Id(s)]))]))
 ])"""
         self.assertTrue(TestAST.test(input_str, expected, 339))
+
+    def test_ast_41(self):
+        input_str = """
+            main : function void() {
+                if ((b >= 2.0) && (b <= 3.0)) {
+                    printf("b is between 2.0 and 3.0, inclusive.\\n");
+                } else {
+                    printf("b is not between 2.0 and 3.0, inclusive.\\n");
+                }
+            }
+        """
+        expected = """Program([
+	FuncDecl(main, VoidType, [], None, BlockStmt([IfStmt(BinExpr(&&, BinExpr(>=, Id(b), FloatLit(2.0)), BinExpr(<=, Id(b), FloatLit(3.0))), BlockStmt([CallStmt(printf, StringLit(b is between 2.0 and 3.0, inclusive.\\n))]), BlockStmt([CallStmt(printf, StringLit(b is not between 2.0 and 3.0, inclusive.\\n))]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 340))
+
+    def test_ast_42(self):
+        input_str = """
+        main: function integer () {
+            n = parseNumber("5");
+            result : integer = 1;
+            for (i = 1, i <= n, i + 1) {
+                result = result * i;
+            }
+            return result;
+        }
+        """
+        expected = """Program([
+	FuncDecl(main, IntegerType, [], None, BlockStmt([AssignStmt(Id(n), FuncCall(parseNumber, [StringLit(5)])), BlockStmt([VarDecl(result, IntegerType, IntegerLit(1))]), ForStmt(AssignStmt(Id(i), IntegerLit(1)), BinExpr(<=, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(result), BinExpr(*, Id(result), Id(i)))])), ReturnStmt(Id(result))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 341))
+
+    def test_ast_43(self):
+        input_str = """
+        main: function void () {
+            algorithm = "binary tree traversal (inorder)";
+            root : integer = parseTree("(3 (1 () (2)) (4 () (5)))");
+            result : array[5] of integer = {};
+            inorder(root, result);
+        }
+        """
+        expected = """Program([
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(algorithm), StringLit(binary tree traversal (inorder))), BlockStmt([VarDecl(root, IntegerType, FuncCall(parseTree, [StringLit((3 (1 () (2)) (4 () (5))))]))]), BlockStmt([VarDecl(result, ArrayType([5], IntegerType), ArrayLit([]))]), CallStmt(inorder, Id(root), Id(result))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 342))
+
+    def test_ast_44(self):
+        input_str = """
+                main: function void () {
+            if (a > 10) {
+                if (b > 10) {
+                    printFloat(1.2);
+                }
+                else {
+                    readString();
+                }
+            }
+            else {
+                s = "Hello";
+                printString(s);
+            }
+        }
+        """
+        expected = """Program([
+	FuncDecl(main, VoidType, [], None, BlockStmt([IfStmt(BinExpr(>, Id(a), IntegerLit(10)), BlockStmt([IfStmt(BinExpr(>, Id(b), IntegerLit(10)), BlockStmt([CallStmt(printFloat, FloatLit(1.2))]), BlockStmt([CallStmt(readString, )]))]), BlockStmt([AssignStmt(Id(s), StringLit(Hello)), CallStmt(printString, Id(s))]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 343))
+
+    def test_ast_45(self):
+        input_str = """
+        main: function void () {
+            if (a > 10) {
+                if (b > 10) {
+                    printString("Both a and b are greater than 10");
+                }
+                else {
+                    printString("Only a is greater than 10");
+                }
+            }
+            else {
+                printString("Neither a nor b is greater than 10");
+            }
+        }
+        """
+        expected = """Program([
+	FuncDecl(main, VoidType, [], None, BlockStmt([IfStmt(BinExpr(>, Id(a), IntegerLit(10)), BlockStmt([IfStmt(BinExpr(>, Id(b), IntegerLit(10)), BlockStmt([CallStmt(printString, StringLit(Both a and b are greater than 10))]), BlockStmt([CallStmt(printString, StringLit(Only a is greater than 10))]))]), BlockStmt([CallStmt(printString, StringLit(Neither a nor b is greater than 10))]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 344))
+
+    def test_ast_46(self):
+        """Bubble sort"""
+        input_str = """
+        program: function void (arr: array [10] of integer) {
+            n = 10;
+            for (i = 0, i < n - 1, i + 1) {
+                for (j = 0, j < n - i - 1, j + 1) {
+                    if (arr[j] > arr[j + 1]) {
+                        temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        """
+        expected = """Program([
+	FuncDecl(program, VoidType, [Param(arr, ArrayType([10], IntegerType))], None, BlockStmt([AssignStmt(Id(n), IntegerLit(10)), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), BinExpr(-, Id(n), IntegerLit(1))), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([ForStmt(AssignStmt(Id(j), IntegerLit(0)), BinExpr(<, Id(j), BinExpr(-, BinExpr(-, Id(n), Id(i)), IntegerLit(1))), BinExpr(+, Id(j), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(>, ArrayCell(arr, [Id(j)]), ArrayCell(arr, [BinExpr(+, Id(j), IntegerLit(1))])), BlockStmt([AssignStmt(Id(temp), ArrayCell(arr, [Id(j)])), AssignStmt(ArrayCell(arr, [Id(j)]), ArrayCell(arr, [BinExpr(+, Id(j), IntegerLit(1))])), AssignStmt(ArrayCell(arr, [BinExpr(+, Id(j), IntegerLit(1))]), Id(temp))]))]))]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 345))
+
+    def test_ast_47(self):
+        """Binary Search"""
+        input_str = """
+            binarySearch: function integer (arr: array [10] of integer, target: integer) {
+                low = 0;
+                high = 9;
+                while (low <= high) {
+                    mid = (low + high) / 2;
+                    if (arr[mid] == target) {
+                        return mid;
+                    } else if (arr[mid] < target) {
+                        low = mid + 1;
+                    } else {
+                        high = mid - 1;
+                    }
+                }
+                return -1;
+            }
+        """
+        expected = """Program([
+	FuncDecl(binarySearch, IntegerType, [Param(arr, ArrayType([10], IntegerType)), Param(target, IntegerType)], None, BlockStmt([AssignStmt(Id(low), IntegerLit(0)), AssignStmt(Id(high), IntegerLit(9)), WhileStmt(BinExpr(<=, Id(low), Id(high)), BlockStmt([AssignStmt(Id(mid), BinExpr(/, BinExpr(+, Id(low), Id(high)), IntegerLit(2))), IfStmt(BinExpr(==, ArrayCell(arr, [Id(mid)]), Id(target)), BlockStmt([ReturnStmt(Id(mid))]), IfStmt(BinExpr(<, ArrayCell(arr, [Id(mid)]), Id(target)), BlockStmt([AssignStmt(Id(low), BinExpr(+, Id(mid), IntegerLit(1)))]), BlockStmt([AssignStmt(Id(high), BinExpr(-, Id(mid), IntegerLit(1)))])))])), ReturnStmt(UnExpr(-, IntegerLit(1)))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 346))
+
+    def test_ast_48(self):
+        """Loop through array"""
+        input_str = """
+        a : integer = 3;
+        program: function void () {
+            a, b, c: integer;
+            d, e, f: float;
+            g: boolean;
+        }"""
+        expected = """Program([
+	VarDecl(a, IntegerType, IntegerLit(3))
+	FuncDecl(program, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType), VarDecl(b, IntegerType), VarDecl(c, IntegerType)]), BlockStmt([VarDecl(d, FloatType), VarDecl(e, FloatType), VarDecl(f, FloatType)]), BlockStmt([VarDecl(g, BooleanType)])]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 347))
+
+    def test_ast_49(self):
+        input_str = """
+        program: function void () {
+            a: integer = 1;
+            b: integer = 2;
+            while (a <= 10) {
+                b = b * 2;
+                printInteger(b);
+                a = a + 1;
+            }
+            return;
+        }
+        """
+        expect = """Program([
+	FuncDecl(program, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType, IntegerLit(1))]), BlockStmt([VarDecl(b, IntegerType, IntegerLit(2))]), WhileStmt(BinExpr(<=, Id(a), IntegerLit(10)), BlockStmt([AssignStmt(Id(b), BinExpr(*, Id(b), IntegerLit(2))), CallStmt(printInteger, Id(b)), AssignStmt(Id(a), BinExpr(+, Id(a), IntegerLit(1)))])), ReturnStmt()]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 348))
+
+    def test_ast_50(self):
+        """Testing return statement:"""
+        input_str = """
+            factorial: function integer (n: integer) {
+                if ((n == 0) || (n==1)) return 1;
+                else return n * factorial(n - 1);
+            }
+
+            program: function void () {
+                a: integer = factorial(5);
+                return;
+            }
+        """
+        expect = """Program([
+	FuncDecl(factorial, IntegerType, [Param(n, IntegerType)], None, BlockStmt([IfStmt(BinExpr(||, BinExpr(==, Id(n), IntegerLit(0)), BinExpr(==, Id(n), IntegerLit(1))), ReturnStmt(IntegerLit(1)), ReturnStmt(BinExpr(*, Id(n), FuncCall(factorial, [BinExpr(-, Id(n), IntegerLit(1))]))))]))
+	FuncDecl(program, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType, FuncCall(factorial, [IntegerLit(5)]))]), ReturnStmt()]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 349))
+
+    def test_ast_51(self):
+        input_str = """
+            readInt: function void () {
+                a : integer = 2 + readInteger();
+            }
+        """
+        expect = """Program([
+	FuncDecl(readInt, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType, BinExpr(+, IntegerLit(2), FuncCall(readInteger, [])))])]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 350))
+

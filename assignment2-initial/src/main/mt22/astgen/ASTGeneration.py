@@ -243,9 +243,12 @@ class ASTGeneration(MT22Visitor):
     def visitContinueStatement(self, ctx: MT22Parser.ContinueStatementContext):
         return ContinueStmt()
 
-    # returnStatement : RETURN expression SEMI;
+    # returnStatement : RETURN (expression |) SEMI;
     def visitReturnStatement(self, ctx: MT22Parser.ReturnStatementContext):
-        return ReturnStmt(self.visit(ctx.expression()))
+        if ctx.expression():
+            return ReturnStmt(self.visit(ctx.expression()))
+        else:
+            return ReturnStmt()
 
     # callStatement : specialFunctionCall SEMI | call SEMI;
     def visitCallStatement(self, ctx: MT22Parser.CallStatementContext):

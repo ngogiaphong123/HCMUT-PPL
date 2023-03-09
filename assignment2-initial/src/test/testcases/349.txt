@@ -1,1 +1,11 @@
-main: function void () {};
+
+            factorial: function integer (n: integer) {
+                if ((n == 0) || (n==1)) return 1;
+                else return n * factorial(n - 1);
+            }
+
+            program: function void () {
+                a: integer = factorial(5);
+                return;
+            }
+        

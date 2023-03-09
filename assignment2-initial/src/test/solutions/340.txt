@@ -1,0 +1,3 @@
+Program([
+	FuncDecl(main, VoidType, [], None, BlockStmt([IfStmt(BinExpr(&&, BinExpr(>=, Id(b), FloatLit(2.0)), BinExpr(<=, Id(b), FloatLit(3.0))), BlockStmt([CallStmt(printf, StringLit(b is between 2.0 and 3.0, inclusive.\n))]), BlockStmt([CallStmt(printf, StringLit(b is not between 2.0 and 3.0, inclusive.\n))]))]))
+])

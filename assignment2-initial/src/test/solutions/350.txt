@@ -1,0 +1,3 @@
+Program([
+	FuncDecl(readInt, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType, BinExpr(+, IntegerLit(2), FuncCall(readInteger, [])))])]))
+])

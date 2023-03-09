@@ -1,0 +1,3 @@
+Program([
+	FuncDecl(binarySearch, IntegerType, [Param(arr, ArrayType([10], IntegerType)), Param(target, IntegerType)], None, BlockStmt([AssignStmt(Id(low), IntegerLit(0)), AssignStmt(Id(high), IntegerLit(9)), WhileStmt(BinExpr(<=, Id(low), Id(high)), BlockStmt([AssignStmt(Id(mid), BinExpr(/, BinExpr(+, Id(low), Id(high)), IntegerLit(2))), IfStmt(BinExpr(==, ArrayCell(arr, [Id(mid)]), Id(target)), BlockStmt([ReturnStmt(Id(mid))]), IfStmt(BinExpr(<, ArrayCell(arr, [Id(mid)]), Id(target)), BlockStmt([AssignStmt(Id(low), BinExpr(+, Id(mid), IntegerLit(1)))]), BlockStmt([AssignStmt(Id(high), BinExpr(-, Id(mid), IntegerLit(1)))])))])), ReturnStmt(UnExpr(-, IntegerLit(1)))]))
+])
