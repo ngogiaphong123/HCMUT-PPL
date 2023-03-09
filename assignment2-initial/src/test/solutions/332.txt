@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(capitalize, StringType, [Param(str, StringType)], None, BlockStmt([AssignStmt(ArrayCell(str, [IntegerLit(0)]), FuncCall(toUpper, [ArrayCell(str, [IntegerLit(0)])])), ForStmt(AssignStmt(Id(i), IntegerLit(1)), BinExpr(<, Id(i), FuncCall(length, [Id(str)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(==, ArrayCell(str, [BinExpr(-, Id(i), IntegerLit(1))]), StringLit( )), BlockStmt([AssignStmt(ArrayCell(str, [Id(i)]), FuncCall(toUpper, [ArrayCell(str, [Id(i)])]))]))])), ReturnStmt(Id(str))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(str), StringLit(hello world!)), CallStmt(printStr, FuncCall(capitalize, [Id(str)]))]))
+])

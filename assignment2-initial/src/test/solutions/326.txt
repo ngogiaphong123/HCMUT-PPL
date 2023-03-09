@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(climbStairs, IntegerType, [Param(n, IntegerType)], None, BlockStmt([IfStmt(BinExpr(==, Id(n), IntegerLit(1)), BlockStmt([ReturnStmt(IntegerLit(1))])), AssignStmt(Id(first), IntegerLit(1)), AssignStmt(Id(second), IntegerLit(2)), ForStmt(AssignStmt(Id(i), IntegerLit(3)), BinExpr(<=, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(third), BinExpr(+, Id(first), Id(second))), AssignStmt(Id(first), Id(second)), AssignStmt(Id(second), Id(third))])), ReturnStmt(Id(second))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(n), IntegerLit(4)), CallStmt(printInt, FuncCall(climbStairs, [Id(n)]))]))
+])

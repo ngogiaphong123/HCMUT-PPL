@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(lowestCommonAncestor, IntegerType, [Param(root, IntegerType), Param(p, IntegerType), Param(q, IntegerType)], None, BlockStmt([IfStmt(BinExpr(&&, BinExpr(<, Id(p), Id(root)), BinExpr(<, Id(q), Id(root))), BlockStmt([ReturnStmt(FuncCall(lowestCommonAncestor, [Id(rootLeft), Id(p), Id(q)]))]), IfStmt(BinExpr(&&, BinExpr(>, Id(p), Id(root)), BinExpr(>, Id(q), Id(root))), BlockStmt([ReturnStmt(FuncCall(lowestCommonAncestor, [Id(rootRight), Id(p), Id(q)]))]), BlockStmt([ReturnStmt(Id(root))])))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(root), IntegerLit(6)), AssignStmt(Id(p), IntegerLit(2)), AssignStmt(Id(q), IntegerLit(8)), CallStmt(printInt, FuncCall(lowestCommonAncestor, [Id(root), Id(p), Id(q)]))]))
+])

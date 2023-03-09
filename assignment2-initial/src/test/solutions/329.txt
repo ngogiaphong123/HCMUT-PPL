@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(deleteNode, VoidType, [Param(node, IntegerType)], None, BlockStmt([AssignStmt(Id(nodeVal), Id(nodeVal)), AssignStmt(Id(nodeNext), Id(nodeNext))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(node), IntegerLit(5)), CallStmt(deleteNode, Id(node))]))
+])

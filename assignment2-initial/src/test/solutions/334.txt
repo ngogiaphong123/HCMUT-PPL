@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(isIsomorphic, BooleanType, [Param(s, StringType), Param(t, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), IfStmt(BinExpr(!=, Id(n), FuncCall(length, [Id(t)])), BlockStmt([ReturnStmt(BooleanLit(False))])), BlockStmt([VarDecl(map, ArrayType([256], IntegerType), ArrayLit([]))]), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(==, ArrayCell(map, [ArrayCell(s, [Id(i)])]), IntegerLit(0)), BlockStmt([AssignStmt(ArrayCell(map, [ArrayCell(s, [Id(i)])]), ArrayCell(t, [Id(i)]))]), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(map, [ArrayCell(s, [Id(i)])]), ArrayCell(t, [Id(i)])), BlockStmt([ReturnStmt(BooleanLit(False))]))]))])), ReturnStmt(BooleanLit(True))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(egg)), AssignStmt(Id(t), StringLit(add)), CallStmt(printBool, FuncCall(isIsomorphic, [Id(s), Id(t)]))]))
+])

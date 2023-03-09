@@ -1,9 +1,20 @@
 
-            main : function void() {
-                if (b >= 2.0 && b <= 3.0) {
-                    printf("b is between 2.0 and 3.0, inclusive.\n");
-                } else {
-                    printf("b is not between 2.0 and 3.0, inclusive.\n");
-                }
-            }
-        
+         isSubsequence : function boolean (s : string, t : string) {
+             n = length(s);
+             m = length(t);
+             i = 0;
+             j = 0;
+             while ((i < n) && (j < m)) {
+                 if (s[i] == t[j]) {
+                     i = i + 1;
+                 }
+                 j = j + 1;
+             }
+             return i == n;
+         }
+         main: function void () {
+             s = "abc";
+             t = "ahbgdc";
+             printBool(isSubsequence(s, t));
+         }
+         

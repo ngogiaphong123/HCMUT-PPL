@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(reverseList, IntegerType, [Param(head, IntegerType)], None, BlockStmt([AssignStmt(Id(prev), Id(null)), AssignStmt(Id(curr), Id(head)), WhileStmt(BinExpr(!=, Id(curr), Id(null)), BlockStmt([AssignStmt(Id(nextTemp), Id(currNext)), AssignStmt(Id(currNext), Id(prev)), AssignStmt(Id(prev), Id(curr)), AssignStmt(Id(curr), Id(nextTemp))])), ReturnStmt(Id(prev))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(head), IntegerLit(1)), CallStmt(printInt, FuncCall(reverseList, [Id(head)]))]))
+])

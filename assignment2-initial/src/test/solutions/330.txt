@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(mergeTwoLists, IntegerType, [Param(l1, IntegerType), Param(l2, IntegerType)], None, BlockStmt([IfStmt(BinExpr(==, Id(l1), Id(null)), BlockStmt([ReturnStmt(Id(l2))])), IfStmt(BinExpr(==, Id(l2), Id(null)), BlockStmt([ReturnStmt(Id(l1))])), IfStmt(BinExpr(<, Id(l1Val), Id(l2Val)), BlockStmt([AssignStmt(Id(l1Next), FuncCall(mergeTwoLists, [Id(l1Next), Id(l2)])), ReturnStmt(Id(l1))]), BlockStmt([AssignStmt(Id(l2Next), FuncCall(mergeTwoLists, [Id(l1), Id(l2Next)])), ReturnStmt(Id(l2))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(l1), IntegerLit(1)), AssignStmt(Id(l2), IntegerLit(2)), CallStmt(printInt, FuncCall(mergeTwoLists, [Id(l1), Id(l2)]))]))
+])

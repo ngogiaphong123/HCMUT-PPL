@@ -1,9 +1,19 @@
 
-            main : function void() {
-                if ((b >= 2.0) && (b <= 3.0)) {
-                    printf("b is between 2.0 and 3.0, inclusive.\n");
-                } else {
-                    printf("b is not between 2.0 and 3.0, inclusive.\n");
-                }
-            }
-        
+         findTheDifference : function string (s : string, t : string) {
+             n = length(s);
+             m = length(t);
+             sum = 0;
+             for (i = 0, i < n, i + 1) {
+                 sum = sum + ord(s[i]);
+             }
+             for (i = 0, i < m, i + 1) {
+                 sum = sum - ord(t[i]);
+             }
+             return chr(-sum);
+         }
+         main: function void () {
+             s = "abcd";
+             t = "abcde";
+             printString(findTheDifference(s, t));
+         }
+         

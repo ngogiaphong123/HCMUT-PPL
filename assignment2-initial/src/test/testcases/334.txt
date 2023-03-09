@@ -1,10 +1,24 @@
 
-        main: function integer () {
-            n = parseNumber("5");
-            result : integer = 1;
-            for (i = 1, i <= n, i + 1) {
-                result = result * i;
-            }
-            return result;
-        }
-        
+         isIsomorphic : function boolean (s : string, t : string) {
+             n = length(s);
+             if (n != length(t)) {
+                 return false;
+             }
+             map : array [256] of integer= {};
+             for (i = 0, i < n, i + 1) {
+                 if (map[s[i]] == 0) {
+                     map[s[i]] = t[i];
+                 } else {
+                     if (map[s[i]] != t[i]) {
+                         return false;
+                     }
+                 }
+             }
+             return true;
+         }
+         main: function void () {
+             s = "egg";
+             t = "add";
+             printBool(isIsomorphic(s, t));
+         }
+         

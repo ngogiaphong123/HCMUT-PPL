@@ -406,3 +406,543 @@ class ASTGenSuite(unittest.TestCase):
 	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s1), StringLit(racecar)), AssignStmt(Id(s2), StringLit(racecar)), IfStmt(FuncCall(isAnaGram, [Id(s1), Id(s2)]), BlockStmt([CallStmt(printString, StringLit(s1 and s2 are anagrams.))]), BlockStmt([CallStmt(printString, StringLit(s1 and s2 are not anagrams.))]))]))
 ])"""
         self.assertTrue(TestAST.test(input_str, expect, 320))
+
+    def test_ast_22(self):
+        input_str = """
+         lowestCommonAncestor : function integer (root : integer, p : integer, q : integer) {
+             if ((p < root) && (q < root)) {
+                 return lowestCommonAncestor(rootLeft, p, q);
+             } else if ((p > root) && (q > root)) {
+                 return lowestCommonAncestor(rootRight, p, q);
+             } else {
+                 return root;
+             }
+         }
+         main: function void () {
+             root = 6;
+             p = 2;
+             q = 8;
+             printInt(lowestCommonAncestor(root, p, q));
+         }
+         """
+        expect = """Program([
+	FuncDecl(lowestCommonAncestor, IntegerType, [Param(root, IntegerType), Param(p, IntegerType), Param(q, IntegerType)], None, BlockStmt([IfStmt(BinExpr(&&, BinExpr(<, Id(p), Id(root)), BinExpr(<, Id(q), Id(root))), BlockStmt([ReturnStmt(FuncCall(lowestCommonAncestor, [Id(rootLeft), Id(p), Id(q)]))]), IfStmt(BinExpr(&&, BinExpr(>, Id(p), Id(root)), BinExpr(>, Id(q), Id(root))), BlockStmt([ReturnStmt(FuncCall(lowestCommonAncestor, [Id(rootRight), Id(p), Id(q)]))]), BlockStmt([ReturnStmt(Id(root))])))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(root), IntegerLit(6)), AssignStmt(Id(p), IntegerLit(2)), AssignStmt(Id(q), IntegerLit(8)), CallStmt(printInt, FuncCall(lowestCommonAncestor, [Id(root), Id(p), Id(q)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 321))
+
+    def test_ast_23(self):
+        """Sum of left leaves function"""
+        input_str = """
+         sumOfLeftLeaves : function integer (root : integer) {
+             if (root == null) {
+                 return 0;
+             }
+             if ((rootLeft != null) && (rootLeftLeft == null) && (rootLeftRight == null)) {
+                 return rootLeftVal + sumOfLeftLeaves(rootRight);
+             }
+             return sumOfLeftLeaves(rootLeft) + sumOfLeftLeaves(rootRight);
+         }
+         main: function void () {
+             root = 3;
+             printInt(sumOfLeftLeaves(root));
+         }
+         """
+        expect = """Program([
+	FuncDecl(sumOfLeftLeaves, IntegerType, [Param(root, IntegerType)], None, BlockStmt([IfStmt(BinExpr(==, Id(root), Id(null)), BlockStmt([ReturnStmt(IntegerLit(0))])), IfStmt(BinExpr(&&, BinExpr(&&, BinExpr(!=, Id(rootLeft), Id(null)), BinExpr(==, Id(rootLeftLeft), Id(null))), BinExpr(==, Id(rootLeftRight), Id(null))), BlockStmt([ReturnStmt(BinExpr(+, Id(rootLeftVal), FuncCall(sumOfLeftLeaves, [Id(rootRight)])))])), ReturnStmt(BinExpr(+, FuncCall(sumOfLeftLeaves, [Id(rootLeft)]), FuncCall(sumOfLeftLeaves, [Id(rootRight)])))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(root), IntegerLit(3)), CallStmt(printInt, FuncCall(sumOfLeftLeaves, [Id(root)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 322))
+
+    def test_ast_24(self):
+        """Reverse Linked List function"""
+        input_str = """
+         reverseList : function integer (head : integer) {
+             prev = null;
+             curr = head;
+             while (curr != null) {
+                 nextTemp = currNext;
+                 currNext = prev;
+                 prev = curr;
+                 curr = nextTemp;
+             }
+             return prev;
+         }
+         main: function void () {
+             head = 1;
+             printInt(reverseList(head));
+         }
+         """
+        expect = """Program([
+	FuncDecl(reverseList, IntegerType, [Param(head, IntegerType)], None, BlockStmt([AssignStmt(Id(prev), Id(null)), AssignStmt(Id(curr), Id(head)), WhileStmt(BinExpr(!=, Id(curr), Id(null)), BlockStmt([AssignStmt(Id(nextTemp), Id(currNext)), AssignStmt(Id(currNext), Id(prev)), AssignStmt(Id(prev), Id(curr)), AssignStmt(Id(curr), Id(nextTemp))])), ReturnStmt(Id(prev))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(head), IntegerLit(1)), CallStmt(printInt, FuncCall(reverseList, [Id(head)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 323))
+
+    def test_ast_25(self):
+        """Valid Parentheses function"""
+        input_str = """
+         isValid : function boolean (s : string) {
+             if (length(s) % 2 != 0) {
+                 return false;
+             }
+             for (i = 0, i < length(s), i + 1) {
+                 if (s[i] == "(") {
+                     push(s[i]);
+                 } else if (s[i] == ")") {
+                     if (top() == "(") {
+                         pop();
+                     } else {
+                         return false;
+                     }
+                 }
+             }
+             if (isEmpty()) {
+                 return true;
+             } else {
+                 return false;
+             }
+         }
+         main: function void () {
+             s = "((()))";
+             if (isValid(s)) {
+                 printString("s is valid.");
+             } else {
+                 printString("s is not valid.");
+             }
+         }
+         """
+        expect = """Program([
+	FuncDecl(isValid, BooleanType, [Param(s, StringType)], None, BlockStmt([IfStmt(BinExpr(!=, BinExpr(%, FuncCall(length, [Id(s)]), IntegerLit(2)), IntegerLit(0)), BlockStmt([ReturnStmt(BooleanLit(False))])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(s)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(==, ArrayCell(s, [Id(i)]), StringLit(()), BlockStmt([CallStmt(push, ArrayCell(s, [Id(i)]))]), IfStmt(BinExpr(==, ArrayCell(s, [Id(i)]), StringLit())), BlockStmt([IfStmt(BinExpr(==, FuncCall(top, []), StringLit(()), BlockStmt([CallStmt(pop, )]), BlockStmt([ReturnStmt(BooleanLit(False))]))])))])), IfStmt(FuncCall(isEmpty, []), BlockStmt([ReturnStmt(BooleanLit(True))]), BlockStmt([ReturnStmt(BooleanLit(False))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(((())))), IfStmt(FuncCall(isValid, [Id(s)]), BlockStmt([CallStmt(printString, StringLit(s is valid.))]), BlockStmt([CallStmt(printString, StringLit(s is not valid.))]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expect, 324))
+
+    def test_ast_26(self):
+        """Square Root function"""
+        input_str = """
+         sqrt : function float (x : float) {
+             if (x == 0) {
+                 return 0;
+             }
+             if (x < 0) {
+                 return -1;
+             }
+             left = 1;
+             right = x;
+             while (left <= right) {
+                 mid = (left + right) / 2;
+                 if (mid * mid == x) {
+                     return mid;
+                 } else if (mid * mid < x) {
+                     left = mid + 1;
+                 } else {
+                     right = mid - 1;
+                 }
+             }
+             return right;
+         }
+         main: function void () {
+             x = 8;
+             printFloat(sqrt(x));
+         }
+         """
+        expected = """Program([
+	FuncDecl(sqrt, FloatType, [Param(x, FloatType)], None, BlockStmt([IfStmt(BinExpr(==, Id(x), IntegerLit(0)), BlockStmt([ReturnStmt(IntegerLit(0))])), IfStmt(BinExpr(<, Id(x), IntegerLit(0)), BlockStmt([ReturnStmt(UnExpr(-, IntegerLit(1)))])), AssignStmt(Id(left), IntegerLit(1)), AssignStmt(Id(right), Id(x)), WhileStmt(BinExpr(<=, Id(left), Id(right)), BlockStmt([AssignStmt(Id(mid), BinExpr(/, BinExpr(+, Id(left), Id(right)), IntegerLit(2))), IfStmt(BinExpr(==, BinExpr(*, Id(mid), Id(mid)), Id(x)), BlockStmt([ReturnStmt(Id(mid))]), IfStmt(BinExpr(<, BinExpr(*, Id(mid), Id(mid)), Id(x)), BlockStmt([AssignStmt(Id(left), BinExpr(+, Id(mid), IntegerLit(1)))]), BlockStmt([AssignStmt(Id(right), BinExpr(-, Id(mid), IntegerLit(1)))])))])), ReturnStmt(Id(right))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(x), IntegerLit(8)), CallStmt(printFloat, FuncCall(sqrt, [Id(x)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 325))
+
+    def test_ast_27(self):
+        """Climbing Stairs function"""
+        input_str = """
+         climbStairs : function integer (n : integer) {
+             if (n == 1) {
+                 return 1;
+             }
+             first = 1;
+             second = 2;
+             for (i = 3, i <= n, i + 1) {
+                 third = first + second;
+                 first = second;
+                 second = third;
+             }
+             return second;
+         }
+         main: function void () {
+             n = 4;
+             printInt(climbStairs(n));
+         }
+         """
+        expected = """Program([
+	FuncDecl(climbStairs, IntegerType, [Param(n, IntegerType)], None, BlockStmt([IfStmt(BinExpr(==, Id(n), IntegerLit(1)), BlockStmt([ReturnStmt(IntegerLit(1))])), AssignStmt(Id(first), IntegerLit(1)), AssignStmt(Id(second), IntegerLit(2)), ForStmt(AssignStmt(Id(i), IntegerLit(3)), BinExpr(<=, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(third), BinExpr(+, Id(first), Id(second))), AssignStmt(Id(first), Id(second)), AssignStmt(Id(second), Id(third))])), ReturnStmt(Id(second))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(n), IntegerLit(4)), CallStmt(printInt, FuncCall(climbStairs, [Id(n)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 326))
+
+    def test_ast_28(self):
+        """Count Primes function"""
+        input_str = """
+         countPrimes : function integer (n : integer) {
+             if (n < 2) {
+                 return 0;
+             }
+             count = 0;
+             for (i = 2, i < n, i + 1) {
+                 if (isPrime(i)) {
+                     count = count + 1;
+                 }
+             }
+             return count;
+         }
+         isPrime : function boolean (n : integer) {
+             if (n < 2) {
+                 return false;
+             }
+             for (i = 2, i * i <= n, i + 1) {
+                 if (n % i == 0) {
+                     return false;
+                 }
+             }
+             return true;
+         }
+         main: function void () {
+             n = 10;
+             printInt(countPrimes(n));
+         }
+         """
+        expected = """Program([
+	FuncDecl(countPrimes, IntegerType, [Param(n, IntegerType)], None, BlockStmt([IfStmt(BinExpr(<, Id(n), IntegerLit(2)), BlockStmt([ReturnStmt(IntegerLit(0))])), AssignStmt(Id(count), IntegerLit(0)), ForStmt(AssignStmt(Id(i), IntegerLit(2)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(FuncCall(isPrime, [Id(i)]), BlockStmt([AssignStmt(Id(count), BinExpr(+, Id(count), IntegerLit(1)))]))])), ReturnStmt(Id(count))]))
+	FuncDecl(isPrime, BooleanType, [Param(n, IntegerType)], None, BlockStmt([IfStmt(BinExpr(<, Id(n), IntegerLit(2)), BlockStmt([ReturnStmt(BooleanLit(False))])), ForStmt(AssignStmt(Id(i), IntegerLit(2)), BinExpr(<=, BinExpr(*, Id(i), Id(i)), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(==, BinExpr(%, Id(n), Id(i)), IntegerLit(0)), BlockStmt([ReturnStmt(BooleanLit(False))]))])), ReturnStmt(BooleanLit(True))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(n), IntegerLit(10)), CallStmt(printInt, FuncCall(countPrimes, [Id(n)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 327))
+
+    def test_ast_29(self):
+        """Decode Ways function"""
+        input_str = """
+         numDecodings : function integer (s : string) {
+             if (s == "") {
+                 return 0;
+             }
+             n = length(s);
+             dp : array[6] of integer;
+             dp[0] = 1;
+             dp[1] = 1;
+             for (i = 2, i <= n, i + 1) {
+                 if (s[i - 1] != "0") {
+                     dp[i] = dp[i - 1];
+                 }
+                 if ((s[i - 2] == "1") || ((s[i - 2] == "2") && (s[i - 1] < "7"))) {
+                     dp[i] = dp[i] + dp[i - 2];
+                 }
+             }
+             return dp[n];
+         }
+         main: function void () {
+             s = "226";
+             printInt(numDecodings(s));
+         }
+         """
+        expected = """Program([
+	FuncDecl(numDecodings, IntegerType, [Param(s, StringType)], None, BlockStmt([IfStmt(BinExpr(==, Id(s), StringLit()), BlockStmt([ReturnStmt(IntegerLit(0))])), AssignStmt(Id(n), FuncCall(length, [Id(s)])), BlockStmt([VarDecl(dp, ArrayType([6], IntegerType))]), AssignStmt(ArrayCell(dp, [IntegerLit(0)]), IntegerLit(1)), AssignStmt(ArrayCell(dp, [IntegerLit(1)]), IntegerLit(1)), ForStmt(AssignStmt(Id(i), IntegerLit(2)), BinExpr(<=, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(s, [BinExpr(-, Id(i), IntegerLit(1))]), StringLit(0)), BlockStmt([AssignStmt(ArrayCell(dp, [Id(i)]), ArrayCell(dp, [BinExpr(-, Id(i), IntegerLit(1))]))])), IfStmt(BinExpr(||, BinExpr(==, ArrayCell(s, [BinExpr(-, Id(i), IntegerLit(2))]), StringLit(1)), BinExpr(&&, BinExpr(==, ArrayCell(s, [BinExpr(-, Id(i), IntegerLit(2))]), StringLit(2)), BinExpr(<, ArrayCell(s, [BinExpr(-, Id(i), IntegerLit(1))]), StringLit(7)))), BlockStmt([AssignStmt(ArrayCell(dp, [Id(i)]), BinExpr(+, ArrayCell(dp, [Id(i)]), ArrayCell(dp, [BinExpr(-, Id(i), IntegerLit(2))])))]))])), ReturnStmt(ArrayCell(dp, [Id(n)]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(226)), CallStmt(printInt, FuncCall(numDecodings, [Id(s)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 328))
+
+    def test_ast_30(self):
+        """Delete Node in a Linked List function"""
+        input_str = """
+         deleteNode : function void (node : integer) {
+             nodeVal = nodeVal;
+             nodeNext = nodeNext;
+         }
+         main: function void () {
+             node = 5;
+             deleteNode(node);
+         }
+         """
+        expected = """Program([
+	FuncDecl(deleteNode, VoidType, [Param(node, IntegerType)], None, BlockStmt([AssignStmt(Id(nodeVal), Id(nodeVal)), AssignStmt(Id(nodeNext), Id(nodeNext))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(node), IntegerLit(5)), CallStmt(deleteNode, Id(node))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 329))
+
+    def test_ast_31(self):
+        """Merge Two Sorted Lists function"""
+        input_str = """
+         mergeTwoLists : function integer (l1 : integer, l2 : integer) {
+             if (l1 == null) {
+                 return l2;
+             }
+             if (l2 == null) {
+                 return l1;
+             }
+             if (l1Val < l2Val) {
+                 l1Next = mergeTwoLists(l1Next, l2);
+                 return l1;
+             } else {
+                 l2Next = mergeTwoLists(l1, l2Next);
+                 return l2;
+             }
+         }
+         main: function void () {
+             l1 = 1;
+             l2 = 2;
+             printInt(mergeTwoLists(l1, l2));
+         }
+         """
+        expected = """Program([
+	FuncDecl(mergeTwoLists, IntegerType, [Param(l1, IntegerType), Param(l2, IntegerType)], None, BlockStmt([IfStmt(BinExpr(==, Id(l1), Id(null)), BlockStmt([ReturnStmt(Id(l2))])), IfStmt(BinExpr(==, Id(l2), Id(null)), BlockStmt([ReturnStmt(Id(l1))])), IfStmt(BinExpr(<, Id(l1Val), Id(l2Val)), BlockStmt([AssignStmt(Id(l1Next), FuncCall(mergeTwoLists, [Id(l1Next), Id(l2)])), ReturnStmt(Id(l1))]), BlockStmt([AssignStmt(Id(l2Next), FuncCall(mergeTwoLists, [Id(l1), Id(l2Next)])), ReturnStmt(Id(l2))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(l1), IntegerLit(1)), AssignStmt(Id(l2), IntegerLit(2)), CallStmt(printInt, FuncCall(mergeTwoLists, [Id(l1), Id(l2)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 330))
+
+    def test_ast_32(self):
+        """Find the index of the first occurrence of a substring function"""
+        input_str = """
+         find : function integer (str : string, sub : string) {
+             for (i = 0, i < length(str), i + 1) {
+                 for (j = 0, j < length(sub), j + 1) {
+                     if (str[i + j] != sub[j]) {
+                         break;
+                     }
+                 }
+                 if (j == length(sub)) {
+                     return i;
+                 }
+             }
+             return -1;
+         }
+         main: function void () {
+             str = "Hello World!";
+             sub = "World";
+             printInt(find(str, sub));
+         }
+         """
+        expected = """Program([
+	FuncDecl(find, IntegerType, [Param(str, StringType), Param(sub, StringType)], None, BlockStmt([ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(str)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([ForStmt(AssignStmt(Id(j), IntegerLit(0)), BinExpr(<, Id(j), FuncCall(length, [Id(sub)])), BinExpr(+, Id(j), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(str, [BinExpr(+, Id(i), Id(j))]), ArrayCell(sub, [Id(j)])), BlockStmt([BreakStmt()]))])), IfStmt(BinExpr(==, Id(j), FuncCall(length, [Id(sub)])), BlockStmt([ReturnStmt(Id(i))]))])), ReturnStmt(UnExpr(-, IntegerLit(1)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(str), StringLit(Hello World!)), AssignStmt(Id(sub), StringLit(World)), CallStmt(printInt, FuncCall(find, [Id(str), Id(sub)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 331))
+
+    def test_ast_33(self):
+        """Put the first letter of each word in uppercase function"""
+        input_str = """
+         capitalize : function string (str : string) {
+             str[0] = toUpper(str[0]);
+             for (i = 1, i < length(str), i + 1) {
+                 if (str[i - 1] == " ") {
+                     str[i] = toUpper(str[i]);
+                 }
+             }
+             return str;
+         }
+         main: function void () {
+             str = "hello world!";
+             printStr(capitalize(str));
+         }
+         """
+        expected = """Program([
+	FuncDecl(capitalize, StringType, [Param(str, StringType)], None, BlockStmt([AssignStmt(ArrayCell(str, [IntegerLit(0)]), FuncCall(toUpper, [ArrayCell(str, [IntegerLit(0)])])), ForStmt(AssignStmt(Id(i), IntegerLit(1)), BinExpr(<, Id(i), FuncCall(length, [Id(str)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(==, ArrayCell(str, [BinExpr(-, Id(i), IntegerLit(1))]), StringLit( )), BlockStmt([AssignStmt(ArrayCell(str, [Id(i)]), FuncCall(toUpper, [ArrayCell(str, [Id(i)])]))]))])), ReturnStmt(Id(str))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(str), StringLit(hello world!)), CallStmt(printStr, FuncCall(capitalize, [Id(str)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 332))
+
+    def test_ast_34(self):
+        """Find the first non-repeating character function"""
+        input_str = """
+         firstNonRepeating : function string (str : string) {
+             for (i = 0, i < length(str), i + 1) {
+                 found = false;
+                 for (j = 0, j < length(str), j + 1) {
+                     if ((i != j) && (str[i] == str[j])) {
+                         found = true;
+                         break;
+                     }
+                 }
+                 if (!found) {
+                     return str[i];
+                 }
+             }
+             return "";
+         }
+         main: function void () {
+             str = "Hello World!";
+             printStr(firstNonRepeating(str));
+         }
+         """
+        expected = """Program([
+	FuncDecl(firstNonRepeating, StringType, [Param(str, StringType)], None, BlockStmt([ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(str)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(found), BooleanLit(False)), ForStmt(AssignStmt(Id(j), IntegerLit(0)), BinExpr(<, Id(j), FuncCall(length, [Id(str)])), BinExpr(+, Id(j), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(&&, BinExpr(!=, Id(i), Id(j)), BinExpr(==, ArrayCell(str, [Id(i)]), ArrayCell(str, [Id(j)]))), BlockStmt([AssignStmt(Id(found), BooleanLit(True)), BreakStmt()]))])), IfStmt(UnExpr(!, Id(found)), BlockStmt([ReturnStmt(ArrayCell(str, [Id(i)]))]))])), ReturnStmt(StringLit())]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(str), StringLit(Hello World!)), CallStmt(printStr, FuncCall(firstNonRepeating, [Id(str)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 333))
+
+    def test_ast_35(self):
+        """Isomorphic Strings function"""
+        input_str = """
+         isIsomorphic : function boolean (s : string, t : string) {
+             n = length(s);
+             if (n != length(t)) {
+                 return false;
+             }
+             map : array [256] of integer= {};
+             for (i = 0, i < n, i + 1) {
+                 if (map[s[i]] == 0) {
+                     map[s[i]] = t[i];
+                 } else {
+                     if (map[s[i]] != t[i]) {
+                         return false;
+                     }
+                 }
+             }
+             return true;
+         }
+         main: function void () {
+             s = "egg";
+             t = "add";
+             printBool(isIsomorphic(s, t));
+         }
+         """
+        expected = """Program([
+	FuncDecl(isIsomorphic, BooleanType, [Param(s, StringType), Param(t, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), IfStmt(BinExpr(!=, Id(n), FuncCall(length, [Id(t)])), BlockStmt([ReturnStmt(BooleanLit(False))])), BlockStmt([VarDecl(map, ArrayType([256], IntegerType), ArrayLit([]))]), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(==, ArrayCell(map, [ArrayCell(s, [Id(i)])]), IntegerLit(0)), BlockStmt([AssignStmt(ArrayCell(map, [ArrayCell(s, [Id(i)])]), ArrayCell(t, [Id(i)]))]), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(map, [ArrayCell(s, [Id(i)])]), ArrayCell(t, [Id(i)])), BlockStmt([ReturnStmt(BooleanLit(False))]))]))])), ReturnStmt(BooleanLit(True))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(egg)), AssignStmt(Id(t), StringLit(add)), CallStmt(printBool, FuncCall(isIsomorphic, [Id(s), Id(t)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 334))
+
+    def test_ast_36(self):
+        """Is Subsequence function"""
+        input_str = """
+         isSubsequence : function boolean (s : string, t : string) {
+             n = length(s);
+             m = length(t);
+             i = 0;
+             j = 0;
+             while ((i < n) && (j < m)) {
+                 if (s[i] == t[j]) {
+                     i = i + 1;
+                 }
+                 j = j + 1;
+             }
+             return i == n;
+         }
+         main: function void () {
+             s = "abc";
+             t = "ahbgdc";
+             printBool(isSubsequence(s, t));
+         }
+         """
+        expected = """Program([
+	FuncDecl(isSubsequence, BooleanType, [Param(s, StringType), Param(t, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), AssignStmt(Id(m), FuncCall(length, [Id(t)])), AssignStmt(Id(i), IntegerLit(0)), AssignStmt(Id(j), IntegerLit(0)), WhileStmt(BinExpr(&&, BinExpr(<, Id(i), Id(n)), BinExpr(<, Id(j), Id(m))), BlockStmt([IfStmt(BinExpr(==, ArrayCell(s, [Id(i)]), ArrayCell(t, [Id(j)])), BlockStmt([AssignStmt(Id(i), BinExpr(+, Id(i), IntegerLit(1)))])), AssignStmt(Id(j), BinExpr(+, Id(j), IntegerLit(1)))])), ReturnStmt(BinExpr(==, Id(i), Id(n)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(abc)), AssignStmt(Id(t), StringLit(ahbgdc)), CallStmt(printBool, FuncCall(isSubsequence, [Id(s), Id(t)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 335))
+
+    def test_ast_37(self):
+        """Find the Difference function"""
+        input_str = """
+         findTheDifference : function string (s : string, t : string) {
+             n = length(s);
+             m = length(t);
+             sum = 0;
+             for (i = 0, i < n, i + 1) {
+                 sum = sum + ord(s[i]);
+             }
+             for (i = 0, i < m, i + 1) {
+                 sum = sum - ord(t[i]);
+             }
+             return chr(-sum);
+         }
+         main: function void () {
+             s = "abcd";
+             t = "abcde";
+             printString(findTheDifference(s, t));
+         }
+         """
+        expected = """Program([
+	FuncDecl(findTheDifference, StringType, [Param(s, StringType), Param(t, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), AssignStmt(Id(m), FuncCall(length, [Id(t)])), AssignStmt(Id(sum), IntegerLit(0)), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(sum), BinExpr(+, Id(sum), FuncCall(ord, [ArrayCell(s, [Id(i)])])))])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(m)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(sum), BinExpr(-, Id(sum), FuncCall(ord, [ArrayCell(t, [Id(i)])])))])), ReturnStmt(FuncCall(chr, [UnExpr(-, Id(sum))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(abcd)), AssignStmt(Id(t), StringLit(abcde)), CallStmt(printString, FuncCall(findTheDifference, [Id(s), Id(t)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 336))
+
+    def test_ast_38(self):
+        """Find the Celebrity function"""
+        input_str = """
+         findCelebrity : function integer (n : integer) {
+             candidate = 0;
+             for (i = 1, i < n, i + 1) {
+                 if (knows(candidate, i)) {
+                     candidate = i;
+                 }
+             }
+             for (i = 0, i < n, i + 1) {
+                 if ((i != candidate) && ((knows(candidate, i)) || (!knows(i, candidate)))) {
+                     return -1;
+                 }
+             }
+             return candidate;
+         }
+         main: function void () {
+             n = 2;
+             printInt(findCelebrity(n));
+         }
+         """
+        expected = """Program([
+	FuncDecl(findCelebrity, IntegerType, [Param(n, IntegerType)], None, BlockStmt([AssignStmt(Id(candidate), IntegerLit(0)), ForStmt(AssignStmt(Id(i), IntegerLit(1)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(FuncCall(knows, [Id(candidate), Id(i)]), BlockStmt([AssignStmt(Id(candidate), Id(i))]))])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(&&, BinExpr(!=, Id(i), Id(candidate)), BinExpr(||, FuncCall(knows, [Id(candidate), Id(i)]), UnExpr(!, FuncCall(knows, [Id(i), Id(candidate)])))), BlockStmt([ReturnStmt(UnExpr(-, IntegerLit(1)))]))])), ReturnStmt(Id(candidate))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(n), IntegerLit(2)), CallStmt(printInt, FuncCall(findCelebrity, [Id(n)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 337))
+
+    def test_ast_39(self):
+        """Roman to Integer function"""
+        input_str = """
+         romanToInt : function integer (s : string) {
+             n = length(s);
+             result = 0;
+             for (i = 0, i < n, i + 1) {
+                 if ((i > 0) && (roman[s[i]] > roman[s[i - 1]])) {
+                     result = result + roman[s[i]] - 2 * roman[s[i - 1]];
+                 } else {
+                     result = result + roman[s[i]];
+                 }
+             }
+             return result;
+         }
+         main: function void () {
+             s = "MCMXCIV";
+             printInt(romanToInt(s));
+         }
+         """
+        expected = """Program([
+	FuncDecl(romanToInt, IntegerType, [Param(s, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), AssignStmt(Id(result), IntegerLit(0)), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(&&, BinExpr(>, Id(i), IntegerLit(0)), BinExpr(>, ArrayCell(roman, [ArrayCell(s, [Id(i)])]), ArrayCell(roman, [ArrayCell(s, [BinExpr(-, Id(i), IntegerLit(1))])]))), BlockStmt([AssignStmt(Id(result), BinExpr(-, BinExpr(+, Id(result), ArrayCell(roman, [ArrayCell(s, [Id(i)])])), BinExpr(*, IntegerLit(2), ArrayCell(roman, [ArrayCell(s, [BinExpr(-, Id(i), IntegerLit(1))])]))))]), BlockStmt([AssignStmt(Id(result), BinExpr(+, Id(result), ArrayCell(roman, [ArrayCell(s, [Id(i)])])))]))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(MCMXCIV)), CallStmt(printInt, FuncCall(romanToInt, [Id(s)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 338))
+
+    def test_ast_40(self):
+        """Length of Last Word function"""
+        input_str = """
+         lengthOfLastWord : function integer (s : string) {
+             n : integer = length(s);
+             result : integer = 0;
+             for (i = n - 1, i >= 0, i - 1) {
+                 if (s[i] != " ") {
+                     result = result + 1;
+                 } else {
+                     if (result > 0) {
+                         break;
+                     }
+                 }
+             }
+             return result;
+         }
+         main: function void () {
+             s = "Hello World";
+             printInt(lengthOfLastWord(s));
+         }
+         """
+        expected = """Program([
+	FuncDecl(lengthOfLastWord, IntegerType, [Param(s, StringType)], None, BlockStmt([BlockStmt([VarDecl(n, IntegerType, FuncCall(length, [Id(s)]))]), BlockStmt([VarDecl(result, IntegerType, IntegerLit(0))]), ForStmt(AssignStmt(Id(i), BinExpr(-, Id(n), IntegerLit(1))), BinExpr(>=, Id(i), IntegerLit(0)), BinExpr(-, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(s, [Id(i)]), StringLit( )), BlockStmt([AssignStmt(Id(result), BinExpr(+, Id(result), IntegerLit(1)))]), BlockStmt([IfStmt(BinExpr(>, Id(result), IntegerLit(0)), BlockStmt([BreakStmt()]))]))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(Hello World)), CallStmt(printInt, FuncCall(lengthOfLastWord, [Id(s)]))]))
+])"""
+        self.assertTrue(TestAST.test(input_str, expected, 339))

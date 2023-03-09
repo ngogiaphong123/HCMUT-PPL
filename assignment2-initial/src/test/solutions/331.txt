@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(find, IntegerType, [Param(str, StringType), Param(sub, StringType)], None, BlockStmt([ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(str)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([ForStmt(AssignStmt(Id(j), IntegerLit(0)), BinExpr(<, Id(j), FuncCall(length, [Id(sub)])), BinExpr(+, Id(j), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(str, [BinExpr(+, Id(i), Id(j))]), ArrayCell(sub, [Id(j)])), BlockStmt([BreakStmt()]))])), IfStmt(BinExpr(==, Id(j), FuncCall(length, [Id(sub)])), BlockStmt([ReturnStmt(Id(i))]))])), ReturnStmt(UnExpr(-, IntegerLit(1)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(str), StringLit(Hello World!)), AssignStmt(Id(sub), StringLit(World)), CallStmt(printInt, FuncCall(find, [Id(str), Id(sub)]))]))
+])

@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(isSubsequence, BooleanType, [Param(s, StringType), Param(t, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), AssignStmt(Id(m), FuncCall(length, [Id(t)])), AssignStmt(Id(i), IntegerLit(0)), AssignStmt(Id(j), IntegerLit(0)), WhileStmt(BinExpr(&&, BinExpr(<, Id(i), Id(n)), BinExpr(<, Id(j), Id(m))), BlockStmt([IfStmt(BinExpr(==, ArrayCell(s, [Id(i)]), ArrayCell(t, [Id(j)])), BlockStmt([AssignStmt(Id(i), BinExpr(+, Id(i), IntegerLit(1)))])), AssignStmt(Id(j), BinExpr(+, Id(j), IntegerLit(1)))])), ReturnStmt(BinExpr(==, Id(i), Id(n)))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(abc)), AssignStmt(Id(t), StringLit(ahbgdc)), CallStmt(printBool, FuncCall(isSubsequence, [Id(s), Id(t)]))]))
+])

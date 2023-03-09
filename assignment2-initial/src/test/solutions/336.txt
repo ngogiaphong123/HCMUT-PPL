@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(findTheDifference, StringType, [Param(s, StringType), Param(t, StringType)], None, BlockStmt([AssignStmt(Id(n), FuncCall(length, [Id(s)])), AssignStmt(Id(m), FuncCall(length, [Id(t)])), AssignStmt(Id(sum), IntegerLit(0)), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(n)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(sum), BinExpr(+, Id(sum), FuncCall(ord, [ArrayCell(s, [Id(i)])])))])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), Id(m)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(sum), BinExpr(-, Id(sum), FuncCall(ord, [ArrayCell(t, [Id(i)])])))])), ReturnStmt(FuncCall(chr, [UnExpr(-, Id(sum))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(abcd)), AssignStmt(Id(t), StringLit(abcde)), CallStmt(printString, FuncCall(findTheDifference, [Id(s), Id(t)]))]))
+])

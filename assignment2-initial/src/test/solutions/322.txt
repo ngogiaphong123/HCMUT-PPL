@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(sumOfLeftLeaves, IntegerType, [Param(root, IntegerType)], None, BlockStmt([IfStmt(BinExpr(==, Id(root), Id(null)), BlockStmt([ReturnStmt(IntegerLit(0))])), IfStmt(BinExpr(&&, BinExpr(&&, BinExpr(!=, Id(rootLeft), Id(null)), BinExpr(==, Id(rootLeftLeft), Id(null))), BinExpr(==, Id(rootLeftRight), Id(null))), BlockStmt([ReturnStmt(BinExpr(+, Id(rootLeftVal), FuncCall(sumOfLeftLeaves, [Id(rootRight)])))])), ReturnStmt(BinExpr(+, FuncCall(sumOfLeftLeaves, [Id(rootLeft)]), FuncCall(sumOfLeftLeaves, [Id(rootRight)])))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(root), IntegerLit(3)), CallStmt(printInt, FuncCall(sumOfLeftLeaves, [Id(root)]))]))
+])

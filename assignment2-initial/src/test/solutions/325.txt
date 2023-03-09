@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(sqrt, FloatType, [Param(x, FloatType)], None, BlockStmt([IfStmt(BinExpr(==, Id(x), IntegerLit(0)), BlockStmt([ReturnStmt(IntegerLit(0))])), IfStmt(BinExpr(<, Id(x), IntegerLit(0)), BlockStmt([ReturnStmt(UnExpr(-, IntegerLit(1)))])), AssignStmt(Id(left), IntegerLit(1)), AssignStmt(Id(right), Id(x)), WhileStmt(BinExpr(<=, Id(left), Id(right)), BlockStmt([AssignStmt(Id(mid), BinExpr(/, BinExpr(+, Id(left), Id(right)), IntegerLit(2))), IfStmt(BinExpr(==, BinExpr(*, Id(mid), Id(mid)), Id(x)), BlockStmt([ReturnStmt(Id(mid))]), IfStmt(BinExpr(<, BinExpr(*, Id(mid), Id(mid)), Id(x)), BlockStmt([AssignStmt(Id(left), BinExpr(+, Id(mid), IntegerLit(1)))]), BlockStmt([AssignStmt(Id(right), BinExpr(-, Id(mid), IntegerLit(1)))])))])), ReturnStmt(Id(right))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(x), IntegerLit(8)), CallStmt(printFloat, FuncCall(sqrt, [Id(x)]))]))
+])
