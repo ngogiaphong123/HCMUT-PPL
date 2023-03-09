@@ -1,0 +1,14 @@
+
+         missingNumber : function integer (nums : array[4] of integer) {
+             n = length(nums);
+             sum = 0;
+             for (i = 0, i < n, i + 1) {
+                 sum = sum + nums[i];
+             }
+             return (n * (n + 1)) / 2 - sum;
+         }
+         main: function void () {
+             nums = {3, 0, 1};
+             printInt(missingNumber(nums));
+         }
+         

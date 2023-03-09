@@ -1,4 +1,0 @@
-
-            lowestCommonAncestor : function integer (root : integer, p : integer, q : integer) {
-            }
-        

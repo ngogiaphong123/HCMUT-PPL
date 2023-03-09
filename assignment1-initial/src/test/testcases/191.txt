@@ -1,5 +1,0 @@
-
-            for (i = red + white, i < length(nums), i + 1) {
-                 nums[i] = 2;
-             }
-        

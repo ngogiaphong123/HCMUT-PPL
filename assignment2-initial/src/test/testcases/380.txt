@@ -1,0 +1,13 @@
+
+         singleNumber : function integer (nums : array[6] of integer) {
+             result = 0;
+             for (i = 0, i < length(nums), i + 1) {
+                 result = result * nums[i];
+             }
+             return result;
+         }
+         main: function void () {
+             nums = {2, 2, 1};
+             printInt(singleNumber(nums));
+         }
+         

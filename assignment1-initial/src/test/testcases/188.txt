@@ -1,3 +1,0 @@
-
-            age : string = "This year I am " :: string_of_int(age) :: " years old.";
-        

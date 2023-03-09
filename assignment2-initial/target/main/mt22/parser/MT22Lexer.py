@@ -474,12 +474,8 @@ class MT22Lexer(Lexer):
     def UNCLOSE_STRING_action(self, localctx:RuleContext , actionIndex:int):
         if actionIndex == 6:
 
-            temp=str(self.text)
-            newLineChar ='\n'
-            if temp[-1] in newLineChar:
-            	raise UncloseString(temp[1:-1])
-            else:
-            	raise UncloseString(temp[1:])
+            	text = self.text[1:-1] if self.text[-1] == '\n' else self.text[1:]
+            	raise UncloseString(text)
 
      
 

@@ -1,3 +1,0 @@
-
-        dream : string = "Neu duoc lam lai t se lam 1 hoa si;"
-        

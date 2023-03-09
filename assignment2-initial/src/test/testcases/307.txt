@@ -1,0 +1,2 @@
+a, b, c: integer = 3, 4, 6;
+        d, e, f: float;

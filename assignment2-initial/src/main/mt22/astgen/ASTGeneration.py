@@ -42,7 +42,6 @@ class ASTGeneration(MT22Visitor):
     def visitFullVarDeclaration(self, ctx: MT22Parser.FullVarDeclarationContext):
         helper = self.visit(ctx.helper())
         if len(helper) == 1:
-            print("hello")
             return [VarDecl(helper[0]["name"], self.visit(helper[0]["type"]), self.visit(helper[0]["expr"]))]
         result = []
         typ = self.visit(helper[0]["type"])
@@ -118,9 +117,9 @@ class ASTGeneration(MT22Visitor):
         elif ctx.arrayType():
             return self.visit(ctx.arrayType())
 
-    # arrayCell : IDENTIFIER LBRACKET expressions RBRACKET;
+    # arrayCell : IDENTIFIER LBRACKET expressionList RBRACKET;
     def visitArrayCell(self, ctx: MT22Parser.ArrayCellContext):
-        return ArrayCell(ctx.IDENTIFIER().getText(), self.visit(ctx.expressions()))
+        return ArrayCell(ctx.IDENTIFIER().getText(), self.visit(ctx.expressionList()))
 
     # funcDeclaration : IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN functionBody |
     #                   IDENTIFIER COLON FUNCTION returnType LPAREN parameters RPAREN INHERIT IDENTIFIER functionBody;
@@ -196,8 +195,8 @@ class ASTGeneration(MT22Visitor):
         else:
             return []
 
-    # statement : varDeclarationStatement | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement
-    # | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
+    # statement : varDeclarationStatement | assignmentStatement | ifStatement | forStatement | whileStatement |
+    # doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
     def visitStatement(self, ctx: MT22Parser.StatementContext):
         return self.visit(ctx.getChild(0))
 
@@ -292,9 +291,10 @@ class ASTGeneration(MT22Visitor):
 
     # expression3 : expression3 (ADD | SUB) expression4 | expression4;
     def visitExpression3(self, ctx: MT22Parser.Expression3Context):
-        if ctx.ADD() or ctx.SUB():
-            return BinExpr(ctx.ADD().getText() or ctx.SUB().getText(), self.visit(ctx.expression3()),
-                           self.visit(ctx.expression4()))
+        if ctx.ADD() :
+            return BinExpr(ctx.ADD().getText(), self.visit(ctx.expression3()), self.visit(ctx.expression4()))
+        elif ctx.SUB():
+            return BinExpr(ctx.SUB().getText(), self.visit(ctx.expression3()), self.visit(ctx.expression4()))
         else:
             return self.visit(ctx.expression4())
 

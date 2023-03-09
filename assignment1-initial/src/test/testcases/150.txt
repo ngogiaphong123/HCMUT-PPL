@@ -1,3 +1,0 @@
-
-            myLove : string = "\"Live a life you never regret\" - J8o"
-        

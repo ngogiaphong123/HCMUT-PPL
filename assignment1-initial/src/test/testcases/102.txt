@@ -1,5 +1,0 @@
- "A
-string
-with
-new
-lines" 

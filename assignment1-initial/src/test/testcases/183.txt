@@ -1,4 +1,0 @@
-
-            s = "Hello\tworld!\nThis is a\nnew 
-line.";
-        

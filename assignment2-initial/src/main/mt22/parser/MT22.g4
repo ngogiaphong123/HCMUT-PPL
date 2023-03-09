@@ -278,12 +278,8 @@ self.text = self.text[1:-1]
 };
 UNCLOSE_STRING:
 '"' (~('\\'| '\n' | '"') | ESC )* (EOF | '\n') {
-temp=str(self.text)
-newLineChar ='\n'
-if temp[-1] in newLineChar:
-	raise UncloseString(temp[1:-1])
-else:
-	raise UncloseString(temp[1:])
+text = self.text[1:-1] if self.text[-1] == '\n' else self.text[1:]
+raise UncloseString(text)
 };
 ILLEGAL_ESCAPE:
 '"' (~('\\'| '\n' | '"') | ESC )* '\\' ~[bntrf\\'"] {
