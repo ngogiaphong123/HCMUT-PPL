@@ -1,11 +1,18 @@
 
-            factorial: function integer (n: integer) {
-                if ((n == 0) || (n==1)) return 1;
-                else return n * factorial(n - 1);
-            }
-
-            program: function void () {
-                a: integer = factorial(5);
-                return;
-            }
-        
+         isPalindrome : function boolean (s : string) {
+             for (i = 0, i < length(s) / 2, i + 1) {
+                 if (s[i] != s[length(s) - i - 1]) {
+                     return false;
+                 }
+             }
+             return true;
+         }
+         main: function void () {
+             s = "racecar";
+             if (isPalindrome(s)) {
+                 printString("s is a palindrome.");
+             } else {
+                 printString("s is not a palindrome.");
+             }
+         }
+         

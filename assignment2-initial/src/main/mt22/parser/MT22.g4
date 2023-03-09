@@ -87,7 +87,7 @@ breakStatement : BREAK SEMI;
 
 continueStatement : CONTINUE SEMI;
 
-returnStatement : RETURN expressions SEMI;
+returnStatement : RETURN expression SEMI;
 
 callStatement : specialFunctionCall SEMI | call SEMI;
 

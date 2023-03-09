@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(isAnaGram, BooleanType, [Param(s1, StringType), Param(s2, StringType)], None, BlockStmt([IfStmt(BinExpr(!=, FuncCall(length, [Id(s1)]), FuncCall(length, [Id(s2)])), BlockStmt([ReturnStmt(BooleanLit(False))])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(s1)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(s1, [Id(i)]), ArrayCell(s2, [BinExpr(-, BinExpr(-, FuncCall(length, [Id(s2)]), Id(i)), IntegerLit(1))])), BlockStmt([ReturnStmt(BooleanLit(False))]))])), ReturnStmt(BooleanLit(True))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s1), StringLit(racecar)), AssignStmt(Id(s2), StringLit(racecar)), IfStmt(FuncCall(isAnaGram, [Id(s1), Id(s2)]), BlockStmt([CallStmt(printString, StringLit(s1 and s2 are anagrams.))]), BlockStmt([CallStmt(printString, StringLit(s1 and s2 are not anagrams.))]))]))
+])

@@ -223,7 +223,8 @@ class ASTGeneration(MT22Visitor):
 
     # forStatement : FOR LPAREN IDENTIFIER ASSIGN expression COMMA expression COMMA expression RPAREN statement;
     def visitForStatement(self, ctx: MT22Parser.ForStatementContext):
-        return ForStmt(AssignStmt(Id(ctx.IDENTIFIER().getText()), ctx.expression(0)), self.visit(ctx.expression(1)),
+        return ForStmt(AssignStmt(Id(ctx.IDENTIFIER().getText()), self.visit(ctx.expression(0))),
+                       self.visit(ctx.expression(1)),
                        self.visit(ctx.expression(2)), self.visit(ctx.statement()))
 
     # whileStatement : WHILE LPAREN expression RPAREN statement;
@@ -242,9 +243,9 @@ class ASTGeneration(MT22Visitor):
     def visitContinueStatement(self, ctx: MT22Parser.ContinueStatementContext):
         return ContinueStmt()
 
-    # returnStatement : RETURN expressions SEMI;
+    # returnStatement : RETURN expression SEMI;
     def visitReturnStatement(self, ctx: MT22Parser.ReturnStatementContext):
-        return ReturnStmt(self.visit(ctx.expressions()))
+        return ReturnStmt(self.visit(ctx.expression()))
 
     # callStatement : specialFunctionCall SEMI | call SEMI;
     def visitCallStatement(self, ctx: MT22Parser.CallStatementContext):

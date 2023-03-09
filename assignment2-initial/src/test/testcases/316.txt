@@ -1,16 +1,14 @@
-program: function void() {
-            a: integer = 1;
-            b: integer = 2;
-            c: integer = 3;
-            d: integer = 4;
-            e: integer = 5;
-            arr: array [5] of integer = {a, b, c, d, e};
-            for (i = 0, i < 5, 1) {
-                if (arr[i] % 2 == 0) {
-                    print("even");
-                }
-                else {
-                    print("odd");
-                }
-            }
-        }
+
+         reverse : function integer (n : integer) {
+             result = 0;
+             while (n > 0) {
+                 result = result * 10 + n % 10;
+                 n = n / 10;
+             }
+             return result;
+         }
+         main: function void () {
+             n = 12345;
+             printInt(reverse(n));
+         }
+         

@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(isArmstrong, BooleanType, [Param(n, IntegerType)], None, BlockStmt([AssignStmt(Id(sum), IntegerLit(0)), AssignStmt(Id(temp), Id(n)), WhileStmt(BinExpr(>, Id(temp), IntegerLit(0)), BlockStmt([AssignStmt(Id(digit), BinExpr(%, Id(temp), IntegerLit(10))), AssignStmt(Id(sum), BinExpr(+, Id(sum), BinExpr(*, BinExpr(*, Id(digit), Id(digit)), Id(digit)))), AssignStmt(Id(temp), BinExpr(/, Id(temp), IntegerLit(10)))])), IfStmt(BinExpr(==, Id(sum), Id(n)), BlockStmt([ReturnStmt(BooleanLit(True))]), BlockStmt([ReturnStmt(BooleanLit(False))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(n), IntegerLit(153)), IfStmt(FuncCall(isArmstrong, [Id(n)]), BlockStmt([CallStmt(printString, StringLit(n is an Armstrong number.))]), BlockStmt([CallStmt(printString, StringLit(n is not an Armstrong number.))]))]))
+])

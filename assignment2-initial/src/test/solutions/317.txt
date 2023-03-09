@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(searchInsert, IntegerType, [Param(nums, ArrayType([5], IntegerType)), Param(target, IntegerType)], None, BlockStmt([ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), FuncCall(length, [Id(nums)])), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(>=, ArrayCell(nums, [Id(i)]), Id(target)), BlockStmt([ReturnStmt(Id(i))]))])), ReturnStmt(FuncCall(length, [Id(nums)]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(nums), IntegerLit(21)), AssignStmt(Id(target), IntegerLit(5)), CallStmt(printInt, FuncCall(searchInsert, [Id(nums), Id(target)]))]))
+])

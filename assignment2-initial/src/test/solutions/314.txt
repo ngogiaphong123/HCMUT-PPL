@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(isPalindrome, BooleanType, [Param(s, StringType)], None, BlockStmt([ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), BinExpr(/, FuncCall(length, [Id(s)]), IntegerLit(2))), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([IfStmt(BinExpr(!=, ArrayCell(s, [Id(i)]), ArrayCell(s, [BinExpr(-, BinExpr(-, FuncCall(length, [Id(s)]), Id(i)), IntegerLit(1))])), BlockStmt([ReturnStmt(BooleanLit(False))]))])), ReturnStmt(BooleanLit(True))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(racecar)), IfStmt(FuncCall(isPalindrome, [Id(s)]), BlockStmt([CallStmt(printString, StringLit(s is a palindrome.))]), BlockStmt([CallStmt(printString, StringLit(s is not a palindrome.))]))]))
+])

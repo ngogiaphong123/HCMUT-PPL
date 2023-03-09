@@ -1,5 +1,15 @@
-program: function void() {
-            for (i = 0, i < 10, 1) {
-                if (i == 5) break;
-            }
-        }
+
+         searchInsert : function integer (nums : array[5] of integer, target : integer) {
+             for (i = 0, i < length(nums), i + 1) {
+                 if (nums[i] >= target) {
+                     return i;
+                 }
+             }
+             return length(nums);
+         }
+         main: function void () {
+             nums = 21;
+             target = 5;
+             printInt(searchInsert(nums, target));
+         }
+         

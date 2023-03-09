@@ -1,0 +1,3 @@
+Program([
+	FuncDecl(main, VoidType, [], None, BlockStmt([IfStmt(BinExpr(>, Id(x), IntegerLit(0)), BlockStmt([CallStmt(printString, StringLit(x is positive!))]), IfStmt(BinExpr(<, Id(x), IntegerLit(0)), BlockStmt([CallStmt(printString, StringLit(x is negative!))]), BlockStmt([CallStmt(printString, StringLit(x is zero!))])))]))
+])

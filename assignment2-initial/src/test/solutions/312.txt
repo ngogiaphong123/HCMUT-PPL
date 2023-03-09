@@ -1,0 +1,5 @@
+Program([
+	FuncDecl(multiply, IntegerType, [Param(x, IntegerType), Param(y, IntegerType)], None, BlockStmt([ReturnStmt(BinExpr(*, Id(x), Id(y)))]))
+	FuncDecl(square, IntegerType, [InheritOutParam(x, IntegerType)], None, BlockStmt([ReturnStmt(BinExpr(*, Id(x), Id(x)))]))
+	FuncDecl(main, VoidType, [], multiply, BlockStmt([AssignStmt(Id(a), FuncCall(super, [BinExpr(+, IntegerLit(1212), IntegerLit(2)), IntegerLit(31)])), AssignStmt(Id(b), FuncCall(square, [Id(a)]))]))
+])

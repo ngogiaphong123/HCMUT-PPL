@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(reverse, IntegerType, [Param(n, IntegerType)], None, BlockStmt([AssignStmt(Id(result), IntegerLit(0)), WhileStmt(BinExpr(>, Id(n), IntegerLit(0)), BlockStmt([AssignStmt(Id(result), BinExpr(+, BinExpr(*, Id(result), IntegerLit(10)), BinExpr(%, Id(n), IntegerLit(10)))), AssignStmt(Id(n), BinExpr(/, Id(n), IntegerLit(10)))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(n), IntegerLit(12345)), CallStmt(printInt, FuncCall(reverse, [Id(n)]))]))
+])

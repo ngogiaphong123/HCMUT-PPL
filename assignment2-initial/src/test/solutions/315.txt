@@ -1,0 +1,4 @@
+Program([
+	FuncDecl(reverse, StringType, [Param(s, StringType)], None, BlockStmt([AssignStmt(Id(result), StringLit()), ForStmt(AssignStmt(Id(i), BinExpr(-, FuncCall(length, [Id(s)]), IntegerLit(1))), BinExpr(>=, Id(i), IntegerLit(0)), BinExpr(-, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(Id(result), BinExpr(+, Id(result), ArrayCell(s, [Id(i)])))])), ReturnStmt(Id(result))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([AssignStmt(Id(s), StringLit(Hello world!)), CallStmt(printString, FuncCall(reverse, [Id(s)]))]))
+])

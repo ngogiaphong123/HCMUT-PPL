@@ -60,7 +60,9 @@ class ArrayType(Type):
         self.typ = typ
 
     def __str__(self):
-        return "ArrayType([{}], {})".format(", ".join(str([dimension for dimension in self.dimensions])), str(self.typ))
+        result = f"ArrayType([{', '.join([str(dimension) for dimension in self.dimensions])}], {str(self.typ)})"
+        return result
+        # return "ArrayType([{}], {})".format(", ".join(str([dimension for dimension in self.dimensions])), str(self.typ))
 
 
 class AutoType(Type):
@@ -152,7 +154,7 @@ class ArrayLit(Expr):
         self.explist = explist
 
     def __str__(self):
-        return "ArrayLit([{}])".format(", ".join([self.visit(exp) for exp in self.explist]))
+        return "ArrayLit([{}])".format(", ".join([self.accept(exp) for exp in self.explist]))
 
 
 class FuncCall(Expr):

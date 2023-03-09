@@ -177,7 +177,7 @@ def serializedATN():
         buf.write("\u016bC\3\2\2\2\u016c\u016d\7\7\2\2\u016d\u016e\7\37\2")
         buf.write("\2\u016eE\3\2\2\2\u016f\u0170\7\25\2\2\u0170\u0171\7\37")
         buf.write("\2\2\u0171G\3\2\2\2\u0172\u0173\7\20\2\2\u0173\u0174\5")
-        buf.write("N(\2\u0174\u0175\7\37\2\2\u0175I\3\2\2\2\u0176\u0177\5")
+        buf.write("R*\2\u0174\u0175\7\37\2\2\u0175I\3\2\2\2\u0176\u0177\5")
         buf.write("\u0080A\2\u0177\u0178\7\37\2\2\u0178\u017d\3\2\2\2\u0179")
         buf.write("\u017a\5L\'\2\u017a\u017b\7\37\2\2\u017b\u017d\3\2\2\2")
         buf.write("\u017c\u0176\3\2\2\2\u017c\u0179\3\2\2\2\u017dK\3\2\2")
@@ -2703,8 +2703,8 @@ class MT22Parser ( Parser ):
         def RETURN(self):
             return self.getToken(MT22Parser.RETURN, 0)
 
-        def expressions(self):
-            return self.getTypedRuleContext(MT22Parser.ExpressionsContext,0)
+        def expression(self):
+            return self.getTypedRuleContext(MT22Parser.ExpressionContext,0)
 
 
         def SEMI(self):
@@ -2731,7 +2731,7 @@ class MT22Parser ( Parser ):
             self.state = 368
             self.match(MT22Parser.RETURN)
             self.state = 369
-            self.expressions()
+            self.expression()
             self.state = 370
             self.match(MT22Parser.SEMI)
         except RecognitionException as re:
@@ -2898,7 +2898,7 @@ class MT22Parser ( Parser ):
                 self.state = 385
                 self.expressionList()
                 pass
-            elif token in [MT22Parser.RPAREN, MT22Parser.RBRACE, MT22Parser.SEMI]:
+            elif token in [MT22Parser.RPAREN, MT22Parser.RBRACE]:
                 self.enterOuterAlt(localctx, 2)
 
                 pass

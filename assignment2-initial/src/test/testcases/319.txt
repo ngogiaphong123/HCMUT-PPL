@@ -1,17 +1,24 @@
 
-            binarySearch: function integer (arr: array [10] of integer, target: integer) {
-                low = 0;
-                high = 9;
-                while (low <= high) {
-                    mid = (low + high) / 2;
-                    if (arr[mid] == target) {
-                        return mid;
-                    } else if (arr[mid] < target) {
-                        low = mid + 1;
-                    } else {
-                        high = mid - 1;
-                    }
-                }
-                return -1;
-            }
-        
+                 isArmstrong : function boolean (n : integer) {
+             sum = 0;
+             temp = n;
+             while (temp > 0) {
+                 digit = temp % 10;
+                 sum = sum + digit * digit * digit;
+                 temp = temp / 10;
+             }
+             if (sum == n) {
+                 return true;
+             } else {
+                 return false;
+             }
+         }
+         main: function void () {
+             n = 153;
+             if (isArmstrong(n)) {
+                 printString("n is an Armstrong number.");
+             } else {
+                 printString("n is not an Armstrong number.");
+             }
+         }
+         
