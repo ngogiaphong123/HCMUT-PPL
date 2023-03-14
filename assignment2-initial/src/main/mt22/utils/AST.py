@@ -60,9 +60,7 @@ class ArrayType(Type):
         self.typ = typ
 
     def __str__(self):
-        # result = f"ArrayType([{', '.join([str(dimension) for dimension in self.dimensions])}], {str(self.typ)})"
-        # return result
-        return "ArrayType([{}], {})".format(", ".join(([str(dimension) for dimension in self.dimensions])), str(self.typ))
+        return "ArrayType([{}], {})".format(", ".join([str(dimen) for dimen in self.dimensions]), str(self.typ))
 
 
 class AutoType(Type):

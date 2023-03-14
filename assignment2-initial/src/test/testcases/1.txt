@@ -1,0 +1,9 @@
+
+        a : integer = 10;
+        func: function string () {
+            a, b: integer = 12,0;
+        }
+        func : function string () {
+            a : integer = 10;
+        }
+        

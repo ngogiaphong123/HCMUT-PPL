@@ -2274,7 +2274,7 @@ class ASTGenSuite(unittest.TestCase):
             }
             main: function void () {
                 emails : array [5] of string = {"cat", "cats", "catsdogcats", "dog", "dogcatsdog", "hippopotamuses", "rat", "ratcatdogcat"};
-    
+
                 print(deleteDuplicateEmails(emails));
             }
             """
