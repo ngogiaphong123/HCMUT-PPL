@@ -1,1 +1,9 @@
-x: string = "abc"; 
+a,b,c : integer = 2,124,2;
+            main : function void () {
+                a,b,c : integer = 2,124,2;
+                a : integer = 2;
+                b : float = .e1;
+                c : string = "abc";
+                d,jk : array [2,3] of integer = {1,2,3,4,5,6} , 12.2e9;
+            }
+        

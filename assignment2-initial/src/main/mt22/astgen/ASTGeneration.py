@@ -4,6 +4,8 @@ from MT22Visitor import MT22Visitor
 from MT22Parser import MT22Parser
 from AST import *
 
+from src.main.mt22.utils.AST import *
+
 
 class ASTGeneration(MT22Visitor):
 
@@ -41,8 +43,6 @@ class ASTGeneration(MT22Visitor):
     # fullVarDeclaration : helper SEMI;
     def visitFullVarDeclaration(self, ctx: MT22Parser.FullVarDeclarationContext):
         helper = self.visit(ctx.helper())
-        if len(helper) == 1:
-            return [VarDecl(helper[0]["name"], self.visit(helper[0]["type"]), self.visit(helper[0]["expr"]))]
         result = []
         typ = self.visit(helper[0]["type"])
         for i in range(len(helper)):
@@ -343,8 +343,8 @@ class ASTGeneration(MT22Visitor):
         if ctx.INTLIT():
             return IntegerLit(int(ctx.INTLIT().getText()))
         elif ctx.FLOATLIT():
-            input = ctx.FLOATLIT().getText()
-            if input[0] == '.' and (input[1] == 'e' or input[1] == 'E'):
+            floatValue = ctx.FLOATLIT().getText()
+            if floatValue[0] == '.' and (floatValue[1] == 'e' or floatValue[1] == 'E'):
                 return FloatLit(0.0)
             return FloatLit(float(ctx.FLOATLIT().getText()))
         elif ctx.STRINGLIT():

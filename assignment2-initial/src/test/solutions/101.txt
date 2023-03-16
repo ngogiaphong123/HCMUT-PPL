@@ -1,0 +1,6 @@
+Program([
+	VarDecl(a, IntegerType, IntegerLit(2))
+	VarDecl(b, IntegerType, IntegerLit(124))
+	VarDecl(c, IntegerType, IntegerLit(2))
+	FuncDecl(main, VoidType, [], None, BlockStmt([VarDecl(a, IntegerType, IntegerLit(2)), VarDecl(b, IntegerType, IntegerLit(124)), VarDecl(c, IntegerType, IntegerLit(2)), VarDecl(a, IntegerType, IntegerLit(2)), VarDecl(b, FloatType, FloatLit(0.0)), VarDecl(c, StringType, StringLit(abc)), VarDecl(d, ArrayType([2, 3], IntegerType), ArrayLit([IntegerLit(1), IntegerLit(2), IntegerLit(3), IntegerLit(4), IntegerLit(5), IntegerLit(6)])), VarDecl(jk, ArrayType([2, 3], IntegerType), FloatLit(12200000000.0))]))
+])
