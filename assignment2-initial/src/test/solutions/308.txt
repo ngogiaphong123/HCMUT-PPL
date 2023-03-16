@@ -1,4 +1,4 @@
 Program([
 	VarDecl(a, IntegerType, IntegerLit(3))
-	FuncDecl(program, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, IntegerType), VarDecl(b, IntegerType), VarDecl(c, IntegerType)]), BlockStmt([VarDecl(d, FloatType), VarDecl(e, FloatType), VarDecl(f, FloatType)]), BlockStmt([VarDecl(g, BooleanType)])]))
+	FuncDecl(program, VoidType, [], None, BlockStmt([VarDecl(a, IntegerType), VarDecl(b, IntegerType), VarDecl(c, IntegerType), VarDecl(d, FloatType), VarDecl(e, FloatType), VarDecl(f, FloatType), VarDecl(g, BooleanType)]))
 ])

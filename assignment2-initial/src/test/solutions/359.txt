@@ -1,4 +1,4 @@
 Program([
 	FuncDecl(double, ArrayType([5], IntegerType), [Param(input, ArrayType([5], IntegerType))], None, BlockStmt([ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), IntegerLit(5)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([AssignStmt(ArrayCell(input, [Id(i)]), BinExpr(*, ArrayCell(input, [Id(i)]), IntegerLit(2)))])), ReturnStmt(Id(input))]))
-	FuncDecl(main, VoidType, [], None, BlockStmt([BlockStmt([VarDecl(a, ArrayType([5], IntegerType), ArrayLit([IntegerLit(1), IntegerLit(2), IntegerLit(3), IntegerLit(4), IntegerLit(5)]))]), AssignStmt(Id(a), FuncCall(double, [Id(a)])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), IntegerLit(5)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([CallStmt(printInt, ArrayCell(a, [Id(i)]))]))]))
+	FuncDecl(main, VoidType, [], None, BlockStmt([VarDecl(a, ArrayType([5], IntegerType), ArrayLit([IntegerLit(1), IntegerLit(2), IntegerLit(3), IntegerLit(4), IntegerLit(5)])), AssignStmt(Id(a), FuncCall(double, [Id(a)])), ForStmt(AssignStmt(Id(i), IntegerLit(0)), BinExpr(<, Id(i), IntegerLit(5)), BinExpr(+, Id(i), IntegerLit(1)), BlockStmt([CallStmt(printInt, ArrayCell(a, [Id(i)]))]))]))
 ])

@@ -2,6 +2,8 @@ from MT22Visitor import MT22Visitor
 from MT22Parser import MT22Parser
 from AST import *
 
+from src.main.mt22.utils.AST import *
+
 
 class ASTGeneration(MT22Visitor):
 
@@ -173,7 +175,8 @@ class ASTGeneration(MT22Visitor):
 
     # blockStatement : LBRACE statements RBRACE;
     def visitBlockStatement(self, ctx: MT22Parser.BlockStatementContext):
-        return BlockStmt(self.visit(ctx.statements()))
+        if ctx.statements():
+            return BlockStmt(self.visit(ctx.statements()))
 
     # functionBody : blockStatement;
     def visitFunctionBody(self, ctx: MT22Parser.FunctionBodyContext):
@@ -186,20 +189,27 @@ class ASTGeneration(MT22Visitor):
         else:
             return []
 
-    # statementList : statement statementList |;
+    # statementList : (statement | varDeclarationStatement) statementList | (statement | varDeclarationStatement);
     def visitStatementList(self, ctx: MT22Parser.StatementListContext):
-        if ctx.statement():
-            return [self.visit(ctx.statement())] + self.visit(ctx.statementList())
+        if ctx.statementList():
+            if ctx.varDeclarationStatement():
+                return self.visit(ctx.varDeclarationStatement()) + self.visit(ctx.statementList())
+            else:
+                return [self.visit(ctx.statement())] + self.visit(ctx.statementList())
         else:
-            return []
+            if ctx.varDeclarationStatement():
+                return self.visit(ctx.varDeclarationStatement())
+            else:
+                return [self.visit(ctx.statement())]
 
-    # statement : varDeclarationStatement | assignmentStatement | ifStatement | forStatement | whileStatement |
+    # statement : assignmentStatement | ifStatement | forStatement | whileStatement |
     # doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
     def visitStatement(self, ctx: MT22Parser.StatementContext):
         return self.visit(ctx.getChild(0))
 
+    # varDeclarationStatement: varDeclaration;
     def visitVarDeclarationStatement(self, ctx: MT22Parser.VarDeclarationStatementContext):
-        return BlockStmt(self.visit(ctx.varDeclaration()))
+        return self.visit(ctx.varDeclaration())
 
     # assignmentStatement : leftHandSide ASSIGN expression SEMI;
     def visitAssignmentStatement(self, ctx: MT22Parser.AssignmentStatementContext):

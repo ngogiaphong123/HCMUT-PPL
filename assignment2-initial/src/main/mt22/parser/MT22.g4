@@ -65,9 +65,9 @@ functionBody : blockStatement;
 
 statements : statementList |;
 
-statementList : statement statementList |;
+statementList : (statement | varDeclarationStatement) statementList | (statement | varDeclarationStatement);
 
-statement : varDeclarationStatement | assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
+statement : assignmentStatement | ifStatement | forStatement | whileStatement | doWhileStatement | breakStatement | continueStatement | returnStatement | callStatement | blockStatement;
 
 varDeclarationStatement : varDeclaration;
 
