@@ -1,4 +1,4 @@
-func: function array[] of float () {
+func: function array[4] of float () {
 
                printFloat(12.1e45);
         }

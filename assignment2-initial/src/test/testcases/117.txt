@@ -1,1 +1,1 @@
-a, b: array[] of float;
+a, b: array[1] of float;

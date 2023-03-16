@@ -1,1 +1,1 @@
-a: array[100] of boolean = x + 1;
+a: array[100] of boolean = a[1];

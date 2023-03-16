@@ -126,6 +126,7 @@ arrayLit : LBRACE expressions RBRACE;
 subExpression : LPAREN expression RPAREN;
 
 callExpression : specialFunctionExpression | IDENTIFIER LPAREN expressions RPAREN;
+
 specialFunctionExpression : readIntegerExpression
             | printIntegerExpression
             | readFloatExpression

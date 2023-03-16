@@ -1,1 +1,1 @@
-lisa: array[] of integer =  -1 + 2;
+lisa: array[2] of integer =  -1 + 2;

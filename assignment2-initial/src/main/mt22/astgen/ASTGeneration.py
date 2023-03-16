@@ -1,8 +1,8 @@
+# 2014121
+# Ngo Gia Phong
 from MT22Visitor import MT22Visitor
 from MT22Parser import MT22Parser
 from AST import *
-
-from src.main.mt22.utils.AST import *
 
 
 class ASTGeneration(MT22Visitor):
@@ -241,7 +241,7 @@ class ASTGeneration(MT22Visitor):
 
     # doWhileStatement : DO statement WHILE LPAREN expression RPAREN SEMI;
     def visitDoWhileStatement(self, ctx: MT22Parser.DoWhileStatementContext):
-        return DoWhileStmt(self.visit(ctx.statement()), self.visit(ctx.expression()))
+        return DoWhileStmt(self.visit(ctx.expression()), self.visit(ctx.statement()))
 
     # breakStatement : BREAK SEMI;
     def visitBreakStatement(self, ctx: MT22Parser.BreakStatementContext):
@@ -303,7 +303,7 @@ class ASTGeneration(MT22Visitor):
 
     # expression3 : expression3 (ADD | SUB) expression4 | expression4;
     def visitExpression3(self, ctx: MT22Parser.Expression3Context):
-        if ctx.ADD() :
+        if ctx.ADD():
             return BinExpr(ctx.ADD().getText(), self.visit(ctx.expression3()), self.visit(ctx.expression4()))
         elif ctx.SUB():
             return BinExpr(ctx.SUB().getText(), self.visit(ctx.expression3()), self.visit(ctx.expression4()))
@@ -343,6 +343,9 @@ class ASTGeneration(MT22Visitor):
         if ctx.INTLIT():
             return IntegerLit(int(ctx.INTLIT().getText()))
         elif ctx.FLOATLIT():
+            input = ctx.FLOATLIT().getText()
+            if input[0] == '.' and (input[1] == 'e' or input[1] == 'E'):
+                return FloatLit(0.0)
             return FloatLit(float(ctx.FLOATLIT().getText()))
         elif ctx.STRINGLIT():
             return StringLit(ctx.STRINGLIT().getText())
