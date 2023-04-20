@@ -1,16 +1,4 @@
-import unittest
-from TestUtils import TestChecker
-from AST import *
 
-class CheckerSuite(unittest.TestCase):
-    # def test01(self):
-    #     """Simple program: int main() {} """
-    #     input = Program([VarDecl("a", IntegerType(), IntegerLit(5)), VarDecl("c", AutoType())])
-    #     expect = ""
-    #     self.assertTrue(TestChecker.test(input,expect,401))
-    def test_undeclared_function21(self):
-        """Simple program: int main() {} """
-        input = """
             var : auto = "abc";
             B : auto = 1;
             func: function void(alpha : string, delta : integer){
@@ -31,6 +19,4 @@ class CheckerSuite(unittest.TestCase):
                 return;
             }
             main: function void(){}
-            """
-        expect = ""
-        self.assertTrue(TestChecker.test(input,expect,120))
+            

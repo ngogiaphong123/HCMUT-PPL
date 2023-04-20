@@ -35,6 +35,11 @@ class FuncType:
         return "FuncType(ParamList : {}, ReturnType : {}, Parent : {})".format(
             ", ".join([str(x) for x in self.param]) if self.param else "None", self.ret,self.inherit if self.inherit else "None")
 class GetEnv(Visitor):
+    def __init__(self,ast) :
+        self.ast = ast
+    def check(self):
+        return self.visitProgram(self.ast, [])
+    
     def visitProgram(self, ast: Program, o):
         o = []
         for x in ast.decls:
@@ -50,8 +55,6 @@ class GetEnv(Visitor):
     def visitParamDecl(self, ast : ParamDecl, o):
         return Symbol(ast.name, ast.typ, kind = Parameter(), inherit = ast.inherit)
         
-class Checker() :
-    pass
 class StaticChecker(Visitor):
     def __init__(self, ast):
         self.ast = ast
@@ -65,10 +68,11 @@ class StaticChecker(Visitor):
             Symbol("printBoolean", FuncType([BooleanType()], VoidType()), kind = Function()),
             Symbol("readString", FuncType([], StringType()), kind = Function()),
             Symbol("printString", FuncType([StringType()], VoidType()), kind = Function()),
-            Symbol("super", FuncType([], VoidType()), kind = Function()),
             Symbol("preventDefault", FuncType([], VoidType()), kind = Function()),
         ]
         self.scope = [[]]
+    def check(self):
+        return self.visitProgram(self.ast, [])
     
     def printScope(self):
         for env in self.scope:
@@ -99,12 +103,11 @@ class StaticChecker(Visitor):
         for func in self.globalEnv :
             if func.name == name :
                 return func
-        
-    def check(self):
-        return self.visitProgram(self.ast, [])
+                 
+
     
     def visitProgram(self, ast : Program, param): 
-        self.globalEnv += GetEnv().visitProgram(ast, [])
+        self.globalEnv += GetEnv(ast).check()
         for x in ast.decls:
             self.visit(x, self.scope)
         mainFunc = self.lookupGlobalFunc("main")
@@ -114,9 +117,25 @@ class StaticChecker(Visitor):
             raise NoEntryPoint()
         elif len(mainFunc.typ.param) != 0:
             raise NoEntryPoint()
-        # self.printScope()
-
-    def visitFuncCall(self, ast, param): pass
+        
+    # expression function call
+    def visitFuncCall(self, ast : FuncCall, param):
+        func = self.lookupGlobalFunc(ast.name)
+        if func is None:
+            raise Undeclared(Function(), ast.name)
+        if len(ast.args) != len(func.typ.param):
+            raise TypeMismatchInExpression(ast)
+        for i in range(len(ast.args)):
+            argType = self.visit(ast.args[i], param)
+            if type(argType) is not type(func.typ.param[i].typ):
+                if type(argType) is IntegerType and type(func.typ.param[i].typ) is FloatType:
+                    continue
+                if type(func.typ.param[i].typ) is AutoType and type(argType) is not VoidType:
+                    func.typ.param[i].typ = argType
+                    continue
+                raise TypeMismatchInExpression(ast)
+        return func.typ.ret
+         
     def visitAssignStmt(self, ast : AssignStmt, param):
         rhsType = self.visit(ast.rhs, param)
         lhsType = self.visit(ast.lhs, param)
@@ -125,6 +144,9 @@ class StaticChecker(Visitor):
         if type(rhsType) is not type(lhsType):
             if type(rhsType) is IntegerType and type(lhsType) is FloatType:
                 return lhsType
+            if type(lhsType) is AutoType and type(rhsType) is not VoidType:
+                self.inferType(ast.lhs.name, rhsType)
+                return rhsType
             else:
                 raise TypeMismatchInStatement(ast)
         else :
@@ -132,36 +154,64 @@ class StaticChecker(Visitor):
         
         
     def visitBlockStmt(self, ast : BlockStmt, param):
-        # if param[1] == "func" :
-        #     for x in ast.body:
-        #         self.visit(x, param)
-        # else :
-        #     self.scope = [[], *self.scope]
-        #     for x in ast.body:
-        #         self.visit(x, param)
-        # self.printScope()
-        # self.scope = self.scope[1:]
         if type(param) is tuple:
-            if param[1] == "func" :
-                for x in ast.body:
-                    self.visit(x, param)
-            elif param[1] == "for" or param[1] == "while" or param[1] == "doWhile":
+            if param[1] == "for" or param[1] == "while" or param[1] == "doWhile":
                 self.isInLoop.append(True)
                 self.scope = [[], *self.scope]
                 for x in ast.body:
                     self.visit(x, param)
                 self.isInLoop.pop()
-            elif param[1] == "if":
+            if param[1] == "if":
                 self.scope = [[], *self.scope]
                 for x in ast.body:
                     self.visit(x, param)
-        else :
-            for x in ast.body:
-                self.visit(x, param)
+            if param[1][0] == "func":
+                funcInfo = param[1][1]
+                if funcInfo.typ.inherit is not None:
+                    parent = self.lookupGlobalFunc(funcInfo.typ.inherit)
+                    if parent is None:
+                        raise Undeclared(Function(), funcInfo.typ.inherit)
+                    else :
+                        # parent exist
+                        # check super or prevent default is first stmt
+                        if type(ast.body[0]) is not CallStmt:
+                            # auto call super();
+                            if len(parent.typ.param) != 0:
+                                raise TypeMismatchInStatement(CallStmt(Id("super"), []))
+                        else : 
+                            if ast.body[0].name != "super" and ast.body[0].name != "preventDefault":
+                                raise InvalidStatementInFunction(ast.body[0])
+                            elif ast.body[0].name == "super": # call super(<args>)
+                                if len(ast.body[0].args) != len(parent.typ.param):
+                                    raise TypeMismatchInStatement(ast.body[0])
+                                for i in range(len(ast.body[0].args)):
+                                    argType = self.visit(ast.body[0].args[i], param)
+                                    if type(argType) is not type(parent.typ.param[i].typ):
+                                        if type(argType) is IntegerType and type(parent.typ.param[i].typ) is FloatType:
+                                            # check inherit parameter and add to scope
+                                            if parent.typ.param[i].inherit is True:
+                                                self.scope[0].append(Symbol(parent.typ.param[i].name, parent.typ.param[i].typ, kind = Parameter(),inherit=True))
+                                            continue
+                                        if type(parent.typ.param[i].typ) is AutoType and type(argType) is not VoidType:
+                                            parent.typ.param[i].typ = argType
+                                            if parent.typ.param[i].inherit is True:
+                                                self.scope[0].append(Symbol(parent.typ.param[i].name, parent.typ.param[i].typ, kind = Parameter(),inherit=True))
+                                            continue
+                                        raise TypeMismatchInExpression(ast.body[0])
+                                    else :
+                                        if parent.typ.param[i].inherit is True:
+                                            self.scope[0].append(Symbol(parent.typ.param[i].name, parent.typ.param[i].typ, kind = Parameter(),inherit=True))
+                            elif ast.body[0].name == "preventDefault": pass # call preventDefault(), prevent call super() 
+                            if ast.body[1:] is not None:
+                                for x in ast.body[1:]:
+                                    self.visit(x, param)
+                else :
+                    for x in ast.body:
+                        self.visit(x, param)
+                self.printScope()
         self.scope = self.scope[1:]
+        
             
-    
-    
     def visitIfStmt(self, ast : IfStmt, param):
         condType = self.visit(ast.cond, param)
         if type(condType) is not BooleanType:
@@ -221,8 +271,25 @@ class StaticChecker(Visitor):
     def visitReturnStmt(self, ast : ReturnStmt, param):
         if ast.expr is not None:
             return self.visit(ast.expr, param)
+        else :
+            return VoidType()
         
-    def visitCallStmt(self, ast, param): pass
+    def visitCallStmt(self, ast : CallStmt, param):
+        func = self.lookupGlobalFunc(ast.name)
+        if func is None:
+            raise Undeclared(Function(), ast.name)
+        if len(ast.args) != len(func.typ.param):
+            raise TypeMismatchInExpression(ast)
+        for i in range(len(ast.args)):
+            argType = self.visit(ast.args[i], param)
+            if type(argType) is not type(func.typ.param[i].typ):
+                if type(argType) is IntegerType and type(func.typ.param[i].typ) is FloatType:
+                    continue
+                if type(func.typ.param[i].typ) is AutoType and type(argType) is not VoidType:
+                    func.typ.param[i].typ = argType
+                    continue
+                raise TypeMismatchInExpression(ast)
+        return func.typ.ret
 
     def visitVarDecl(self, ast : VarDecl, param):
         duplicate = self.lookupLocal(ast.name)
@@ -234,15 +301,16 @@ class StaticChecker(Visitor):
                 ast.typ = initType
             if type(initType) is not type(ast.typ):
                 if type(initType) is IntegerType and type(ast.typ) is FloatType:
-                    if ast.init.name :
-                        self.inferType(ast.init.name, FloatType())
+                    # if type(ast.init) is Id:
+                    #     self.inferType(ast.init.name, FloatType())
                     self.scope[0] += [Symbol(ast.name, ast.typ, kind = Variable())]
                 else : raise TypeMismatchInStatement(ast)
             else :
-                if type(ast.typ) is AutoType :
-                    raise Invalid(Variable(), ast.name)
                 self.scope[0] += [Symbol(ast.name, ast.typ, kind = Variable())]
-        else : self.scope[0]+= [Symbol(ast.name, ast.typ, kind = Variable())]
+        else : 
+            if type(ast.typ) is AutoType:
+                raise Invalid(Variable(),ast.name)
+            self.scope[0]+= [Symbol(ast.name, ast.typ, kind = Variable())]
         
     def visitParamDecl(self, ast : ParamDecl, param):
         duplicate = self.lookupLocal(ast.name)
@@ -254,11 +322,12 @@ class StaticChecker(Visitor):
         duplicate = self.lookupLocal(ast.name)
         if duplicate is not None:
             raise Redeclared(Function(), duplicate.name)
-        self.scope[0] += [Symbol(ast.name, FuncType([Symbol(x.name,x.typ,Parameter(),inherit=x.inherit) for x in ast.params], ast.return_type), kind = Function(), inherit = ast.inherit)]
+        func = self.lookupGlobalFunc(ast.name)
+        self.scope[0] += [func]
         self.scope = [[], *self.scope]
-        for x in ast.params:
-            self.visit(x, param)
-        self.visit(ast.body, (param, "func"))
+        for x in func.typ.param:
+            self.scope[0] += [x]
+        self.visit(ast.body, (param, ("func", func)))
     
     def visitBinExpr(self, ast : BinExpr, param):
         leftType = self.visit(ast.left,param)
@@ -269,27 +338,51 @@ class StaticChecker(Visitor):
             elif type(leftType) is IntegerType and type(rightType) is IntegerType:
                 return IntegerType()
             elif type(leftType) is FloatType and type(rightType) is IntegerType:
-                if ast.right.name :
-                    self.inferType(ast.right.name, leftType)
+                # if type(ast.right) is Id:
+                #     self.inferType(ast.right.name, leftType)
                 return FloatType()
             elif type(leftType) is IntegerType and type(rightType) is FloatType:
-                if ast.left.name :
-                    self.inferType(ast.left.name, rightType)
+                # if type(ast.left) is Id:
+                #     self.inferType(ast.left.name, rightType)
                 return FloatType()
+            elif type(leftType) is AutoType and type(rightType) in [FloatType, IntegerType]:
+                self.inferType(ast.left.name, rightType)
+                return rightType
+            elif type(leftType) in [FloatType, IntegerType] and type(rightType) is AutoType:
+                self.inferType(ast.right.name, leftType)
+                return leftType
             else :
                 raise TypeMismatchInExpression(ast)
         elif ast.op in ['%'] :
             if type(leftType) is IntegerType and type(rightType) is IntegerType:
+                return IntegerType()
+            elif type(leftType) is AutoType and type(rightType) is IntegerType:
+                self.inferType(ast.left.name, IntegerType())
+                return IntegerType()
+            elif type(leftType) is IntegerType and type(rightType) is AutoType:
+                self.inferType(ast.right.name, IntegerType())
                 return IntegerType()
             else :
                 raise TypeMismatchInExpression(ast)
         elif ast.op in ['&&', '||'] :
             if type(leftType) is BooleanType and type(rightType) is BooleanType:
                 return BooleanType()
+            elif type(leftType) is AutoType and type(rightType) is BooleanType:
+                self.inferType(ast.left.name, BooleanType())
+                return BooleanType()
+            elif type(leftType) is BooleanType and type(rightType) is AutoType:
+                self.inferType(ast.right.name, BooleanType())
+                return BooleanType()
             else :
                 raise TypeMismatchInExpression(ast)
         elif ast.op in ['::'] :
             if type(leftType) is StringType and type(rightType) is StringType:
+                return StringType()
+            elif type(leftType) is AutoType and type(rightType) is StringType:
+                self.inferType(ast.left.name, StringType())
+                return StringType()
+            elif type(leftType) is StringType and type(rightType) is AutoType:
+                self.inferType(ast.right.name, StringType())
                 return StringType()
             else :
                 raise TypeMismatchInExpression(ast)
@@ -302,12 +395,24 @@ class StaticChecker(Visitor):
                 return BooleanType()
             elif type(leftType) is IntegerType and type(rightType) is FloatType:
                 return BooleanType()
+            elif type(leftType) is AutoType and type(rightType) in [FloatType, IntegerType]:
+                self.inferType(ast.left.name, rightType)
+                return BooleanType()
+            elif type(leftType) in [FloatType, IntegerType] and type(rightType) is AutoType:
+                self.inferType(ast.right.name, leftType)
+                return BooleanType()
             else :
                 raise TypeMismatchInExpression(ast)
         elif ast.op in ['==', '!='] :
             if type(leftType) is IntegerType and type(rightType) is IntegerType:
                 return BooleanType()
             elif type(leftType) is BooleanType and type(rightType) is BooleanType:
+                return BooleanType()
+            elif type(leftType) is AutoType and type(rightType) in [BooleanType, IntegerType]:
+                self.inferType(ast.left.name, rightType)
+                return BooleanType()
+            elif type(leftType) in [BooleanType, IntegerType] and type(rightType) is AutoType:
+                self.inferType(ast.right.name, leftType)
                 return BooleanType()
                 
         
