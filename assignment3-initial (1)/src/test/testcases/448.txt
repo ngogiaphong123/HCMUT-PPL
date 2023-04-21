@@ -1,0 +1,9 @@
+
+        func : function float (a : integer, b : integer) {
+                x : integer ;
+                a = func2(4 , 5.9) ;
+                b = func2(5.2, true);
+                return 3.2;
+            }
+        func2 : function auto (x : auto, y : auto) {}
+        

@@ -1,4 +1,1 @@
-Program([
-	VarDecl(a, IntegerType, IntegerLit(5))
-	VarDecl(c, AutoType)
-])
+x, y, z: float = 1, 2, 3;
