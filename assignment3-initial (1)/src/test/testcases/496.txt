@@ -1,5 +1,9 @@
 
-        a: integer = 1;
-        foo: function void (b: integer) inherit a {}
-        a: function string (inherit c: string) {}
+        main : function void() {
+            i : integer ; 
+            for (i = 0 , i < 10 , i +1 ) {
+                continue;
+            }
+            break;
+        }
         

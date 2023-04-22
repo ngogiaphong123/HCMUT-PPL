@@ -187,14 +187,16 @@ class StaticChecker(Visitor):
         
     def visitBlockStmt(self, ast : BlockStmt, param):
         if type(param) is tuple:
-            if param[1] == "for" or param[1] == "while" or param[1] == "doWhile":
+            if param[1] == "for" or param[1] == "while" or param[1] == "doWhile" or param[1] == "block":
                 self.scope = [[], *self.scope]
                 for x in ast.body:
-                    self.visit(x, param)
+                    if type(x) is BlockStmt: self.visit(x, (param, "block"))
+                    else : self.visit(x, param)
             if param[1] == "if":
                 self.scope = [[], *self.scope]
                 for x in ast.body:
-                    self.visit(x, param)
+                    if type(x) is BlockStmt: self.visit(x, (param, "block"))
+                    else : self.visit(x, param)
             if param[1][0] == "func":
                 funcInfo = param[1][1]
                 if funcInfo.typ.inherit is not None:
@@ -257,10 +259,13 @@ class StaticChecker(Visitor):
                             elif ast.body[0].name == "preventDefault": pass # call preventDefault(), prevent call super()
                             if len(ast.body) > 1:
                                 for x in ast.body[1:]:
-                                    self.visit(x, param)
+                                    if type(x) is BlockStmt:
+                                        self.visit(x, (param, "block"))
+                                    else : self.visit(x, param)
                 else :
                     for x in ast.body:
-                        self.visit(x, param)
+                        if type(x) is BlockStmt: self.visit(x, (param, "block"))
+                        else : self.visit(x, param)
         self.scope = self.scope[1:]
         
             
@@ -308,8 +313,8 @@ class StaticChecker(Visitor):
             self.visit(ast.stmt, param)
         self.isInLoop.pop()
         
-    def visitDoWhileStmt(self, ast, param): 
-        condType = self.visit(ast.exp, param)
+    def visitDoWhileStmt(self, ast : DoWhileStmt, param): 
+        condType = self.visit(ast.cond, param)
         if type(condType) is not BooleanType:
             raise TypeMismatchInStatement(ast)
         self.isInLoop.append(True)
@@ -537,6 +542,10 @@ class StaticChecker(Visitor):
             if type(leftType) is IntegerType and type(rightType) is IntegerType:
                 return BooleanType()
             elif type(leftType) is BooleanType and type(rightType) is BooleanType:
+                return BooleanType()
+            elif type(leftType) is IntegerType and type(rightType) is BooleanType:
+                return BooleanType()
+            elif type(leftType) is BooleanType and type(rightType) is IntegerType:
                 return BooleanType()
             elif type(leftType) is AutoType and type(rightType) in [BooleanType, IntegerType]:
                 if type(ast.left) is Id :

@@ -1,0 +1,7 @@
+
+        foo : function auto() {}
+        x : string = foo();
+        main : function void() {
+            printString(x);
+        }
+        
