@@ -144,6 +144,8 @@ class StaticChecker(Visitor):
         return func.typ.ret
     
     def visitCallStmt(self, ast : CallStmt, param):
+        if ast.name == "preventDefault" or ast.name == "super": 
+            raise InvalidStatementInFunction(self.currFunc.name)
         func = self.lookupGlobalFunc(ast.name)
         if func is None:
             raise Undeclared(Function(), ast.name)
@@ -166,7 +168,6 @@ class StaticChecker(Visitor):
         if type(lhsType) in [ArrayType, VoidType]:
             raise TypeMismatchInStatement(ast)
         if type(rhsType) is not type(lhsType):
-            print(type(rhsType), type(lhsType))
             if type(rhsType) is IntegerType and type(lhsType) is FloatType:
                 return lhsType
             elif type(lhsType) is AutoType and type(rhsType) is not VoidType:
@@ -205,22 +206,22 @@ class StaticChecker(Visitor):
                         # check duplicate param in parent
                         parentParams = []
                         for i in range(len(parent.typ.param)):
-                            if (parent.typ.param[i].name, parent.typ.param[i].inherit) in parentParams:
+                            if parent.typ.param[i].name in parentParams:
                                 raise Redeclared(Parameter(), parent.typ.param[i].name)
-                            parentParams.append((parent.typ.param[i].name, parent.typ.param[i].inherit))
+                            parentParams.append(parent.typ.param[i].name)
                         # check super or prevent default is first stmt
                         if len(ast.body) == 0:
                             if len(parent.typ.param) != 0:
-                                raise TypeMismatchInExpression("")
+                                raise InvalidStatementInFunction(funcInfo.name)
                         elif type(ast.body[0]) is not CallStmt:
                             # auto call super();
                             if len(parent.typ.param) != 0:
-                                raise TypeMismatchInExpression("")
+                                raise InvalidStatementInFunction(funcInfo.name)
                         else : 
                             if ast.body[0].name != "super" and ast.body[0].name != "preventDefault":
                                 # auto call super();
                                 if len(parent.typ.param) != 0:
-                                    raise TypeMismatchInExpression("")
+                                    raise InvalidStatementInFunction("")
                                 # raise InvalidStatementInFunction(ast.body[0])
                             elif ast.body[0].name == "super": # call super(<args>)
                                 if len(ast.body[0].args) > len(parent.typ.param):
@@ -363,18 +364,19 @@ class StaticChecker(Visitor):
         if duplicate is not None:
             raise Redeclared(Variable(), duplicate.name)
         if ast.init is not None:
+            self.scope[0] += [Symbol(ast.name, ast.typ, kind = Variable())]
             initType = self.visit(ast.init, param)
+            retTyp = ast.typ
             if type(ast.typ) is AutoType :
-                ast.typ = initType
-            if type(initType) is not type(ast.typ):
+                retTyp = self.inferType(ast.name, initType)
+            if type(initType) is not type(retTyp):
                 if type(initType) is IntegerType and type(ast.typ) is FloatType:
-                    self.scope[0] += [Symbol(ast.name, ast.typ, kind = Variable())]
+                    pass
                 elif type(initType) is AutoType and type(ast.typ) is not VoidType:
                     if type(ast.init) is FuncCall:
                         self.inferReturnType(ast.init.name, ast.typ)
                     elif type(ast.init) is Id:
                         self.inferType(ast.init.name, ast.typ)
-                    self.scope[0] += [Symbol(ast.name, ast.typ, kind = Variable())]
                 else : raise TypeMismatchInVarDecl(ast)
             else :
                 if type(ast.typ) is ArrayType :
@@ -591,13 +593,18 @@ class StaticChecker(Visitor):
             raise Undeclared(Identifier(), ast.name)
         if type(symbol.typ) is not ArrayType:
             raise TypeMismatchInExpression(ast)
-        if len(ast.cell) != len(symbol.typ.dimensions):
+        if len(ast.cell) > len(symbol.typ.dimensions):
             raise TypeMismatchInExpression(ast)
-        for x in ast.cell:
-            xType = self.visit(x, param)
-            if type(xType) is not type(symbol.typ.typ):
-                raise TypeMismatchInExpression(ast)
-        return symbol.typ.typ
+        elif len(ast.cell) < len(symbol.typ.dimensions):
+            dimen = symbol.typ.dimensions[len(ast.cell):]
+            typ = symbol.typ.typ
+            return ArrayType(dimen, typ)
+        else: 
+            for x in ast.cell:
+                xType = self.visit(x, param)
+                if type(xType) is not type(symbol.typ.typ):
+                    raise TypeMismatchInExpression(ast)
+            return symbol.typ.typ
     
     def visitIntegerLit(self, ast, param): 
         return IntegerType()
@@ -607,32 +614,30 @@ class StaticChecker(Visitor):
         return StringType()
     def visitBooleanLit(self, ast, param):
         return BooleanType()
-    def visitArrayLit(self, ast : ArrayLit, param):
-        # {{1,2},{2,3},{4,5}}
-        # ArrayType([3,2], IntegerType()) // 3x2 array of int
-        # for x in ast.explist:
-        #     if type(x) is not ArrayLit:
-        #         return ArrayType([len(ast.explist)], self.visit(x, param))
-        #     else:
-        #         return ArrayType([len(ast.explist)] + self.visit(x, param).dimensions, self.visit(x.explist[0], param))
-        # return ArrayType([len(ast.explist)], self.visit(ast.explist[0], param))
-        # Infer the shape of the array from its elements recursively
-        if len(ast.explist) == 0:
-            raise TypeMismatchInExpression(ast)
-        elif all(isinstance(e, ArrayLit) for e in ast.explist):
-            # Recursive case
-            shapes = [self.visit(e, param).dimensions for e in ast.explist]
-            if not all(shape == shapes[0] for shape in shapes):
-                raise TypeMismatchInExpression(ast)
-            return ArrayType([len(ast.explist)] + shapes[0], self.visit(ast.explist[0].explist[0], param))
-        else:
-            # Base case
-            shape = [len(ast.explist)]
-            element_type = None
-            for e in ast.explist:
-                t = self.visit(e, param)
-                if not element_type:
-                    element_type = t
-                elif element_type != t:
-                    raise IllegalArrayLiteral(ast)
-            return ArrayType(shape, element_type)
+    def visitArrayLit(self, ast, param): 
+        def support(ctx,param):
+            if type(ctx) is ArrayLit:
+                if ctx.explist == []:
+                    return [None,0]
+                firstTyp = support(ctx.explist[0], param) # (Integer(), 0)
+                dim = [len(ctx.explist)]
+                for mem in ctx.explist:
+                    typMem = support(mem, param)
+                    if type(firstTyp[0]) is type(typMem[0]):
+                        if len(firstTyp[1]) != len(typMem[1]):
+                            raise IllegalArrayLiteral(ast)
+                        for i in range(0, len(firstTyp[1])):
+                            if firstTyp[1][i] != typMem[1][i]:
+                                raise IllegalArrayLiteral(ast)
+                    else:
+                        raise IllegalArrayLiteral(ast)
+                if firstTyp[1] != [0]:
+                    dim += firstTyp[1]
+                return (firstTyp[0], dim)
+            else:
+                typLit = self.visit(ctx, param)
+                return (typLit, [0])
+        result = support(ast, param)
+        typ = result[0]
+        dimensions = result[1]
+        return ArrayType(dimensions, typ)
