@@ -1596,31 +1596,16 @@ class CheckerSuite(unittest.TestCase):
         
     def test_static99(self) :
         input_str = """
-        foo : function auto() {}
-        x : string = foo();
-        main : function void() {
-            printString(x);
-        }
+        a : array[2,3] of integer = {{1,2,3},{4,5,6}};
+        b : array[3] of integer = a[1.0];
         """
-        except_str = ""
+        except_str = "Type mismatch in expression: ArrayCell(a, [FloatLit(1.0)])"
         self.assertTrue(TestChecker.test(input_str, except_str, 499))
         
     def test_static100(self) :
         input_str = """
-        notBoringMovies : function array[5] of integer (id : array[5] of integer, duration : array[5] of integer) {
-            result : array[5] of integer;
-            for (i = 0, i < length(id), i + 1) {
-                if (duration[i] % 2 == 1) {
-                    result = result + id[i];
-                }
-            }
-            return result;
-        }
-        main: function void () {
-            id : array [5] of integer = {1, 2, 3, 4, 5};
-            duration : array [5] of integer = {120, 90, 90, 120, 120};
-            print(notBoringMovies(id, duration));
-        }
+        a : array[2,3] of integer = {{1,2,3},{4,5,6}};
+        b : integer = a[1,2.0];
         """
-        except_str = "Undeclared Identifier: i"
+        except_str = "Type mismatch in expression: ArrayCell(a, [IntegerLit(1), FloatLit(2.0)])"
         self.assertTrue(TestChecker.test(input_str, except_str, 500))

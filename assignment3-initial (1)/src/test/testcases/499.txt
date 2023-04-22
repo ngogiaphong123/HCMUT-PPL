@@ -1,7 +1,4 @@
 
-        foo : function auto() {}
-        x : string = foo();
-        main : function void() {
-            printString(x);
-        }
+        a : array[2,3] of integer = {{1,2,3},{4,5,6}};
+        b : array[3] of integer = a[1.0];
         

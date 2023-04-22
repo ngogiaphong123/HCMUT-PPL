@@ -605,13 +605,17 @@ class StaticChecker(Visitor):
         if len(ast.cell) > len(symbol.typ.dimensions):
             raise TypeMismatchInExpression(ast)
         elif len(ast.cell) < len(symbol.typ.dimensions):
+            for x in ast.cell:
+                xType = self.visit(x, param)
+                if type(xType) is not IntegerType:
+                    raise TypeMismatchInExpression(ast)
             dimen = symbol.typ.dimensions[len(ast.cell):]
             typ = symbol.typ.typ
             return ArrayType(dimen, typ)
         else: 
             for x in ast.cell:
                 xType = self.visit(x, param)
-                if type(xType) is not type(symbol.typ.typ):
+                if type(xType) is not IntegerType:
                     raise TypeMismatchInExpression(ast)
             return symbol.typ.typ
     
@@ -623,30 +627,30 @@ class StaticChecker(Visitor):
         return StringType()
     def visitBooleanLit(self, ast, param):
         return BooleanType()
-    def visitArrayLit(self, ast, param): 
-        def support(ctx,param):
+    def visitArrayLit(self, ast : ArrayLit, param): 
+        def supportArrayLit(ctx,param):
             if type(ctx) is ArrayLit:
-                if ctx.explist == []:
+                if len(ctx.explist) == 0:
                     return [None,0]
-                firstTyp = support(ctx.explist[0], param) # (Integer(), 0)
-                dim = [len(ctx.explist)]
-                for mem in ctx.explist:
-                    typMem = support(mem, param)
-                    if type(firstTyp[0]) is type(typMem[0]):
-                        if len(firstTyp[1]) != len(typMem[1]):
+                firstElement = supportArrayLit(ctx.explist[0], param) # (Integer(), 0)
+                dimensions = [len(ctx.explist)]
+                for exp in ctx.explist:
+                    memberType = supportArrayLit(exp, param)
+                    if type(firstElement[0]) is type(memberType[0]):
+                        if len(firstElement[1]) != len(memberType[1]):
                             raise IllegalArrayLiteral(ast)
-                        for i in range(0, len(firstTyp[1])):
-                            if firstTyp[1][i] != typMem[1][i]:
+                        for i in range(0, len(firstElement[1])):
+                            if firstElement[1][i] != memberType[1][i]:
                                 raise IllegalArrayLiteral(ast)
                     else:
                         raise IllegalArrayLiteral(ast)
-                if firstTyp[1] != [0]:
-                    dim += firstTyp[1]
-                return (firstTyp[0], dim)
+                if firstElement[1] != [0]:
+                    dimensions += firstElement[1]
+                return (firstElement[0], dimensions)
             else:
-                typLit = self.visit(ctx, param)
-                return (typLit, [0])
-        result = support(ast, param)
-        typ = result[0]
-        dimensions = result[1]
-        return ArrayType(dimensions, typ)
+                atomicLit = self.visit(ctx, param)
+                return (atomicLit, [0])
+        result = supportArrayLit(ast, param)
+        arrTyp = result[0]
+        arrDim = result[1]
+        return ArrayType(arrDim, arrTyp)
