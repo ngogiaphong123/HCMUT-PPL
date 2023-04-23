@@ -1,1 +1,1 @@
-No entry point
+Type mismatch in expression: FuncCall(func2, [FloatLit(5.2), BooleanLit(True)])

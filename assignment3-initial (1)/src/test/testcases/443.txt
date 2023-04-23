@@ -1,8 +1,9 @@
 
-        foo: function void() inherit foo1{
-            super("HCMUT",true);
-            x = 7;
+        a: float;
+        main: function integer (n: integer) {
+            a: integer;
+            while (1>3) {
+                a=2.2;
+            }
         }
-        foo1: function void (inherit x: string, inherit b:boolean){}
-        main : function string() {}
         

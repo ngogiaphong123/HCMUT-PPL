@@ -1,7 +1,3 @@
 
-            a: integer;
-            foo: function integer (p: boolean) {}
-            bar: function integer () inherit foo {
-                super();                                              // line 4
-            }
+        b: array[3] of boolean = {true, 3};
         

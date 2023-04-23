@@ -1,28 +1,7 @@
 
-        main : function void() {
-            a : integer = 1;
-            b : float = 2.0;
-            c : string = "abc";
-            if (a == 1) {
-                a : float = 1.0;
-                printFloat(a);
+        func : function float (a : integer, b : integer) {
+                x : integer ;
+                return func2(4 , 5.9) ;
             }
-            else {
-                b : string = "bcd";
-                printString(b);
-                c : integer = 1;
-                printInteger(c);
-                if (c == 1) {
-                    a : string = "abc";
-                    printString(a);
-                    i  : integer = 1;
-                    for (i = 1, i < 10, i + 1) {
-                        a : boolean = true;
-                        printBoolean(a);
-                    }
-                }
-            }
-            printFloat(a);
-            printString(c);
-        }
+        func2 : function auto (x : integer, y : integer) {}
         

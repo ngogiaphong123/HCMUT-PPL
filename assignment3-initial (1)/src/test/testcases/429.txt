@@ -1,6 +1,3 @@
 
-        M: function void (a: integer) inherit N {
-            super(a);
-        } 
-        N: function void (inherit a: integer) {}
+        integers: array [2,3,2] of string = {{{"1","2"},{"1","2"},{"1","1"}},{{"1","1"},{"1","1"},{"1","1"}}};
         

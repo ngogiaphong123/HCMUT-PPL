@@ -1,18 +1,14 @@
 
-        a: float;
-        main: function integer (n: integer) {
-            a: integer;
-            printInteger(a);
-            {
-                a: boolean;
-                printBoolean(a);
-                {
-                    a: string;
-                    printString(a);
-                    {
-                        printString(a);
-                    }
-                }
+        main: function void () {
+            n = 10;
+            result = fibonacci(n);
+            printInt(result);
+        }
+        fibonacci: function integer (n: integer) {
+            if (n <= 1) {
+                return n;
+            } else {
+                return fibonacci(n - 1) + fibonacci(n - 2);
             }
         }
         

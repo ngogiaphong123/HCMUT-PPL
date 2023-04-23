@@ -1,6 +1,32 @@
-
-        bar: function void (inherit a: integer){}
-        foo: function void (a: integer) inherit bar {
-            super(a);
+heapSort: function void (arr: array [10] of integer) {
+            n = 10;
+            i: integer;
+            for (i = n / 2 - 1, i >= 0, i - 1) {
+                heapify(arr, n, i);
+            }
+            for (i = n - 1, i >= 0, i - 1) {
+                swap(arr[0], arr[i]);
+                heapify(arr, i, 0);
+            }
         }
-        
+
+        heapify: function void (arr: array [10] of integer, n: integer, i: integer) {
+            largest = i;
+            l = 2 * i + 1;
+            r = 2 * i + 2;
+            if ((l < n) && (arr[l] > arr[largest])) {
+                largest = l;
+            }
+            if ((r < n) && (arr[r] > arr[largest])) {
+                largest = r;
+            }
+            if (largest != i) {
+                swap(arr[i], arr[largest]);
+                heapify(arr, n, largest);
+            }
+        }
+
+        findKthLargest: function integer (arr: array [10] of integer, k: integer) {
+            heapSort(arr);
+            return arr[k-1];
+        }

@@ -1,5 +1,4 @@
-program: function void() {
-            b : string = "Hello";
-            a : string = "World";
-            c : auto = b :: a;
-        }
+
+        a: auto;
+        b: integer = a + 3;
+        

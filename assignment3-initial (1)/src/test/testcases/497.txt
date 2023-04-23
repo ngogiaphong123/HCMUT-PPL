@@ -1,13 +1,14 @@
 
-        main : function void() {
-            i : integer ; 
-            for (i = 0 , i < 10 , i +1 ) {
-                if (i == 5) {
-                    break;
-                    if (true) {
-                        continue;
-                    }
-                }
-            }
+        foo: function integer(inherit x: integer) inherit bar
+        {
+            super(2);
+        }
+        bar: function integer(inherit y: integer) inherit foo2 
+        {
+            super("Hi");
+        }
+        foo2: function integer(inherit z: float)
+        {
+
         }
         

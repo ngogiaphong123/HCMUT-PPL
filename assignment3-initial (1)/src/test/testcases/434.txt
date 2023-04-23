@@ -1,4 +1,8 @@
 
-        a : integer;
-        a : integer;
+        a : function boolean(n: integer){
+
+        }
+        b : function boolean(n: boolean) inherit a{
+
+        }
         

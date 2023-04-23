@@ -1,8 +1,18 @@
 
-        a : float = foo(1,2);
-        foo : function integer (a : auto, b: auto) {
-            a = "abc";
-            b = "bcd";
-            return a + b;
+        a: float;
+        c: function float (c: integer, d: float) {
+
+        }
+        main: function integer (n: integer) {
+            a: integer;
+            {
+                a: boolean;
+                {
+                    a: string;
+                    {
+                        a = "Hello";
+                    }
+                }
+            }
         }
         

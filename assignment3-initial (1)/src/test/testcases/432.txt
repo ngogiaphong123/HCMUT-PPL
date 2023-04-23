@@ -1,4 +1,6 @@
 
-        b : function void() {}
-        a : integer = b;
+        isPerfect : boolean;
+        isPerfect : function boolean(n: integer) {
+
+        }
         

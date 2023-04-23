@@ -1,5 +1,24 @@
+isSymmetric: function boolean (arr: array [10] of integer) {
+            i: integer;
+            for (i = 0, i < 5, i + 1) {
+                if (arr[i] != arr[9 - i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-        a: integer = 1;
-        foo: function void (b: integer) inherit a {}
-        a: function string (inherit c: string) {}
-        
+        main: function void () {
+            arr1 = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
+            arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            if (isSymmetric(arr1)) {
+                printString("arr1 is symmetric");
+            } else {
+                printString("arr1 is not symmetric");
+            }
+            if (isSymmetric(arr2)) {
+                printString("arr2 is symmetric");
+            } else {
+                printString("arr2 is not symmetric");
+            }
+        }

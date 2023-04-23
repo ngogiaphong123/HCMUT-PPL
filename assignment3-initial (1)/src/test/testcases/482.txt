@@ -1,8 +1,13 @@
-
-        func: function integer(a: integer) {
-            if (a < 13) return 16;
-            else a = a + 1;
-            a: float = 12; 
-            return 10;
+x: integer = 65;
+        fact: function integer (n: integer) {
+            if (n == 0) return 1;
+            else return n * fact(n - 1);
         }
-        
+        inc: function void(out n: integer, delta: integer) {
+            n = n + delta;
+        }
+        main: function void() {
+            delta: integer = fact(3);
+            inc(x, delta);
+            printInteger(x);
+        }

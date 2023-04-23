@@ -1,3 +1,5 @@
 
-        foo: function void (inherit a: integer, a: float) inherit bar {}
+        main: function integer (n: integer) {
+            if (3-2) {}
+        }
         

@@ -1,5 +1,1 @@
-
-            readInt: function void () {
-                a : integer = 2 + readInteger();
-            }
-        
+ arrays : array [3, 2] of integer = {{{1}, {2}}, {{2}, {3}}, {{3}, {3, 3}}} ; 

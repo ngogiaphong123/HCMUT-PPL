@@ -1,26 +1,17 @@
-
-        foo: function integer() {
-            arr: array[5] of integer = {3, 7, 9, 2, 4};
-            target: integer = 9;
-            n: integer = 5;
-            found: boolean = false;
-            index: integer = -1;
-            i : integer;
+romanToInt : function integer (s : string) {
+            n = length(s);
+            result = 0;
             for (i = 0, i < n, i + 1) {
-                if (arr[i] == target) {
-                    found = true;
-                    index = i;
-                    break;
+                if ((i > 0) && (roman[s[i]] > roman[s[i - 1]])) {
+                    result = result + roman[s[i]] - 2 * roman[s[i - 1]];
+                } else {
+                    result = result + roman[s[i]];
                 }
             }
-            if (found) {
-                return index;
-            }
-            else {
-                return -1;
-            }
+            return result;
         }
-        main: function void() {
-            printInteger(foo());
+
+        main: function void () {
+            s = "MCMXCIV";
+            printInt(romanToInt(s));
         }
-        

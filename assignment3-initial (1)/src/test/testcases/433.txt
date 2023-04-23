@@ -1,4 +1,5 @@
 
-        a : integer;
-        a : function void() {}
+        b : function boolean(n: integer) inherit a{
+
+        }
         

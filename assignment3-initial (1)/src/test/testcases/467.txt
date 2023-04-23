@@ -1,1 +1,12 @@
- arrays : array [3, 2] of integer = {{{1}, {2}}, {{2}, {3}}, {{3}, {3, 3}}} ; 
+isPerfectSquare: function boolean (n: integer) {
+            i = 1;
+            while (i * i < n) {
+                i = i + 1;
+            }
+            return i * i == n;
+        }
+
+        main: function void () {
+            n = 16;
+            printBool(isPerfectSquare(n));
+        }

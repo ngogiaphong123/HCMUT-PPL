@@ -1,17 +1,30 @@
-
-            binarySearch: function integer (arr: array [10] of integer, target: integer) {
-                low : integer = 0;
-                high : integer = 9;
-                while (low <= high) {
-                    mid : integer = (low + high) / 2;
-                    if (arr[mid] == target) {
-                        return mid;
-                    } else if (arr[mid] < target) {
-                        low = mid + 1;
-                    } else {
-                        high = mid - 1;
+matrixInverse: function void (matrix: array [3,3] of float) {
+            determinant: float = matrix[0,0] * (matrix[1,1] * matrix[2,2] - matrix[2,1] * matrix[1,2])
+                        - matrix[0,1] * (matrix[1,0] * matrix[2,2] - matrix[2,0] * matrix[1,2])
+                        + matrix[0,2] * (matrix[1,0] * matrix[2,1] - matrix[2,0] * matrix[1,1]);
+            if (determinant == 0.0) {
+                printString("The matrix has no inverse.");
+            } else {
+                inverseMatrix : array [3,3] of float;
+                inverseMatrix[0,0] = (matrix[1,1] * matrix[2,2] - matrix[2,1] * matrix[1,2]) / determinant;
+                inverseMatrix[0,1] = (matrix[0,2] * matrix[2,1] - matrix[0,1] * matrix[2,2]) / determinant;
+                inverseMatrix[0,2] = (matrix[0,1] * matrix[1,2] - matrix[0,2] * matrix[1,1]) / determinant;
+                inverseMatrix[1,0] = (matrix[1,2] * matrix[2,0] - matrix[1,0] * matrix[2,2]) / determinant;
+                inverseMatrix[1,1] = (matrix[0,0] * matrix[2,2] - matrix[0,2] * matrix[2,0]) / determinant;
+                inverseMatrix[1,2] = (matrix[1,0] * matrix[0,2] - matrix[0,0] * matrix[1,2]) / determinant;
+                inverseMatrix[2,0] = (matrix[1,0] * matrix[2,1] - matrix[2,0] * matrix[1,1]) / determinant;
+                inverseMatrix[2,1] = (matrix[2,0] * matrix[0,1] - matrix[0,0] * matrix[2,1]) / determinant;
+                inverseMatrix[2,2] = (matrix[0,0] * matrix[1,1] - matrix[1,0] * matrix[0,1]) / determinant;
+                print("The inverse matrix is:");
+                for (i = 0, i < 3, i + 1) {
+                    for (j = 0, j < 3, j + 1) {
+                        printFloat(inverseMatrix[i,j]);
                     }
                 }
-                return -1;
             }
-        
+        }
+
+        main: function void () {
+            matrix = {{3.0, 1.0, 2.0}, {4.0, 0.0, 2.0}, {1.0, 5.0, 6.0}};
+            matrixInverse(matrix);
+        }

@@ -1,13 +1,4 @@
 
-            multiply: function integer (x: integer, y: integer) {
-                return x * y;
-            }
-            square: function integer (inherit out x: integer) {
-                return x * x;
-            }
-            main: function void () inherit multiply {
-                super(1212+2,31);
-                a : integer = 5;
-                b : integer = square(a);
-            }
+        a: float;
+        b: float = a - 3.2;
         

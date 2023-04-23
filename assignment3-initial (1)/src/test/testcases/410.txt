@@ -1,13 +1,4 @@
 
-        main: function void () {
-            a : integer = 5;
-            b : integer = 6;
-            if (a > b) {
-                printString("a is greater than b.");
-            } else if (a < b) {
-                printString("a is less than b.");
-            } else {
-                printString("a is equal to b.");
-            }
-        }
+        a: float;
+        b: boolean = a && 2;
         

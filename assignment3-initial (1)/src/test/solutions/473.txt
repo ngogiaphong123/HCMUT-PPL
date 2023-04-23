@@ -1,1 +1,1 @@
-Undeclared Function: knows
+Undeclared Identifier: sum

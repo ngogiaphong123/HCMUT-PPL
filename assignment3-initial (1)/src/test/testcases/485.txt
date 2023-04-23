@@ -1,5 +1,7 @@
-
-        a: integer = 1;
-        foo: function void (b: integer) inherit a {}
-        a: function string (inherit c: string) {}
-        
+sumArray: function integer (arr: array [10] of integer, n: integer) {
+            if (n == 1) {
+                return arr[0];
+            } else {
+                return arr[n-1] + sumArray(arr, n-1);
+            }
+        }

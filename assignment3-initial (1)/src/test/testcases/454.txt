@@ -1,6 +1,1 @@
-
-        x: function void() {}
-        main: function void() inherit x {
-            super(); //?
-        }
-        
+ arr : array [1,2] of integer ; b : integer = arr[2, 3, 5] ;

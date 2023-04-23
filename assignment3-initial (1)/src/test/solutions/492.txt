@@ -1,1 +1,1 @@
-Type mismatch in statement: ReturnStmt(StringLit(2))
+Illegal array literal: ArrayLit([ArrayLit([ArrayLit([IntegerLit(1)]), ArrayLit([StringLit(2)]), ArrayLit([IntegerLit(3)])]), ArrayLit([ArrayLit([IntegerLit(4)]), ArrayLit([IntegerLit(5)])])])

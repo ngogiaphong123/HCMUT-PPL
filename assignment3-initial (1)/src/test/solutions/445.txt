@@ -1,1 +1,1 @@
-Type mismatch in statement: AssignStmt(Id(a), StringLit(abc))
+No entry point

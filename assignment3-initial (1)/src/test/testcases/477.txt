@@ -1,4 +1,10 @@
-
-        x : auto={4,5,6};
-        y:  auto=x[1,2];
-        
+foo: function void () {
+            for (a=0, a<=10, a+1) {
+                for (a=0, a<=10, a+1) {
+                    for (a=0, a<=10, a+1) {
+                        continue;
+                    }
+                }
+            }
+            break;
+        }

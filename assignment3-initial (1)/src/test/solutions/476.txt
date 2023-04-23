@@ -1,1 +1,1 @@
-Type mismatch in statement: CallStmt(printInteger, Id(a))
+Type mismatch in expression: BinExpr(+, UnExpr(!, BooleanLit(True)), UnExpr(!, BooleanLit(False)))

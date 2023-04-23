@@ -1,3 +1,4 @@
+# 2014121 - Ngo Gia Phong
 from Visitor import *
 from StaticError import *
 from AST import *
@@ -333,12 +334,6 @@ class StaticChecker(Visitor):
             raise MustInLoop(ast)
         
     def visitReturnStmt(self, ast : ReturnStmt, param):
-                #     elif type(rhsType) is AutoType and type(lhsType) is not VoidType:
-                # if type(ast.rhs) is Id:
-                #     self.inferType(ast.rhs.name, lhsType)
-                # elif type(ast.rhs) is FuncCall:
-                #     self.inferReturnType(ast.rhs.name, lhsType)
-                # return lhsType
         if self.firstReturn is True: pass
         elif self.firstReturn is False:
             if len(self.isInIf) > 0 :
@@ -449,12 +444,8 @@ class StaticChecker(Visitor):
             elif type(leftType) is IntegerType and type(rightType) is IntegerType:
                 return IntegerType()
             elif type(leftType) is FloatType and type(rightType) is IntegerType:
-                # if type(ast.right) is Id:
-                #     self.inferType(ast.right.name, leftType)
                 return FloatType()
             elif type(leftType) is IntegerType and type(rightType) is FloatType:
-                # if type(ast.left) is Id:
-                #     self.inferType(ast.left.name, rightType)
                 return FloatType()
             elif type(leftType) is AutoType and type(rightType) in [FloatType, IntegerType]:
                 if type(ast.left) is Id :
@@ -577,6 +568,8 @@ class StaticChecker(Visitor):
                 elif type(ast.right) is FuncCall:
                     self.inferReturnType(ast.right.name, leftType)
                     return BooleanType()
+            else :
+                raise TypeMismatchInExpression(ast)
                 
         
     def visitUnExpr(self, ast : UnExpr, param): 

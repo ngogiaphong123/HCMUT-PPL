@@ -1,1 +1,1 @@
-Type mismatch in statement: CallStmt(printInteger, FuncCall(plusOne, [Id(digits)]))
+Type mismatch in Variable Declaration: VarDecl(b, FloatType, ArrayCell(temp, [BinExpr(+, IntegerLit(1), IntegerLit(2))]))

@@ -1,6 +1,4 @@
 
-            main: function void () {
-                a : auto = 2;
-                printInteger(a);
-            }
+        b: array[2] of float;
+        a: auto = b;
         

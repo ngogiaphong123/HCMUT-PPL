@@ -1,9 +1,14 @@
+isPerfect : function boolean(n: integer) {
+            sum = 0;
+            for (i = 1, i < n, i + 1) {
+                if (n % i == 0) {
+                    sum = sum + i;
+                }
+            }
+            return sum == n;
+        }
 
-        main: function void () {
-            a : integer = foo(2.0,"abc");
-            printInteger(foo(2.0,"abc"));   
+        main: function void() {
+            printBool(isPerfect(6));
+            printBool(isPerfect(10));
         }
-        foo : function auto (a : auto, b : auto) {
-            return "abc";
-        }
-        

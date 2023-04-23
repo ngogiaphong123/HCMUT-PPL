@@ -1,1 +1,1 @@
-Undeclared Function: bar
+Type mismatch in statement: IfStmt(BinExpr(-, IntegerLit(3), IntegerLit(2)), BlockStmt([]))

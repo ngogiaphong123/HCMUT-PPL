@@ -1,10 +1,18 @@
-
-            main : function void() {
-                b : float = readFloat();
-                if ((b >= 2.0) && (b <= 3.0)) {
-                    printString("b is between 2.0 and 3.0, inclusive.\n");
-                } else {
-                    printString("b is not between 2.0 and 3.0, inclusive.\n");
+isAscending: function boolean (arr: array [10] of integer) {
+            for (i = 0, i < 9, i + 1) {
+                if (arr[i] > arr[i + 1]) {
+                    return false;
                 }
             }
-        
+            return true;
+        }
+
+        main: function void () {
+            arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            ascending = isAscending(arr);
+            if (ascending) {
+                printString("The array is in ascending order");
+            } else {
+                printString("The array is not in ascending order");
+            }
+        }

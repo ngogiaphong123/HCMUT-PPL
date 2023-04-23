@@ -1,6 +1,5 @@
 
-            foo: function integer() {
-                return 1;
-                return 1+"2";
-            }
+        main: function integer (n: integer) {
+            if (3>2) {}
+        }
         

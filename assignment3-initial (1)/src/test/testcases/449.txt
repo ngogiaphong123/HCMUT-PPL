@@ -1,15 +1,1 @@
-
-        foo : function auto (a : auto, b : auto) {
-            x : integer = readInteger();
-            if (x == 1) {
-                return a + x;
-            }
-            else {
-                return b + x;
-            }
-        }
-        main : function void() {
-            c : integer = foo(1,2);
-            printFloat(c);
-        }
-        
+ a : array [1,2] of integer ; c : integer = a[6, 3, 5] ;

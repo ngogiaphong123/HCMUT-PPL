@@ -1,5 +1,8 @@
 
-         main: function void () {
-            arr : array [10] of integer = {1, 2, {3, 4}, 5, 6};
-         }
+        isPerfect : function integer(n: integer) {
+
+        }
+        isPerfect : function boolean(n: integer) {
+
+        }
         

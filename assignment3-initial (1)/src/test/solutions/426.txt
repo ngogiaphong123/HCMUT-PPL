@@ -1,1 +1,1 @@
-Type mismatch in expression: 
+Illegal array literal: ArrayLit([BooleanLit(True), IntegerLit(3)])

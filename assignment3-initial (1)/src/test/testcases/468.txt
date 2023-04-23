@@ -1,27 +1,12 @@
-
-        sort: function void (arr: array [10] of integer, low: integer, high: integer) {
-            if (low < high) {
-                pi : integer = partition(arr, low, high);
-                sort(arr, low, pi - 1);
-                sort(arr, pi + 1, high);
+gcd: function integer (a: integer, b: integer) {
+            if (b == 0) {
+                return a;
             }
+            return gcd(b, a % b);
         }
 
-        partition: function integer (arr: array [10] of integer, low: integer, high: integer) {
-            pivot : integer = arr[high];
-            i : integer = low - 1;
-            j : integer;
-            for (j = low, j < high, j + 1) {
-                if (arr[j] < pivot) {
-                    i = i + 1;
-                    temp : integer = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-            temp : integer = arr[i + 1];
-            arr[i + 1] = arr[high];
-            arr[high] = temp;
-            return i + 1;
+        main: function void () {
+            a = 24;
+            b = 36;
+            print(gcd(a, b));
         }
-        

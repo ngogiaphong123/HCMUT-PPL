@@ -1,7 +1,9 @@
 
-        foo : function float (a : integer, b : integer,c:auto) {
+        func : function float (a : integer, b : integer) {
                 x : integer ;
-                return c;
+                a = func2(4 , 5.9) ;
+                b = func2(5.2, true);
+                return 3.2;
             }
-        goo : function auto (x : integer, y : integer) {}
+        func2 : function auto (x : auto, y : auto) {}
         

@@ -1,4 +1,8 @@
 
-        inc : function void (out n : integer, a: float) inherit foo{} //1
-        foo : function auto (inherit n: float, b: integer){} //2
+        a : function boolean(n: integer){
+
+        }
+        b : function boolean(n: boolean) inherit a {
+            preventDefault();
+        }
         

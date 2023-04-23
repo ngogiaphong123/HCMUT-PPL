@@ -1,15 +1,8 @@
-
-        foo: function integer(a:auto, b:auto){
-            x:integer = a + 1;
-            y:string = b :: "abc";
-            return x + 1;
+oo: function integer () {
+            do {
+                a: string = "My name is Chinh";
+                b: float = "U are U"::"I am Me";
+                i: boolean = a::b;
+            }
+            while (i<10);
         }
-        main:function void(){
-            foo(1, 2);
-            foo2("abc", "abc");
-        }
-        foo2: function integer(a:auto, b:auto){
-            x:integer = a + 1;
-            y:string = b :: "abc";
-        }
-        

@@ -1,4 +1,6 @@
-
-        a: array[2,2] of integer;
-        b: array[2] of integer = a[0];
-        
+foo: function integer () {
+            i: boolean;
+            while (a-3>=12) 
+                if (i==true) i=i+1; 
+                else i=i+2;
+        }

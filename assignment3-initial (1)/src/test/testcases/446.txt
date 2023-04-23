@@ -1,5 +1,7 @@
 
-        main : function void() {
-            preventDefault();
-        }
+        func : function float (a : integer, b : integer) {
+                x : integer ;
+                return func2(4 ,6) ;
+            }
+        func2 : function auto (x : integer, y : integer) {}
         

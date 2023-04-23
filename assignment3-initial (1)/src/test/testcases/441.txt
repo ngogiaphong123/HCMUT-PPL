@@ -1,6 +1,7 @@
 
-        bar: function void (inherit a: integer){}
-        foo: function void (a: integer) inherit bar {
-            preventDefault();
+        main: function integer (n: integer) {
+            for (i = 1, i < 10, i + 1) {
+
+            }
         }
         
