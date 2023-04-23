@@ -333,6 +333,12 @@ class StaticChecker(Visitor):
             raise MustInLoop(ast)
         
     def visitReturnStmt(self, ast : ReturnStmt, param):
+                #     elif type(rhsType) is AutoType and type(lhsType) is not VoidType:
+                # if type(ast.rhs) is Id:
+                #     self.inferType(ast.rhs.name, lhsType)
+                # elif type(ast.rhs) is FuncCall:
+                #     self.inferReturnType(ast.rhs.name, lhsType)
+                # return lhsType
         if self.firstReturn is True: pass
         elif self.firstReturn is False:
             if len(self.isInIf) > 0 :
@@ -347,6 +353,11 @@ class StaticChecker(Visitor):
                         if type(retType) is IntegerType and type(self.currFunc.typ.ret) is FloatType: pass
                         elif type(self.currFunc.typ.ret) is AutoType and type(retType) is not VoidType:
                             self.currFunc.typ.ret = retType
+                        elif type(retType) is AutoType and type(self.currFunc.typ.ret) is not VoidType:
+                            if type(ast.expr) is Id:
+                                self.inferType(ast.expr.name, self.currFunc.typ.ret)
+                            elif type(ast.expr) is FuncCall:
+                                self.inferReturnType(ast.expr.name, self.currFunc.typ.ret)
                         else : raise TypeMismatchInStatement(ast)
             elif len(self.isInIf) == 0:
                 if ast.expr is None:
@@ -360,6 +371,11 @@ class StaticChecker(Visitor):
                         if type(retType) is IntegerType and type(self.currFunc.typ.ret) is FloatType: pass
                         elif type(self.currFunc.typ.ret) is AutoType and type(retType) is not VoidType:
                             self.currFunc.typ.ret = retType
+                        elif type(retType) is AutoType and type(self.currFunc.typ.ret) is not VoidType:
+                            if type(ast.expr) is Id:
+                                self.inferType(ast.expr.name, self.currFunc.typ.ret)
+                            elif type(ast.expr) is FuncCall:
+                                self.inferReturnType(ast.expr.name, self.currFunc.typ.ret)
                         else : raise TypeMismatchInStatement(ast)
                 self.firstReturn = True
       

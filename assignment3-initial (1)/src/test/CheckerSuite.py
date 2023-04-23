@@ -724,7 +724,7 @@ class CheckerSuite(unittest.TestCase):
             }
         goo : function auto (x : integer, y : integer) {}
         """
-        expect_str = "Type mismatch in statement: ReturnStmt(Id(c))"
+        expect_str = "No entry point"
         self.assertTrue(TestChecker.test(input_str, expect_str, 448))
 
     def test_static50(self) :
@@ -1609,3 +1609,49 @@ class CheckerSuite(unittest.TestCase):
         """
         except_str = "Type mismatch in expression: ArrayCell(a, [IntegerLit(1), FloatLit(2.0)])"
         self.assertTrue(TestChecker.test(input_str, except_str, 500))
+    
+    def test_static101(self):
+        input_str = """
+        foo : function auto() {}
+        main : function string() {
+            printString("ab");
+            return foo();
+            x: string = foo();
+        }
+        """
+        except_str = "No entry point"
+        self.assertTrue(TestChecker.test(input_str, except_str, 501))
+    
+    def test_static102(self):
+        input_str = """
+        foo : function string() {
+            if (true) {
+                return goo();
+            }
+            else return "b";
+            return "a";
+        }
+        main : function string() {
+            printString(goo());
+        }
+        goo : function auto() {
+            return 2;
+        }
+        """
+        except_str = "Type mismatch in statement: ReturnStmt(IntegerLit(2))"
+        self.assertTrue(TestChecker.test(input_str, except_str, 502))
+        
+    def test_static103(self) :
+        input_str = """
+        foo : function string(b : auto) inherit goo{
+            super("a");
+            return b;
+        }
+        goo : function string(inherit a : auto) {
+            printString(a);
+            foo("b");
+        }
+        main : function void() {}
+        """
+        except_str = ""
+        self.assertTrue(TestChecker.test(input_str, except_str, 503))

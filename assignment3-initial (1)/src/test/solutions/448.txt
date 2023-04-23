@@ -1,1 +1,1 @@
-Type mismatch in statement: ReturnStmt(Id(c))
+No entry point
